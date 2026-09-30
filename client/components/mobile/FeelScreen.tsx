@@ -16,7 +16,9 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useHaptics } from '@/lib/useHaptics';
-import { fetchCases, fetchCaseDetail, type CaseDetailResponse } from '@/lib/api';
+import { fetchCases, fetchCaseDetail, type CaseDetailResponse, type CaseListItem } from '@/lib/api';
+import { formatCaseLabel } from '@/lib/formatCaseLabel';
+import { CaseSelect } from '@/components/ui/CaseSelect';
 
 interface FeelScreenProps {
   initialCaseId?: string | null;
@@ -37,7 +39,7 @@ export function FeelScreen({ initialCaseId, onNavigateToVerify }: FeelScreenProp
   } = useHaptics();
 
   const [selectedCaseId, setSelectedCaseId] = useState<string | null>(initialCaseId || null);
-  const [caseList, setCaseList] = useState<Array<{ case_id: string; event_type: string }>>([]);
+  const [caseList, setCaseList] = useState<CaseListItem[]>([]);
   const [caseDetail, setCaseDetail] = useState<CaseDetailResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -96,20 +98,14 @@ export function FeelScreen({ initialCaseId, onNavigateToVerify }: FeelScreenProp
         </div>
 
         {caseList.length > 0 && (
-          <select
-            value={selectedCaseId || ''}
-            onChange={(e) => {
+          <CaseSelect
+            cases={caseList}
+            selectedCaseId={selectedCaseId}
+            onSelectCaseId={(id) => {
               stopFeel();
-              setSelectedCaseId(e.target.value);
+              setSelectedCaseId(id);
             }}
-            className="w-full bg-slate-900/90 border border-sky-500/30 rounded-lg px-3 py-2 text-xs font-mono font-medium text-slate-200 focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400 shadow-inner"
-          >
-            {caseList.map((c) => (
-              <option key={c.case_id} value={c.case_id} className="bg-slate-900 text-slate-200">
-                {c.case_id} — {c.event_type.toUpperCase()}
-              </option>
-            ))}
-          </select>
+          />
         )}
       </div>
 

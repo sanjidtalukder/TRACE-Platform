@@ -25,6 +25,8 @@ import {
   type CaseListItem,
   type CharHistoryResponse,
 } from '@/lib/api';
+import { formatCaseLabel } from '@/lib/formatCaseLabel';
+import { CaseSelect } from '@/components/ui/CaseSelect';
 import { EvidenceConfidenceWall } from '@/components/scientific/EvidenceConfidenceWall';
 import { ChangeLensesView } from '@/components/scientific/ChangeLensesView';
 import { EnhancedEventTimeline } from '@/components/scientific/EnhancedEventTimeline';
@@ -156,17 +158,13 @@ export function CharGuardianView({ initialCaseId, onNavigateToVerify }: CharGuar
         </div>
 
         {cases.length > 0 && (
-          <select
-            value={selectedCaseId || ''}
-            onChange={(e) => setSelectedCaseId(e.target.value)}
-            className="w-full sm:w-auto bg-slate-900/90 border border-sky-500/30 rounded-lg px-3 py-1.5 text-xs font-mono font-medium text-slate-200 focus:outline-none focus:ring-1 focus:ring-sky-400 shadow-inner"
-          >
-            {cases.map((c) => (
-              <option key={c.case_id} value={c.case_id} className="bg-slate-900 text-slate-200">
-                {c.case_id} — {c.event_type.toUpperCase()}
-              </option>
-            ))}
-          </select>
+          <div className="w-full sm:w-auto sm:min-w-[340px] shrink-0">
+            <CaseSelect
+              cases={cases}
+              selectedCaseId={selectedCaseId}
+              onSelectCaseId={setSelectedCaseId}
+            />
+          </div>
         )}
       </div>
 

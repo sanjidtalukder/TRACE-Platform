@@ -24,7 +24,10 @@ import {
   fetchCases,
   createFieldObservation,
   type FieldObservationResponse,
+  type CaseListItem,
 } from '@/lib/api';
+import { formatCaseLabel } from '@/lib/formatCaseLabel';
+import { CaseSelect } from '@/components/ui/CaseSelect';
 
 import { useOfflineSync } from '@/lib/useOfflineSync';
 import { Wifi, WifiOff, CloudOff } from 'lucide-react';
@@ -39,7 +42,7 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
   const { isOnline, pendingCount, isSyncing, enqueueAndSync, syncPendingQueue } = useOfflineSync();
 
   const [selectedCaseId, setSelectedCaseId] = useState<string | null>(initialCaseId || null);
-  const [caseList, setCaseList] = useState<Array<{ case_id: string; event_type: string }>>([]);
+  const [caseList, setCaseList] = useState<CaseListItem[]>([]);
 
   const [note, setNote] = useState<string>('');
   const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -245,20 +248,14 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
         </div>
 
         {caseList.length > 0 && (
-          <select
-            value={selectedCaseId || ''}
-            onChange={(e) => {
-              setSelectedCaseId(e.target.value);
+          <CaseSelect
+            cases={caseList}
+            selectedCaseId={selectedCaseId}
+            onSelectCaseId={(id) => {
+              setSelectedCaseId(id);
               setSubmitSuccess(null);
             }}
-            className="w-full bg-slate-900/90 border border-sky-500/30 rounded-lg px-3 py-2 text-xs font-mono font-medium text-slate-200 focus:outline-none focus:ring-1 focus:ring-sky-400 shadow-inner"
-          >
-            {caseList.map((c) => (
-              <option key={c.case_id} value={c.case_id} className="bg-slate-900 text-slate-200">
-                {c.case_id} — {c.event_type.toUpperCase()}
-              </option>
-            ))}
-          </select>
+          />
         )}
       </div>
 

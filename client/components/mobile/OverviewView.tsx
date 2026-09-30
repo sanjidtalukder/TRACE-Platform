@@ -27,6 +27,8 @@ import type {
   CaseDetailResponse,
   NisarMeasurementResponse,
 } from '@/lib/api';
+import { formatCaseLabel } from '@/lib/formatCaseLabel';
+import { CaseSelect } from '@/components/ui/CaseSelect';
 
 interface OverviewViewProps {
   location: LocationCoordinates | null;
@@ -152,17 +154,11 @@ export function OverviewView({
         </div>
 
         {cases.length > 0 && (
-          <select
-            value={selectedCaseId || ''}
-            onChange={(e) => onSelectCaseId(e.target.value)}
-            className="w-full bg-[#060b17]/90 border border-sky-500/30 rounded-xl px-3 py-2 text-xs font-mono font-medium text-slate-200 focus:outline-none focus:ring-1 focus:ring-sky-400 shadow-inner"
-          >
-            {cases.map((c) => (
-              <option key={c.case_id} value={c.case_id} className="bg-slate-900 text-slate-200">
-                {c.case_id} — {c.event_type.toUpperCase()} ({c.status.toUpperCase()})
-              </option>
-            ))}
-          </select>
+          <CaseSelect
+            cases={cases}
+            selectedCaseId={selectedCaseId}
+            onSelectCaseId={onSelectCaseId}
+          />
         )}
       </div>
 
