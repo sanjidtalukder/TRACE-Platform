@@ -21,15 +21,26 @@ try:
         conn.execute(text("SELECT 1"))
     logger.info("Connected to primary PostgreSQL database.")
 except Exception as e:
-    logger.warning(f"PostgreSQL connection unavailable ({e}). Falling back to local SQLite database for development.")
     sqlite_url = "sqlite:///./trace_dev.db"
-    engine = create_engine(sqlite_url, connect_args={"check_same_thread": False})
+    engine = create_engine(
+        sqlite_url,
+        connect_args={"check_same_thread": False, "timeout": 30},
+    )
 
 
 # Polyfill spatial functions for SQLite fallback when SpatiaLite extension is unavailable
 if engine.dialect.name == "sqlite":
     @event.listens_for(engine, "connect")
     def setup_sqlite_spatial_polyfills(dbapi_connection, connection_record):
+        try:
+            cursor = dbapi_connection.cursor()
+            cursor.execute("PRAGMA journal_mode=WAL;")
+            cursor.execute("PRAGMA busy_timeout=30000;")
+            cursor.execute("PRAGMA synchronous=NORMAL;")
+            cursor.close()
+        except Exception as pragma_err:
+            logger.warning(f"Notice: SQLite PRAGMA configuration: {pragma_err}")
+
         if hasattr(dbapi_connection, "create_function"):
             def wkt_to_wkb_hex(val):
                 if not val:

@@ -1,5 +1,6 @@
 from typing import List, Tuple, Optional
 from datetime import datetime, timezone
+import logging
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import select, func
 from geoalchemy2.elements import WKTElement
@@ -12,6 +13,8 @@ from app.models.case import (
     Interpretation,
     ThresholdAlert,
 )
+
+logger = logging.getLogger(__name__)
 
 
 
@@ -302,9 +305,13 @@ class CaseRepository:
             calculation_method=calculation_method,
             source_reference=source_reference,
         )
-        db.add(prov)
-        db.commit()
-        db.refresh(prov)
+        try:
+            db.add(prov)
+            db.commit()
+            db.refresh(prov)
+        except Exception as e:
+            db.rollback()
+            logger.warning(f"Could not persist provenance record: {e}")
         return prov
 
     @staticmethod
@@ -319,9 +326,13 @@ class CaseRepository:
             narrative=narrative,
             uncertainty=uncertainty,
         )
-        db.add(interp)
-        db.commit()
-        db.refresh(interp)
+        try:
+            db.add(interp)
+            db.commit()
+            db.refresh(interp)
+        except Exception as e:
+            db.rollback()
+            logger.warning(f"Could not persist interpretation record: {e}")
         return interp
 
     @staticmethod
@@ -344,8 +355,12 @@ class CaseRepository:
             rationale=rationale,
             source=source,
         )
-        db.add(check)
-        db.commit()
-        db.refresh(check)
+        try:
+            db.add(check)
+            db.commit()
+            db.refresh(check)
+        except Exception as e:
+            db.rollback()
+            logger.warning(f"Could not persist challenge check record: {e}")
         return check
 

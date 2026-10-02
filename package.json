@@ -6,6 +6,7 @@
   "packageManager": "pnpm@12.5.1",
   "scripts": {
     "dev": "turbo dev",
+    "server": ".venv\\Scripts\\python.exe -m uvicorn server.app.main:app --reload --port 8000",
     "build": "turbo build",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
