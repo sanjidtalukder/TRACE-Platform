@@ -392,6 +392,15 @@ export function CharGuardianView({ initialCaseId, onNavigateToVerify }: CharGuar
           </div>
         </>
       )}
+
+      {!loadingHistory && !charHistory && (
+        <Card className="glass-panel border-amber-500/20 bg-[#080d1a]/85">
+          <CardContent className="p-8 flex flex-col items-center justify-center gap-3 text-center text-xs font-mono text-slate-400">
+            <AlertTriangle className="w-6 h-6 text-amber-400" />
+            <span>Char Guardian data unavailable for this target case.</span>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

@@ -694,3 +694,72 @@ export const FALLBACK_GLOBAL_EVENTS: GlobalEventsResponse = {
   ],
   total: 6,
 };
+
+export const FALLBACK_CHAR_HISTORIES: Record<string, CharHistoryResponse> = {
+  'TRACE-CHAR-01': {
+    case_id: 'TRACE-CHAR-01',
+    event_type: 'char',
+    char_name_or_id: 'Jamuna-Char-01',
+    geometry: {
+      type: 'Polygon',
+      coordinates: [[[89.5, 24.7], [89.8, 24.7], [89.8, 24.9], [89.5, 24.9], [89.5, 24.7]]],
+    },
+    latitude: 24.8,
+    longitude: 89.65,
+    observation_start: '2026-10-02T05:32:26',
+    observation_end: '2026-10-02T05:32:26',
+    status: 'active',
+    change_status: 'OBSERVED CHANGE',
+    latest_delta_backscatter: -2.1,
+    latest_affected_area: 210.0,
+    evidence_status: 'SUPPORTED',
+    audit_verdict: 'SUPPORTED',
+    ground_truth: {
+      total_reports: 1,
+      confirmed_reports: 1,
+      denied_reports: 0,
+      pending_reports: 0,
+    },
+    historical_observations: FALLBACK_TIMELINES['TRACE-CHAR-01']?.events || [],
+    provenance_records: FALLBACK_CASE_DETAILS['TRACE-CHAR-01']?.provenance_records || [],
+    alerts: FALLBACK_CASE_DETAILS['TRACE-CHAR-01']?.threshold_alerts || [],
+  },
+};
+
+export function getFallbackCharHistory(caseId: string): CharHistoryResponse {
+  if (FALLBACK_CHAR_HISTORIES[caseId]) {
+    return FALLBACK_CHAR_HISTORIES[caseId];
+  }
+  const detail = FALLBACK_CASE_DETAILS[caseId] || FALLBACK_CASE_DETAILS['TRACE-CHAR-01'];
+  const timeline = FALLBACK_TIMELINES[caseId] || FALLBACK_TIMELINES['TRACE-CHAR-01'];
+  const nisar = detail.nisar_measurements?.[0];
+  const delta = nisar?.delta_backscatter ?? -1.8;
+  const area = nisar?.affected_area ?? 120.0;
+  const confirmedCount = detail.field_observations?.length || 1;
+
+  return {
+    case_id: detail.case_id,
+    event_type: detail.event_type || 'char',
+    char_name_or_id: detail.case_id,
+    geometry: detail.geometry,
+    latitude: 24.8,
+    longitude: 89.65,
+    observation_start: detail.observation_start,
+    observation_end: detail.observation_end,
+    status: detail.status,
+    change_status: delta <= -1.5 ? 'OBSERVED CHANGE' : 'POTENTIAL CHANGE',
+    latest_delta_backscatter: delta,
+    latest_affected_area: area,
+    evidence_status: 'SUPPORTED',
+    audit_verdict: 'SUPPORTED',
+    ground_truth: {
+      total_reports: confirmedCount,
+      confirmed_reports: confirmedCount,
+      denied_reports: 0,
+      pending_reports: 0,
+    },
+    historical_observations: timeline?.events || [],
+    provenance_records: detail.provenance_records || [],
+    alerts: detail.threshold_alerts || [],
+  };
+}

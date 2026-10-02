@@ -113,7 +113,7 @@ export function HeroModuleHeader({
 
   return (
     <div
-      className="glass-panel border-amber-500/25 rounded-2xl relative overflow-hidden shadow-lg p-3.5 sm:p-4"
+      className="glass-panel border-amber-500/25 rounded-2xl relative z-20 shadow-lg p-3.5 sm:p-4"
       role="region"
       aria-label={`${meta.title} Module Orientation`}
     >

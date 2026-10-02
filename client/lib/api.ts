@@ -3,6 +3,7 @@ import {
   FALLBACK_CASE_DETAILS,
   FALLBACK_TIMELINES,
   FALLBACK_GLOBAL_EVENTS,
+  getFallbackCharHistory,
 } from './apiFallbackData';
 
 export function getApiBaseUrl(): string {
@@ -754,20 +755,32 @@ export interface CharHistoryResponse {
  * Fetch river-island / char change history for Phase 5.1 Char Guardian
  */
 export async function fetchCharHistory(caseId: string): Promise<CharHistoryResponse> {
-  const url = getApiUrl(`/api/cases/${encodeURIComponent(caseId)}/char-history`);
-  const res = await fetch(url, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-    },
-    cache: 'no-store',
-  });
+  try {
+    const url = getApiUrl(`/api/cases/${encodeURIComponent(caseId)}/char-history`);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
 
-  if (!res.ok) {
-    throw new Error(`HTTP ${res.status} failed to fetch char guardian history`);
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+      cache: 'no-store',
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.case_id) {
+        return data;
+      }
+    }
+  } catch (err) {
+    console.warn(`[TRACE API] Falling back to offline char history for ${caseId}:`, err);
   }
 
-  return res.json();
+  return getFallbackCharHistory(caseId);
 }
 
 export interface CommunityReportsResponse {
