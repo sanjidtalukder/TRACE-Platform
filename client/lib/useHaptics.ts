@@ -7,6 +7,8 @@ import {
   type FeelMappingResult,
 } from './feelMapping';
 
+export type ToneType = 'sine' | 'triangle' | 'square';
+
 export interface UseHapticsReturn {
   isPlaying: boolean;
   hapticsSupported: boolean;
@@ -14,7 +16,10 @@ export interface UseHapticsReturn {
   setSensitivity: (val: number) => void;
   isAudioMuted: boolean;
   setIsAudioMuted: (val: boolean) => void;
+  toneType: ToneType;
+  setToneType: (type: ToneType) => void;
   feelDetails: FeelMappingResult | null;
+  analyserRef: React.MutableRefObject<AnalyserNode | null>;
   startFeel: (measurement: number) => void;
   stopFeel: () => void;
 }
@@ -23,16 +28,31 @@ export function useHaptics(): UseHapticsReturn {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [sensitivity, setSensitivity] = useState<number>(1.0);
   const [isAudioMuted, setIsAudioMuted] = useState<boolean>(false);
+  const [toneType, setToneTypeState] = useState<ToneType>('sine');
   const [hapticsSupported, setHapticsSupported] = useState<boolean>(false);
   const [feelDetails, setFeelDetails] = useState<FeelMappingResult | null>(null);
 
+  const toneTypeRef = useRef<ToneType>('sine');
   const loopTimerRef = useRef<NodeJS.Timeout | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const oscRef = useRef<OscillatorNode | null>(null);
   const gainRef = useRef<GainNode | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
 
   useEffect(() => {
     setHapticsSupported(isHapticsSupported());
+  }, []);
+
+  const setToneType = useCallback((type: ToneType) => {
+    setToneTypeState(type);
+    toneTypeRef.current = type;
+    if (oscRef.current) {
+      try {
+        oscRef.current.type = type;
+      } catch (e) {
+        // Ignored
+      }
+    }
   }, []);
 
   const stopFeel = useCallback(() => {
@@ -47,7 +67,7 @@ export function useHaptics(): UseHapticsReturn {
       loopTimerRef.current = null;
     }
 
-    // 3. Stop audio synthesizer
+    // 3. Stop audio synthesizer and disconnect analyser
     if (oscRef.current) {
       try {
         oscRef.current.stop();
@@ -65,6 +85,15 @@ export function useHaptics(): UseHapticsReturn {
         // Ignored
       }
       gainRef.current = null;
+    }
+
+    if (analyserRef.current) {
+      try {
+        analyserRef.current.disconnect();
+      } catch (e) {
+        // Ignored
+      }
+      analyserRef.current = null;
     }
 
     if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
@@ -106,20 +135,28 @@ export function useHaptics(): UseHapticsReturn {
           const AudioCtxClass = window.AudioContext || (window as any).webkitAudioContext;
           if (AudioCtxClass) {
             const ctx = new AudioCtxClass();
+            if (ctx.state === 'suspended') {
+              ctx.resume();
+            }
             audioCtxRef.current = ctx;
 
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
+            const analyser = ctx.createAnalyser();
+            analyser.fftSize = 128;
+            analyser.smoothingTimeConstant = 0.8;
+            analyserRef.current = analyser;
 
-            osc.type = 'sine';
+            osc.type = toneTypeRef.current;
             osc.frequency.setValueAtTime(details.frequencyHz, ctx.currentTime);
 
             // Pulsing Gain envelope matching haptic rhythm
             gain.gain.setValueAtTime(0.01, ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.15, ctx.currentTime + 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.05);
 
             osc.connect(gain);
-            gain.connect(ctx.destination);
+            gain.connect(analyser);
+            analyser.connect(ctx.destination);
 
             osc.start();
             oscRef.current = osc;
@@ -146,7 +183,10 @@ export function useHaptics(): UseHapticsReturn {
     setSensitivity,
     isAudioMuted,
     setIsAudioMuted,
+    toneType,
+    setToneType,
     feelDetails,
+    analyserRef,
     startFeel,
     stopFeel,
   };

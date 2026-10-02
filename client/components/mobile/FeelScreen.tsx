@@ -12,14 +12,19 @@ import {
   Radar,
   Sliders,
   CheckCircle2,
+  Radio,
+  Waves,
+  Zap,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useHaptics } from '@/lib/useHaptics';
+import { useHaptics, type ToneType } from '@/lib/useHaptics';
+import { computeFeelMapping } from '@/lib/feelMapping';
 import { fetchCases, fetchCaseDetail, type CaseDetailResponse, type CaseListItem } from '@/lib/api';
 import { formatCaseLabel } from '@/lib/formatCaseLabel';
 import { CaseSelect } from '@/components/ui/CaseSelect';
 import { HeroModuleHeader } from '@/components/mobile/HeroMissionHeader';
+import { AudioOscilloscope } from '@/components/scientific/AudioOscilloscope';
 
 interface FeelScreenProps {
   initialCaseId?: string | null;
@@ -34,7 +39,10 @@ export function FeelScreen({ initialCaseId, onNavigateToVerify }: FeelScreenProp
     setSensitivity,
     isAudioMuted,
     setIsAudioMuted,
+    toneType,
+    setToneType,
     feelDetails,
+    analyserRef,
     startFeel,
     stopFeel,
   } = useHaptics();
@@ -75,6 +83,11 @@ export function FeelScreen({ initialCaseId, onNavigateToVerify }: FeelScreenProp
 
   const activeMeasurement = caseDetail?.nisar_measurements?.[0];
   const deltaValue = activeMeasurement?.delta_backscatter;
+
+  // Active deterministic details (computed live even when standby)
+  const activeDetails =
+    feelDetails ||
+    (deltaValue != null ? computeFeelMapping(deltaValue, sensitivity) : null);
 
   const handleToggleFeel = () => {
     if (isPlaying) {
@@ -129,7 +142,7 @@ export function FeelScreen({ initialCaseId, onNavigateToVerify }: FeelScreenProp
             HAPTIC FEEDBACK UNAVAILABLE
           </div>
           <p className="text-[11px] text-slate-400 leading-relaxed">
-            Browser/device does not support direct vibration API (e.g. iOS Safari). Audio pulse synthesizer is enabled.
+            Browser/device does not support direct vibration API (e.g. iOS Safari). Audio pulse synthesizer & live visual oscilloscope are fully enabled.
           </p>
         </div>
       )}
@@ -145,13 +158,13 @@ export function FeelScreen({ initialCaseId, onNavigateToVerify }: FeelScreenProp
       ) : caseDetail ? (
         <Card className="border-sky-500/25 bg-gradient-to-b from-[#0b1426]/90 to-[#070d1a]/90 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.6)] relative overflow-hidden">
           {/* RADAR PULSE CANVAS / VISUALIZATION */}
-          <div className="relative p-8 text-center border-b border-sky-500/20 bg-gradient-to-b from-sky-950/20 via-slate-950/40 to-transparent flex flex-col items-center justify-center min-h-[220px]">
+          <div className="relative p-6 text-center border-b border-sky-500/20 bg-gradient-to-b from-sky-950/20 via-slate-950/40 to-transparent flex flex-col items-center justify-center min-h-[200px]">
             {/* Scientific Telemetry Corner Accents */}
             <div className="tech-corner-tl" />
             <div className="tech-corner-tr" />
 
             {/* Concentric Radar Waves & Central Sensor Core */}
-            <div className="relative inline-flex items-center justify-center my-4">
+            <div className="relative inline-flex items-center justify-center my-3">
               {/* Concentric expanding radar cyan/teal waves when triggered */}
               {isPlaying && (
                 <>
@@ -203,41 +216,119 @@ export function FeelScreen({ initialCaseId, onNavigateToVerify }: FeelScreenProp
             </div>
 
             {/* CASE IDENTITY */}
-            <div className="mt-3 space-y-1">
+            <div className="mt-2 space-y-1">
               <span className="text-[10px] font-mono font-extrabold text-sky-300 bg-sky-500/15 px-3 py-1 rounded-full border border-sky-400/30 tracking-widest shadow-[0_0_10px_rgba(56,189,248,0.2)]">
                 CASE // {caseDetail.case_id}
               </span>
-              <h2 className="text-lg font-extrabold text-white mt-2 tracking-tight">
+              <h2 className="text-base font-extrabold text-white mt-1.5 tracking-tight">
                 {formatCaseLabel(caseDetail)}
               </h2>
             </div>
           </div>
 
-          {/* MEASUREMENT METRICS */}
-          <CardContent className="p-5 space-y-5">
-            <div className="bg-slate-950/70 border border-sky-500/20 rounded-xl p-4 text-center space-y-1 shadow-inner relative">
-              <div className="tech-corner-bl" />
-              <div className="tech-corner-br" />
+          {/* MEASUREMENT METRICS & SENSORY LAB CONTROLS */}
+          <CardContent className="p-5 space-y-4">
+            {/* LIVE AUDIO OSCILLOSCOPE WAVEFORM VISUALIZER */}
+            <AudioOscilloscope
+              isPlaying={isPlaying}
+              frequencyHz={activeDetails?.frequencyHz || 220}
+              pulseMs={activeDetails?.pulseMs || 120}
+              pauseMs={activeDetails?.pauseMs || 240}
+              toneType={toneType}
+              analyserRef={analyserRef}
+            />
 
-              <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-slate-400 block">
-                Actual Backend NISAR Measurement
-              </span>
-
-              {deltaValue != null ? (
-                <div className="space-y-0.5 pt-1">
-                  <p className="text-3xl font-extrabold font-mono text-sky-300 tracking-tight drop-shadow-[0_0_12px_rgba(56,189,248,0.3)]">
-                    {deltaValue > 0 ? '+' : ''}
-                    {deltaValue.toFixed(2)} <span className="text-sm font-normal text-slate-400">dB</span>
-                  </p>
-                  {feelDetails && (
-                    <p className="text-[11px] font-mono font-medium text-sky-400 pt-0.5">{feelDetails.description}</p>
-                  )}
+            {/* LIVE SONIFICATION TELEMETRY READOUT */}
+            {activeDetails && (
+              <div className="bg-slate-950/80 border border-sky-500/30 rounded-xl p-3.5 space-y-2.5 relative overflow-hidden shadow-inner">
+                <div className="flex items-center justify-between text-[10px] font-mono">
+                  <span className="text-slate-300 uppercase tracking-wider flex items-center gap-1.5 font-bold">
+                    <Radio className={`h-3.5 w-3.5 ${isPlaying ? 'text-sky-400 animate-pulse' : 'text-slate-500'}`} />
+                    Real-Time Sonification Readout
+                  </span>
+                  <span
+                    className={`px-2 py-0.5 rounded text-[9px] font-bold tracking-wider ${
+                      isPlaying
+                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 animate-pulse'
+                        : 'bg-slate-800 text-slate-400 border border-slate-700/50'
+                    }`}
+                  >
+                    {isPlaying ? '● LIVE SYNTH ACTIVE' : '○ STANDBY'}
+                  </span>
                 </div>
-              ) : (
-                <p className="text-xs text-slate-400 italic py-2 font-mono">
-                  No scientific measurement recorded for this case.
-                </p>
-              )}
+
+                <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                  <div className="bg-slate-900/90 p-2.5 rounded-lg border border-sky-500/15 space-y-0.5">
+                    <span className="text-[9px] uppercase tracking-wider text-slate-400 block font-semibold">
+                      Audio Frequency
+                    </span>
+                    <p className="text-base font-extrabold text-sky-300 flex items-baseline gap-1">
+                      {activeDetails.frequencyHz}{' '}
+                      <span className="text-[11px] text-slate-400 font-normal">Hz</span>
+                    </p>
+                    <span className="text-[9px] text-sky-400/90 font-medium block">
+                      {toneType === 'sine'
+                        ? 'Pure Sine Tone'
+                        : toneType === 'triangle'
+                        ? 'L-Band Microwave'
+                        : 'Radar Tactical Pulse'}
+                    </span>
+                  </div>
+
+                  <div className="bg-slate-900/90 p-2.5 rounded-lg border border-sky-500/15 space-y-0.5">
+                    <span className="text-[9px] uppercase tracking-wider text-slate-400 block font-semibold">
+                      Haptic Rhythm
+                    </span>
+                    <p className="text-base font-extrabold text-teal-300">
+                      {activeDetails.pulseMs}ms{' '}
+                      <span className="text-[10px] text-slate-400 font-normal">Pulse</span>
+                    </p>
+                    <span className="text-[9px] text-slate-400 font-medium block">
+                      Gap: {activeDetails.pauseMs}ms Pause
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between text-[9px] font-mono text-slate-400 pt-1 border-t border-slate-800/80">
+                  <span>NISAR ΔdB: {deltaValue != null ? `${deltaValue > 0 ? '+' : ''}${deltaValue.toFixed(2)} dB` : 'N/A'}</span>
+                  <span className="text-sky-400">PULSE MAG: {(activeDetails.normalizedMagnitude * 100).toFixed(0)}%</span>
+                </div>
+              </div>
+            )}
+
+            {/* SOUND TYPE SELECTOR (TONE MODULATION) */}
+            <div className="bg-slate-950/60 border border-sky-500/20 rounded-xl p-3 space-y-2">
+              <div className="flex items-center justify-between text-[10px] font-mono">
+                <span className="font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                  <Waves className="h-3.5 w-3.5 text-sky-400" />
+                  Tone Modulation (Waveform)
+                </span>
+                <span className="text-[9px] text-slate-500">Acoustic Mode</span>
+              </div>
+              <div className="grid grid-cols-3 gap-1.5">
+                {[
+                  { id: 'sine', label: 'Pure Sine', desc: 'Smooth Hum' },
+                  { id: 'triangle', label: 'Microwave', desc: 'L-Band Harmonic' },
+                  { id: 'square', label: 'Radar Beep', desc: 'Tactical Alert' },
+                ].map((tone) => (
+                  <button
+                    key={tone.id}
+                    onClick={() => setToneType(tone.id as ToneType)}
+                    className={`py-2 px-1 rounded-lg text-center transition-all ${
+                      toneType === tone.id
+                        ? 'bg-sky-500/20 border border-sky-400 text-sky-200 shadow-[0_0_12px_rgba(56,189,248,0.3)]'
+                        : 'bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-800/80'
+                    }`}
+                  >
+                    <span className="block text-[11px] font-mono font-bold leading-tight">
+                      {tone.label}
+                    </span>
+                    <span className="block text-[9px] text-slate-400 leading-tight mt-0.5">
+                      {tone.desc}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* CONTROLS (SENSITIVITY & AUDIO) */}
