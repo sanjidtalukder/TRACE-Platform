@@ -82,57 +82,63 @@ export function HeroModuleHeader({
   const meta = MODULE_DEFINITIONS[module] || MODULE_DEFINITIONS.scan;
   const Icon = meta.icon;
 
+  if (compact) {
+    return (
+      <div
+        className="glass-panel border-amber-500/20 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl flex items-center justify-between gap-2 shadow-sm shrink-0"
+        role="region"
+        aria-label={`${meta.title} Module Orientation`}
+      >
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="p-1 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-400 shrink-0 shadow-[0_0_8px_rgba(245,158,11,0.2)]">
+            <Icon className="h-3.5 w-3.5 text-amber-400" aria-hidden="true" />
+          </div>
+          <div className="flex items-baseline gap-1.5 min-w-0">
+            <span className="text-xs font-mono font-extrabold text-white tracking-wide">
+              {meta.title}
+            </span>
+            <span className="text-[10px] text-amber-400/90 font-sans font-medium truncate hidden xs:inline">
+              • {meta.tagline}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-1.5 shrink-0">
+          {statusBadge}
+          {rightAction}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
-      className={`glass-panel border-amber-500/25 rounded-2xl relative overflow-hidden shadow-lg transition-all ${
-        compact ? 'p-3 sm:p-4' : 'p-4 sm:p-5'
-      }`}
+      className="glass-panel border-amber-500/25 rounded-2xl relative overflow-hidden shadow-lg p-3.5 sm:p-4"
       role="region"
       aria-label={`${meta.title} Module Orientation`}
     >
       <div className="tech-corner-tl" />
       <div className="tech-corner-tr" />
-
-      {/* Subtle top amber ambient glow */}
-      <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-48 h-16 bg-amber-500/10 rounded-full blur-xl pointer-events-none" />
-
-      <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        {/* Left: Icon, Module Title, Tagline, Guidance */}
-        <div className="flex items-start gap-3 min-w-0 flex-1">
-          <div className="p-2 sm:p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 shrink-0 shadow-[0_0_12px_rgba(245,158,11,0.2)] mt-0.5">
-            <Icon className="h-5 w-5 animate-pulse text-amber-400" aria-hidden="true" />
+      <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div className="flex items-start gap-2.5 min-w-0 flex-1">
+          <div className="p-2 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 shrink-0 shadow-[0_0_10px_rgba(245,158,11,0.2)] mt-0.5">
+            <Icon className="h-4 w-4 animate-pulse text-amber-400" aria-hidden="true" />
           </div>
-
           <div className="space-y-0.5 min-w-0 flex-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-base sm:text-lg font-extrabold text-white tracking-tight font-mono flex items-center gap-2">
+              <h2 className="text-sm sm:text-base font-extrabold text-white tracking-tight font-mono flex items-center gap-1.5">
                 {meta.title}
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase tracking-widest shadow-sm">
+                <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase tracking-widest">
                   {meta.badge}
                 </span>
               </h2>
-
               {statusBadge}
             </div>
-
-            <p className="text-xs sm:text-sm font-semibold text-amber-300 font-sans tracking-tight">
+            <p className="text-xs font-medium text-slate-300 font-sans tracking-tight">
               {meta.tagline}
             </p>
-
-            <p className="text-[11px] sm:text-xs text-slate-400 font-sans leading-relaxed line-clamp-2 sm:line-clamp-none pt-0.5">
-              {meta.guidance}
-            </p>
-
-            {targetCaseLabel && (
-              <div className="pt-1 flex items-center gap-1.5 text-[10px] font-mono text-slate-300">
-                <span className="text-slate-400 font-semibold uppercase">ACTIVE TARGET:</span>
-                <span className="text-amber-300 font-bold truncate">{targetCaseLabel}</span>
-              </div>
-            )}
           </div>
         </div>
-
-        {/* Right: Actions / Controls */}
         {rightAction && (
           <div className="shrink-0 flex items-center gap-2 self-start sm:self-center">
             {rightAction}

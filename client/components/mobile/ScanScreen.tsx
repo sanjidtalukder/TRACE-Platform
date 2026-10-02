@@ -307,24 +307,8 @@ export function ScanScreen({
     <div className="h-full w-full flex flex-col lg:flex-row overflow-hidden relative select-none">
       {/* ==================== LEFT / MAIN CANVAS STAGE ==================== */}
       <div className="flex-1 h-full min-w-0 flex flex-col overflow-hidden relative">
-        {/* MODULE ORIENTATION HERO HEADER */}
-        <div className="px-2 pt-2 sm:px-3 sm:pt-2.5 shrink-0 z-20">
-          <HeroModuleHeader
-            module="scan"
-            targetCaseLabel={caseDetail ? formatCaseLabel(caseDetail) : 'Active Target'}
-            compact
-            statusBadge={
-              primaryNisarMeasurement?.delta_backscatter != null ? (
-                <span className="text-[10px] font-mono text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded border border-amber-500/30">
-                  Δ {primaryNisarMeasurement.delta_backscatter > 0 ? '+' : ''}{primaryNisarMeasurement.delta_backscatter.toFixed(2)} dB
-                </span>
-              ) : null
-            }
-          />
-        </div>
-
         {/* SECONDARY NAVIGATION DOCK (OVERVIEW | SIGNALS | EVIDENCE | TIMELINE) */}
-        <div className="px-2 pt-1.5 sm:px-3 shrink-0 mb-1 z-20">
+        <div className="px-2 pt-2 sm:px-3 shrink-0 mb-1 z-20">
           <div className="flex items-center justify-between gap-1.5 p-1 bg-[#0A0E18]/85 border border-[#1A2234] rounded-xl backdrop-blur-md shadow-sm">
             <div className="grid grid-cols-4 gap-1 flex-1 sm:flex sm:items-center sm:gap-1.5" role="tablist" aria-label="SCAN Sub-modules">
               {navSegments.map((seg) => {

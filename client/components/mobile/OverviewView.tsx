@@ -97,9 +97,9 @@ export function OverviewView({
   return (
     <div className="w-full flex flex-col space-y-3.5 relative">
       {/* 1. TOP COMMAND & CASE SELECTOR STRIP */}
-      <div className="glass-panel border-amber-500/20 p-2.5 rounded-xl shadow-lg flex flex-wrap items-center justify-between gap-2 shrink-0 z-20 relative">
+      <div className="glass-panel border-amber-500/20 p-2 sm:p-2.5 rounded-xl shadow-lg flex items-center justify-between gap-2 shrink-0 z-20 relative">
         {/* Left: Case Selector */}
-        <div className="flex-1 max-w-sm sm:max-w-md min-w-[200px]">
+        <div className="flex-1 min-w-0">
           {cases.length > 0 && (
             <CaseSelect
               cases={cases}

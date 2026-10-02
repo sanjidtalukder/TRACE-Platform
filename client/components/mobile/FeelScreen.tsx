@@ -134,16 +134,14 @@ export function FeelScreen({ initialCaseId, onNavigateToVerify }: FeelScreenProp
         )}
       </div>
 
-      {/* SECTION 2: HAPTICS SUPPORT NOTICE */}
+      {/* SECTION 2: SENSORY STATUS PILL */}
       {!hapticsSupported && (
-        <div className="text-xs bg-amber-500/10 border border-amber-500/30 text-amber-300 rounded-xl p-3 space-y-1 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
-          <div className="flex items-center gap-1.5 font-semibold font-mono text-[11px]">
-            <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0" />
-            HAPTIC FEEDBACK UNAVAILABLE
-          </div>
-          <p className="text-[11px] text-slate-400 leading-relaxed">
-            Browser/device does not support direct vibration API (e.g. iOS Safari). Audio pulse synthesizer & live visual oscilloscope are fully enabled.
-          </p>
+        <div className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-900/60 border border-amber-500/20 text-[10px] font-mono text-slate-400">
+          <span className="flex items-center gap-1.5 text-amber-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+            Audio Pulse Synthesizer Active
+          </span>
+          <span className="text-slate-500">Haptics: Android/Chrome</span>
         </div>
       )}
 

@@ -2,173 +2,193 @@
 
 <div align="center">
 
-[![NASA Space Apps](https://img.shields.io/badge/NASA%20Space%20Apps-Challenge%202026-0B3D91?style=for-the-badge&logo=nasa&logoColor=white)](https://www.spaceappschallenge.org/)
+[![NASA Space Apps Challenge 2026](https://img.shields.io/badge/NASA%20Space%20Apps-Challenge%202026-0B3D91?style=for-the-badge&logo=nasa&logoColor=white)](https://www.spaceappschallenge.org/)
+[![Live Production App](https://img.shields.io/badge/Live%20App-traceclient--production.up.railway.app-success?style=for-the-badge&logo=railway&logoColor=white)](https://traceclient-production.up.railway.app/)
 [![Next.js 15](https://img.shields.io/badge/Next.js-15.1.7-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![PostGIS](https://img.shields.io/badge/PostGIS-Spatial%20DB-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://postgis.net/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Turbo Monorepo](https://img.shields.io/badge/Turborepo-Monorepo-EF4444?style=for-the-badge&logo=turborepo&logoColor=white)](https://turbo.build/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Web Audio API](https://img.shields.io/badge/Web%20Audio-Sonification-F59E0B?style=for-the-badge&logo=audacity&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+[![Turborepo](https://img.shields.io/badge/Turborepo-Monorepo-EF4444?style=for-the-badge&logo=turborepo&logoColor=white)](https://turbo.build/)
 
-**Cloud-piercing radar anomaly detection, multi-mission satellite evidence fusion, and offline-first ground truth verification powered by NASA Earthdata & NISAR science.**
+<br />
 
-[Live Web Client](https://traceclient-production.up.railway.app) • [Interactive API Docs](https://traceserver-production.up.railway.app/docs) • [Architecture](#-system-architecture) • [Quick Start](#-quick-start-guide) • [Scientific Framework](#-scientific-integrity--the-self-audit-engine)
+**Cloud-piercing radar anomaly detection, multi-mission satellite evidence fusion, audio-haptic sensory sonification, and offline-first ground-truth verification powered by NASA Earthdata & NISAR science.**
+
+### 🌐 [🚀 CLICK HERE TO LAUNCH LIVE APPLICATION](https://traceclient-production.up.railway.app/)
+
+**[Live Web App (Railway)](https://traceclient-production.up.railway.app/)** • **[Production API Docs](https://traceserver-production.up.railway.app/docs)** • [Localhost (3000)](http://localhost:3000) • [Operational Pipeline](#-how-trace-works-the-end-to-end-pipeline) • [The 5 Modules](#-the-5-mission-modules) • [Self-Audit Engine](#-scientific-integrity--the-7-point-self-audit-engine) • [Quick Start](#-quick-start-guide)
 
 </div>
 
 ---
 
-## 📖 Executive Summary
+## 🧭 Executive Summary
 
-Earth observation frequently faces the **"cloud cover blind spot"**. Conventional optical satellites (MODIS, Landsat, Sentinel-2) are blinded by monsoon storm clouds, dense hurricane cloud decks, wildfire smoke plumes, and nighttime darkness — precisely when catastrophic environmental events happen.
+Every year, catastrophic natural disasters — flash floods, monsoonal river-island erosion, hurricane storm surges, and wildfires — strike the most vulnerable communities on Earth. Yet conventional optical Earth observation satellites (such as Landsat and Sentinel-2) are frequently crippled by the **"Cloud Cover Blind Spot"**: monsoon cloud decks, storm canopies, smoke plumes, and nighttime darkness completely obscure the view from space.
 
-**Synthetic Aperture Radar (SAR)**, led by the **NASA-ISRO SAR (NISAR)** mission, breaks through this barrier using active L-band radar signals that penetrate clouds, weather, and dense forest canopies 24/7.
+**Synthetic Aperture Radar (SAR)**, led by the landmark **NASA-ISRO SAR (NISAR)** and **Copernicus Sentinel-1** missions, pierces through clouds, storms, and darkness 24 hours a day, 7 days a week, utilizing active microwave signals.
 
-However, raw SAR data is mathematically complex, difficult to interpret, and prone to false positives caused by moisture spikes or atmospheric disturbances. **TRACE (Temporal Radar Assessment & Cross-mission Evidence)** bridges the gap between orbit and the ground:
+However, raw SAR data is mathematically demanding, complex to interpret, and prone to false positives caused by moisture spikes or atmospheric disturbances. **TRACE (Temporal Radar Assessment & Cross-mission Evidence)** bridges the gap between orbit and the ground:
 
-1. **Automated Radar Anomaly Detection**: Ingests NISAR L2/GCOV/GSLC products and computes backscatter decibel ($\Delta\text{dB}$) drops and surface water inundation polygons.
-2. **Multi-Mission Cross-Correlation**: Concurrently queries NASA GPM (IMERG precipitation), NASA FIRMS (thermal fire anomalies), and NASA MODIS (vegetation context) to establish independent corroboration.
-3. **Deterministic 7-Point Self-Audit Engine**: Instead of blind AI confidence, TRACE challenges every finding with 7 rigorous scientific quality checks to prevent false alarms.
-4. **Autonomous Sentinel Agent Ensemble**: An orchestrator of 5 specialized agents (`DataAgent` ➔ `DetectionAgent` ➔ `EvidenceAgent` ➔ `ChallengeAgent` ➔ `InterpretationAgent`).
-5. **Field Companion with Haptic/Audio Sensory Translation**: Field researchers can literally **"FEEL" the radar** — converting decibel deltas into physical vibrations and audio frequencies on mobile devices, with offline sync capabilities for remote zones.
+1. **Cloud-Piercing Radar Anomaly Detection**: Ingests L-band and C-band SAR backscatter, calculating calibrated decibel differences ($\Delta\text{dB}$) and surface water inundation masks.
+2. **Multi-Mission Evidence Fusion**: Concurrently correlates with **NASA GPM (IMERG precipitation)**, **NASA FIRMS (thermal fire anomalies)**, and **NASA MODIS/Landsat (vegetation context)** for multi-spectral verification.
+3. **Deterministic 7-Point Self-Audit**: Forbids AI hallucination by putting every single observation through 7 rigorous mathematical checks before issuing a verdict (`SUPPORTED`, `INCONCLUSIVE`, or `REJECTED`).
+4. **5 Autonomous Sentinel Agents**: A collaborative multi-agent pipeline (`DataAgent` ➔ `DetectionAgent` ➔ `EvidenceAgent` ➔ `ChallengeAgent` ➔ `InterpretationAgent`) that acts as an automated scientific advisory board.
+5. **FEEL Sensory Sonification**: Converts radar decibels into real-time physical vibrations and acoustic sine frequencies (80 Hz – 600 Hz) with a live oscilloscope display, enabling field rangers and visually impaired scientists to **hear and feel environmental change**.
+6. **Offline-First Field Companion**: Geotagged ground photos, GPS precision locks, and an IndexedDB offline queue ensure zero data loss in remote disaster zones.
+
+---
+
+## ⚡ How TRACE Works: The End-to-End Pipeline
+
+The following pipeline illustrates how raw planetary satellite telemetry is ingested, audited, translated, and delivered into the hands of field rangers and decision-makers:
+
+```mermaid
+flowchart TD
+    %% Node Definitions
+    subgraph SATELLITE_ORBIT ["1. ORBITAL SENSING & DATA INGESTION"]
+        NISAR["🛰️ NISAR / Sentinel-1<br/>L-band & C-band SAR Backscatter"]
+        GPM["🌧️ NASA GPM IMERG<br/>Global Precipitation Measurement"]
+        FIRMS["🔥 NASA FIRMS<br/>VIIRS & MODIS Thermal Hotspots"]
+        MODIS["🌿 NASA MODIS / Landsat<br/>Surface Reflectance & NDVI"]
+    end
+
+    subgraph INGESTION_DISCOVERY ["2. DISCOVERY & NORMALIZATION ENGINE"]
+        CMR["📡 NASA CMR & ASF Search Client<br/>Spatial Bounding Box & Temporal Search"]
+        Ingest["⚙️ Radiometric Calibration & Normalization<br/>Decibel Calculation (σ° dB) & Spatial Indexing"]
+    end
+
+    subgraph CORE_INTELLIGENCE ["3. SCIENTIFIC EVIDENCE & SELF-AUDIT"]
+        EvidenceEngine["🔬 Cross-Mission Evidence Engine<br/>Temporal Correlation & Baseline Matching"]
+        SelfAudit["⚖️ 7-Point Deterministic Self-Audit<br/>Data Quality • Phase Coherence • Atmospheric Check"]
+        Agents["🤖 5 Autonomous Sentinel Agents<br/>Adversarial Challenge & Non-Causal Synthesis"]
+    end
+
+    subgraph STORAGE_LAYER ["4. SPATIAL GEODATABASE"]
+        PostGIS[("🗄️ PostgreSQL + PostGIS<br/>Spatial Polygons, Cases & Centroids")]
+        OfflineQueue[("📦 Client Offline Queue<br/>IndexedDB / LocalStorage")]
+    end
+
+    subgraph MISSION_INTERFACE ["5. NASA MISSION CONTROL & FIELD COMPANION (Next.js 15)"]
+        SCAN["🎯 SCAN<br/>Dual-Polarization (VV/VH)<br/>Optical vs SAR Split Slider"]
+        PULSE["🌐 PULSE<br/>Planetary Matrix Basemap<br/>Hazard Categories & Verdicts"]
+        CHAR["⚓ CHAR<br/>River-Island Morphometry<br/>Erosion Baseline Lineage"]
+        FEEL["📳 FEEL<br/>Web Audio Synthesizer (80-600Hz)<br/>Live Oscilloscope & Haptic Pulses"]
+        VERIFY["🛡️ VERIFY<br/>Camera Field Observations<br/>Sub-meter GPS Lock & Sync"]
+    end
+
+    %% Flow Connections
+    NISAR & GPM & FIRMS & MODIS --> CMR
+    CMR --> Ingest
+    Ingest --> EvidenceEngine
+    EvidenceEngine --> SelfAudit
+    SelfAudit --> Agents
+    Agents --> PostGIS
+
+    PostGIS <--> SCAN & PULSE & CHAR & FEEL
+    VERIFY <--> OfflineQueue
+    OfflineQueue -- "Auto-sync on Reconnect" --> PostGIS
+```
 
 ---
 
 ## 🌟 The 5 Mission Modules
 
-TRACE is structured into five intuitive, high-impact operational modules accessible via desktop mission control or mobile field companions:
+TRACE is architected into five dedicated operational modules designed for both desktop command centers and mobile field operations:
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                             TRACE FIELD SYSTEM                              │
-├─────────────┬─────────────┬─────────────┬───────────────────┬───────────────┤
-│   🎯 SCAN   │   🌐 PULSE  │   ⚓ CHAR   │      📳 FEEL      │   🛡️ VERIFY   │
-│ Detect &    │ Planetary   │ River Island│  Sensory Haptic & │ Offline Ground│
-│ Inspect SAR │ Real-time   │ Dynamics &  │  Web Audio Radar  │ Truth Photo & │
-│ Anomalies   │ Cases Map   │ Vulnerability│  Translation     │ GPS Validation│
-└─────────────┴─────────────┴─────────────┴───────────────────┴───────────────┘
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                                   TRACE FIELD SYSTEM                                    │
+├──────────────┬──────────────┬──────────────┬─────────────────────────┬──────────────────┤
+│   🎯 SCAN    │   🌐 PULSE   │   ⚓ CHAR    │         📳 FEEL         │    🛡️ VERIFY     │
+│ Detect Radar │ Global Pulse │ River-Island │ Multi-Sensory Sonification│ Field Validation │
+│ Anomalies &  │ Surveillance │ Morphometry  │ Real-time Web Audio Hz  │ Offline Photos & │
+│ Dual Pol SAR │ & Map Matrix │ & Vulnerable │ & Tactical Haptic Pulse │ Sub-meter GPS    │
+└──────────────┴──────────────┴──────────────┴─────────────────────────┴──────────────────┘
 ```
 
-### 1. 🎯 SCAN — Temporal Radar Inspection
-- **Dual-Polarization Controls**: Switch between **VV** (vertical transmit/receive for open water & smooth surfaces) and **VH** (cross-polarization for volume scattering and vegetation canopy).
-- **Time-Series Graphs**: Interactive decibel change history across baseline, event, and recovery periods.
-- **Optical vs. SAR Swipe Tool**: Interactive before/after split slider comparing optical imagery with cloud-penetrating L-band radar backscatter.
+### 1. 🎯 SCAN — Temporal Radar Inspection & Split Analysis
+- **Dual-Polarization Controls**: Toggle seamlessly between **VV** (Vertical transmit / Vertical receive — optimal for open water detection and smooth surfaces) and **VH** (Cross-polarization — optimal for volume scattering and forest canopy penetration).
+- **Interactive Optical vs. SAR Split Slider**: Cross-examine visible ground photography against cloud-penetrating synthetic aperture radar backscatter with pointer-drag and 1-tap presets (`Optical Only`, `50/50 Split`, `SAR Only`).
+- **Telemetry Inspector**: Deep-dive into temporal decibel delta ($\Delta\sigma^\circ$), baseline timestamps, and spatial extent metrics.
 
-### 2. 🌐 PULSE — Planetary Activity Monitor
-- **Interactive Global Basemap**: Leaflet-driven map visualizing all ongoing cases with spatial bounding polygons, centroid markers, and multi-mission status badges.
-- **Real-Time Anomaly Filters**: Instantly categorize events by type (*flood, surface water change, wildfire, coastal shift*) or self-audit verdict (*SUPPORTED, INCONCLUSIVE, REJECTED*).
+### 2. 🌐 PULSE — Planetary Activity Matrix
+- **Real-Time Global Basemap**: Leaflet-powered GIS basemap visualizing active surveillance cases with spatial bounding boxes, centroid pins, and self-audit status tags.
+- **Categorical & Risk Filters**: Filter planetary events by hazard classification (*Flood, River Erosion, Wildfire, Coastal Inundation*) and deterministic audit state (*SUPPORTED, INCONCLUSIVE, REJECTED*).
+- **Instant Case Navigation**: Tap any planetary target to load comprehensive satellite evidence into the investigation pipeline.
 
-### 3. ⚓ CHAR — Island & Coastal Guardian
-- **River Island ("Char") & Coastal Ecosystem Tracking**: Tailored for high-vulnerability river deltas (such as the Jamuna-Padma river systems and Sundarbans mangrove regions).
-- **Sediment & Erosion Monitoring**: Evaluates shifting shorelines and deposition without making speculative claims.
-- **Scientifically Safe Terminology**: System enforces neutral phrasing (*"Observed SAR Change"* instead of unverified catastrophic erosion).
+### 3. ⚓ CHAR — River-Island & Coastal Guardian
+- **Vulnerable Delta Ecosystems**: Specially built for high-risk river deltas (e.g., the Jamuna-Brahmaputra chars of Bangladesh, vulnerable coastal mangrove shores).
+- **Sedimentation & Channel Shift Tracking**: Compares pre-monsoon optical baselines with post-event radar passes to monitor accretion and bank erosion.
+- **Strict Non-Causal Phrasing**: Automatically enforces scientifically defensible wording (*"Observed SAR Change"* instead of sensationalized or unverified claims).
 
-### 4. 📳 FEEL — Sensory Radar Experience
-- **Tactile Haptic Pulsing**: Transforms satellite backscatter drops into physical pulse rhythms using the HTML5 Vibration API (`navigator.vibrate`).
-- **Web Audio Sound Synthesis**: Uses real-time frequency oscillation (80 Hz – 600 Hz sub-bass to midrange) so field workers can hear signal amplitude changes in direct sunlight.
-- **Accessible Field Inspection**: Allows visually impaired researchers or gloved workers to comprehend environmental change instantly.
+### 4. 📳 FEEL — Multi-Sensory Audio & Haptic Sonification
+- **Pure Web Audio Frequency Synthesis**: Translates satellite decibel backscatter drops into direct acoustic sine waves ($80\text{ Hz} - 600\text{ Hz}$). A severe flood drop ($-6\text{ dB}$) produces a deep sub-bass vibration ($120\text{ Hz}$), while stable surfaces pitch higher.
+- **Live Dynamic Oscilloscope**: Real-time `<canvas>` wave visualization rendering exact sinusoidal frequencies and pulse period metrics.
+- **Physical Haptic Motor Stimulation**: Triggers tactile vibration sequences (`navigator.vibrate`) on supported mobile devices, enabling field researchers in harsh glare or visually impaired users to **experience radar changes by touch**.
 
-### 5. 🛡️ VERIFY — Ground-Truth & Community Sentinel
-- **One-Tap Field Observations**: Field rangers capture geotagged photos, situational notes, and timestamped coordinates.
-- **Offline-First Resilience**: If internet connection drops in deep wetlands or forests, reports queue locally in an IndexedDB/localStorage queue and auto-sync upon reconnection.
-- **Dynamic Threshold Alerts**: Configure custom decibel thresholds ($\Delta \text{dB} \le -2.0$) with safe automated notifications (*ARMED ➔ TRIGGERED ➔ ACKNOWLEDGED*).
+### 5. 🛡️ VERIFY — Closed-Loop Field Ground Truth
+- **Georeferenced Field Reporting**: Community rangers capture camera photos, situational notes, and exact coordinates to validate satellite passes.
+- **Offline-First Resilience**: If internet connectivity drops in remote marshlands or disaster zones, observations are queued locally in `IndexedDB/localStorage` and synchronized automatically upon reconnecting.
+- **Configurable Anomaly Thresholds**: Set custom alert triggers ($\Delta\text{dB} \le -2.0$) with safe multi-state tracking (*ARMED ➔ TRIGGERED ➔ ACKNOWLEDGED*).
 
 ---
 
-## 🏛️ System Architecture
+## 🔬 Scientific Integrity: The 7-Point Self-Audit Engine
 
-TRACE is engineered as a clean, decoupled monorepo managed with **Turborepo** and **pnpm**:
+A critical failure in typical AI Earth observation tools is **false confirmation bias** — assuming that any spectral change signifies a crisis. TRACE refuses blind confidence by putting every radar observation through a **Deterministic 7-Point Self-Audit Engine**:
 
-```mermaid
-graph TD
-    subgraph Data_Sources ["🛰️ NASA Earthdata & Satellites"]
-        NISAR["NASA-ISRO SAR (NISAR)<br/>L2 GCOV / GSLC Radar"]
-        GPM["NASA GPM IMERG<br/>Precipitation Rates"]
-        FIRMS["NASA FIRMS<br/>VIIRS / MODIS Fire Alerts"]
-        MODIS["NASA MODIS<br/>Surface Reflectance & NDVI"]
-    end
-
-    subgraph Server ["⚡ TRACE Backend (FastAPI + Python 3.11)"]
-        CMR_Client["NASA CMR & ASF Client<br/>Query Engine"]
-        Evidence_Engine["Cross-Mission<br/>Evidence Engine"]
-        Self_Audit["Deterministic 7-Point<br/>Self-Audit Engine"]
-        Sentinel_Agents["5 Autonomous<br/>Sentinel Agents"]
-        Scenario_Sim["Scenario Simulator<br/>Water Level Modeler"]
-        DB[(PostgreSQL + PostGIS<br/>Spatial Storage)]
-    end
-
-    subgraph Client ["💻 TRACE Frontend (Next.js 15 + React 19)"]
-        ScanView["🎯 SCAN<br/>Radar Polarization & Decibels"]
-        PulseView["🌐 PULSE<br/>Planetary Interactive Map"]
-        CharView["⚓ CHAR<br/>Guardian Ecosystem Lens"]
-        FeelView["📳 FEEL<br/>Haptics & Audio Synthesizer"]
-        VerifyView["🛡️ VERIFY<br/>Offline Camera & GPS Reports"]
-    end
-
-    NISAR --> CMR_Client
-    GPM --> CMR_Client
-    FIRMS --> CMR_Client
-    MODIS --> CMR_Client
-
-    CMR_Client --> Evidence_Engine
-    Evidence_Engine --> Self_Audit
-    Self_Audit --> Sentinel_Agents
-    Sentinel_Agents --> DB
-    Scenario_Sim --> DB
-
-    DB <--> Client
-```
-
----
-
-## 🔬 Scientific Integrity & The Self-Audit Engine
-
-A critical flaw in standard AI Earth observation platforms is **false confirmation bias** — platforms assume that any satellite change metric proves an environmental disaster.
-
-TRACE eliminates this risk through a **Deterministic 7-Check Self-Audit Engine** that does not blindly trust radar anomalies:
-
-| # | Check Type | What It Evaluates | Decision Logic / Threshold |
+| # | Scientific Check | Target Evaluation | Decision Rule & Threshold |
 |---|---|---|---|
-| **1** | **Data Quality Check** | Validates primary SAR payload completeness and magnitude. | $\Delta\text{dB} \le -1.5\text{ dB}$ or affected area $> 0$ km². Weak drops ($-1.5 < \text{dB} \le -0.5$) trigger `WARNING`. |
-| **2** | **Phase Coherence Check** | Evaluates InSAR interferometric phase correlation ($\gamma$). | $\gamma < 0.25$ indicates phase decorrelation (flooding / physical displacement). $\gamma > 0.65$ triggers `WARNING` (stable surface). |
-| **3** | **Spatiotemporal Sanity** | Evaluates temporal duration and spatial polygon sanity. | Flags anomalous single-pixel flashes or unrealistic multi-week static flood claims. |
-| **4** | **Atmospheric Artifact Risk** | Cross-checks with atmospheric & ionospheric disturbance indexes. | Disqualifies radar artifacts caused by tropospheric moisture delays. |
-| **5** | **Multi-Sensor Coverage** | Checks corroboration across independent NASA platforms. | Cross-correlates precipitation (GPM) or thermal alerts (FIRMS) against the radar event window. |
-| **6** | **Ground Truth Verification** | Compares satellite observations with community ranger field reports. | Weighs human-submitted field photos and coordinates against satellite detections. |
-| **7** | **Confidence Synthesis** | Produces a non-blind, defensible final determination. | Final State: **`SUPPORTED`**, **`INCONCLUSIVE`**, or **`REJECTED`**. |
+| **1** | **Data Completeness & Quality** | Validates SAR payload completeness, raster dimensions, and delta magnitude. | $\Delta\text{dB} \le -1.5\text{ dB}$ confirms notable attenuation. Weak signals ($-1.5 < \Delta\text{dB} \le -0.5$) flag a `WARNING`. |
+| **2** | **Interferometric Phase Coherence** | Evaluates InSAR phase correlation ($\gamma$) across consecutive passes. | $\gamma < 0.25$ indicates true decorrelation (flooding / physical displacement). $\gamma > 0.65$ triggers `WARNING` (stable surface). |
+| **3** | **Spatiotemporal Sanity** | Checks temporal observation duration and geometric polygon validity. | Flags anomalous single-pixel flashes or unrealistic multi-week static flood claims. |
+| **4** | **Atmospheric Artifact Risk** | Evaluates ionospheric disturbances and severe tropospheric moisture delays. | Disqualifies radar artifacts caused by heavy rain cell attenuation rather than ground water. |
+| **5** | **Multi-Sensor Cross-Coverage** | Searches for corroborating data from independent NASA instruments. | Cross-correlates precipitation (NASA GPM IMERG) or active fire (NASA FIRMS) during the event window. |
+| **6** | **Ground-Truth Concurrence** | Checks matching field observation reports submitted within the bounding box. | Integrates geotagged photos and human inspection into the certainty index. |
+| **7** | **Confidence Synthesis** | Produces a mathematically defensible, non-speculative verdict. | Final State: **`SUPPORTED`**, **`INCONCLUSIVE`**, or **`REJECTED`**. |
 
 > [!IMPORTANT]
-> **Strict Non-Causal Terminology Rule:**  
-> The backend explicitly forbids speculative causal language. Generated briefs will **never** claim an event was *"definitively caused by"* without multi-sensor cross-corroboration. Statements adhere strictly to defensible phrasing such as *"SAR backscatter drop coincides temporally with GPM precipitation anomaly."*
+> **Defensible Non-Causal Terminology:**  
+> The TRACE backend strictly forbids speculative causal claims. Generated briefs will **never** state that an anomaly was *"definitively caused by"* without multi-mission proof. Phrasing strictly adheres to defensible language: *"SAR backscatter drop coincides temporally with GPM precipitation anomaly."*
 
 ---
 
 ## 🤖 The 5 Autonomous Sentinel Agents
 
-TRACE features a cooperative multi-agent execution pipeline that automates the verification workflow:
+TRACE orchestrates 5 specialized AI agents modeled after an interdisciplinary mission science team:
 
-1. 📡 **`DataAgent`**: Queries NASA CMR (Common Metadata Repository) and ASF DAAC to discover matching satellite granules for target bounding boxes and acquisition windows.
-2. 🔍 **`DetectionAgent`**: Processes raw SAR backscatter, identifies drop thresholds, and isolates the polygon boundaries of affected areas.
-3. 🛰️ **`EvidenceAgent`**: Performs spatial and temporal fusion with NASA GPM rainfall baselines, FIRMS thermal signatures, and MODIS surface data.
-4. ⚖️ **`ChallengeAgent`**: Acts as a scientific adversary. Runs the 7-Point Self-Audit, seeking counter-evidence or atmospheric interference before endorsing any conclusion.
-5. 📝 **`InterpretationAgent`**: Synthesizes the final defensible brief, computing uncertainty metrics and actionable recommendations for decision-makers.
+```
+[🛰️ DataAgent] ──▶ [🔍 DetectionAgent] ──▶ [📊 EvidenceAgent]
+                                                   │
+  [📝 InterpretationAgent] ◀── [⚖️ ChallengeAgent] ◀┘
+```
+
+1. **`DataAgent`**: Queries NASA CMR and ASF DAAC APIs to discover satellite passes matching the bounding box and observation window.
+2. **`DetectionAgent`**: Processes calibrated backscatter, identifies attenuation thresholds, and generates spatial inundation polygons.
+3. **`EvidenceAgent`**: Executes spatiotemporal joins with NASA GPM rainfall baselines, FIRMS thermal alerts, and Landsat/MODIS NDVI context.
+4. **`ChallengeAgent`**: The scientific adversary. Runs the 7-point self-audit and actively searches for counter-evidence or atmospheric interference before endorsing any claim.
+5. **`InterpretationAgent`**: Formulates the final defensible executive briefing, calculating uncertainty bounds and actionable recommendations for disaster management authorities.
 
 ---
 
-## 🛠️ Technology Stack
+## 💻 Tech Stack & Monorepo Architecture
 
-| Layer | Technologies Used | Purpose |
+TRACE is structured as a high-performance monorepo managed with **Turborepo** and **pnpm**:
+
+| Component | Technology | Rationale |
 |---|---|---|
-| **Frontend Framework** | **Next.js 15.1.7** (App Router), **React 19**, **TypeScript 5.7** | Responsive, high-performance UI with server components and client-side state. |
-| **Styling & Design** | **Tailwind CSS**, Lucide Icons, Glassmorphism design tokens | Sci-fi mission control aesthetic with dark-mode palette (#060911). |
-| **Geospatial & Visuals** | **Leaflet 1.9**, Leaflet CSS, Chart.js 4.5 | Planetary event mapping, raster overlays, and temporal radar graphs. |
-| **Mobile & Sensory** | HTML5 Vibration API, Web Audio API, Geolocation API | Haptic vibration patterns, audio pitch feedback, GPS acquisition. |
-| **Offline Resilience** | IndexedDB / LocalStorage queue with auto-retry | Guaranteed field report submission even with zero network coverage. |
-| **Backend Framework** | **FastAPI 0.115+**, **Python 3.11+**, Uvicorn (ASGI) | Async, high-throughput REST API with automated OpenAPI / Swagger docs. |
-| **Database & GIS** | **PostgreSQL** + **PostGIS**, SQLAlchemy 2.0, GeoAlchemy2, Shapely | Native geospatial polygon indexing, distance calculations, spatial joins. |
-| **Earth Data Integration** | NASA CMR Search API, ASF API, NASA FIRMS, NASA GPM | Multi-mission Earth observation discovery and granule indexing. |
-| **Build & Monorepo** | **Turborepo 2.4**, **pnpm 12.5** | Fast monorepo task execution, shared types, and cached builds. |
+| **Frontend Framework** | **Next.js 15.1.7** (App Router), **React 19** | Zero-hydration server rendering, dynamic routing, and blazing fast client hydration. |
+| **Language & Types** | **TypeScript 5.7** | 100% strict type safety across all components, API schemas, and geospatial models. |
+| **Design Language** | **NASA Mission Control & SAR Gold** | Deep Basalt (`#080C14`), Titanium Slate borders, and SAR Radar Gold (`#F59E0B`) accents. |
+| **Sensory Engine** | **Web Audio API** + **HTML5 Vibration API** | Pure mathematical oscillator sound synthesis and tactile haptic pulse sequences. |
+| **Geospatial & Mapping** | **Leaflet 1.9** + Canvas Reticles | Responsive planetary GIS maps, tile layers, and real-time WGS84 coordinate readouts. |
+| **Offline Engine** | **IndexedDB / LocalStorage** Queue | Resilient offline observation collection with automatic background network recovery. |
+| **Backend Framework** | **FastAPI 0.115+** (Python 3.11+) | Ultra-fast async ASGI REST API with automatic OpenAPI / Swagger interactive documentation. |
+| **Spatial Database** | **PostgreSQL** + **PostGIS** / SQLite fallback | Native geospatial polygon indexing, spatial joins, and distance calculations. |
+| **NASA APIs** | **CMR Search API**, **ASF DAAC**, **GPM**, **FIRMS** | Direct multi-sensor Earth observation ingestion and granule discovery. |
+| **Monorepo Tooling** | **Turborepo 2.4** + **pnpm 12** | Blazing-fast parallel task execution, shared package caching, and clean dependencies. |
 
 ---
 
@@ -178,7 +198,7 @@ TRACE features a cooperative multi-agent execution pipeline that automates the v
 - **Node.js**: `v18.0.0` or higher (v20+ recommended)
 - **pnpm**: `v8.0.0` or higher (`npm install -g pnpm`)
 - **Python**: `v3.11` or higher
-- **PostgreSQL / PostGIS** (or use local SQLite fallback for rapid prototyping)
+- **Git**
 
 ---
 
@@ -193,31 +213,29 @@ cd TRACE-Platform
 
 ### Step 2: Environment Configuration
 
-Create environment configuration files for both frontend and backend from the provided examples:
+Create local environment files for both frontend and backend from the provided samples:
 
 ```bash
-# In the repository root:
+# In the root repository directory:
 cp .env.example .env
 cp client/.env.example client/.env.local
 cp server/.env.example server/.env
 ```
 
-**Key Environment Variables:**
-
-| Variable | Location | Description | Default |
+| Variable | Location | Description | Default Value |
 |---|---|---|---|
 | `NEXT_PUBLIC_API_URL` | `client/.env.local` | Base URL of the running FastAPI server | `http://localhost:8000` |
-| `DATABASE_URL` | `server/.env` | PostgreSQL + PostGIS connection string | `postgresql://postgres:postgres@localhost:5432/trace_db` |
+| `DATABASE_URL` | `server/.env` | Database connection string (PostgreSQL/SQLite) | `sqlite:///./trace_dev.db` |
 | `CMR_BASE_URL` | `server/.env` | NASA Common Metadata Repository API | `https://cmr.earthdata.nasa.gov` |
 | `EARTHDATA_TOKEN` | `server/.env` | Optional NASA Earthdata Bearer Token | `(anonymous access supported)` |
 
 > [!TIP]
-> **No NASA credentials yet?**  
-> TRACE includes an anonymous discovery fallback and seeded real-world case studies (`CASE-017`, `TRACE-2026-001`), allowing full local testing immediately without an Earthdata token.
+> **No NASA credentials required for immediate testing!**  
+> TRACE includes seeded real-world case studies (`TRACE-CHAR-01`, `CASE-017`, `TRACE-2026-001`, `TRACE-WILD-01`), enabling immediate exploration without an Earthdata token.
 
 ---
 
-### Step 3: Run the Backend Server (FastAPI)
+### Step 3: Start the Backend Server (FastAPI)
 
 Open a terminal for the backend:
 
@@ -230,22 +248,21 @@ python -m venv .venv
 # Linux / macOS:
 source .venv/bin/activate
 
-# 2. Install Python dependencies
+# 2. Install dependencies
 pip install -r server/requirements.txt
 
 # 3. Start the FastAPI development server
 uvicorn server.app.main:app --reload --port 8000
 ```
 
-✅ **Backend Verification:**
-- API Root: [`http://localhost:8000/`](http://localhost:8000/)
-- Interactive Swagger UI: [`http://localhost:8000/docs`](http://localhost:8000/docs)
-- Service Health Probe: [`http://localhost:8000/health`](http://localhost:8000/health)
-- Database Probe: [`http://localhost:8000/health/db`](http://localhost:8000/health/db)
+✅ **Backend Endpoints:**
+- **API Root**: [`http://localhost:8000/`](http://localhost:8000/)
+- **Interactive Swagger Docs**: [`http://localhost:8000/docs`](http://localhost:8000/docs)
+- **Health Check**: [`http://localhost:8000/health`](http://localhost:8000/health)
 
 ---
 
-### Step 4: Run the Frontend Client (Next.js)
+### Step 4: Start the Frontend Client (Next.js)
 
 Open a second terminal for the frontend:
 
@@ -258,14 +275,15 @@ pnpm --filter client dev
 ```
 
 ✅ **Frontend Verification:**
-- Open your browser to [`http://localhost:3000`](http://localhost:3000)
-- The header should show green indicators for **GPS ACTIVE** and **API CONNECTED**.
+- **Live Cloud Production URL**: [`https://traceclient-production.up.railway.app/`](https://traceclient-production.up.railway.app/)
+- **Local Development Server**: [`http://localhost:3000`](http://localhost:3000)
+- The header will display green status beacons for **GPS ACTIVE** and **ONLINE**.
 
 ---
 
-### Running Everything with Turborepo (One Command)
+### Running Everything Concurrently (Turborepo)
 
-If both environments are configured, run the entire stack concurrently from the root directory:
+Once dependencies are installed, you can start both the client and server concurrently with one command from the project root:
 
 ```bash
 pnpm dev
@@ -273,145 +291,87 @@ pnpm dev
 
 ---
 
-## 📡 API Reference Overview
+## 📡 Core API Reference
 
-TRACE features a clean, RESTful API structure documented with interactive OpenAPI:
+The TRACE FastAPI backend exposes a clean, self-documenting REST API:
 
-### Case Investigations & Evaluation
+### 1. Case Management & Analysis
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/cases` | List all investigation cases (paginated). |
-| `GET` | `/api/cases/{case_id}` | Retrieve full stored case state, SAR measurements, and geometry. |
-| `GET` | `/api/cases/{case_id}/timeline` | Retrieve chronological observations (BEFORE ➔ CHANGE ➔ AFTER). |
-| `POST` | `/api/cases/{case_id}/evaluate-evidence` | Run Cross-Mission Evidence Engine (GPM, FIRMS, MODIS correlation). |
-| `POST` | `/api/cases/{case_id}/self-audit` | Run 7-Point Scientific Self-Audit Engine. |
-| `POST` | `/api/cases/{case_id}/simulate-scenario` | Execute elevation sea-level / water inundation modeling (+0.5m, +1.0m, +2.0m). |
-| `POST` | `/api/cases/{case_id}/run-sentinel-agents` | Trigger the 5-Agent Autonomous Sentinel workflow. |
-| `GET` | `/api/cases/{case_id}/char-history` | Fetch historical shoreline and river-island change records. |
+| `GET` | `/api/cases` | List all spatial investigation cases (paginated). |
+| `GET` | `/api/cases/{case_id}` | Retrieve comprehensive case telemetry, SAR measurements, and geometry. |
+| `GET` | `/api/cases/{case_id}/timeline` | Retrieve chronological observation sequence (BEFORE ➔ CHANGE ➔ AFTER). |
+| `POST` | `/api/cases/{case_id}/evaluate-evidence` | Execute multi-mission evidence fusion (GPM, FIRMS, MODIS correlation). |
+| `POST` | `/api/cases/{case_id}/self-audit` | Run the 7-Point Scientific Self-Audit Engine. |
+| `POST` | `/api/cases/{case_id}/simulate-scenario` | Execute elevation hydrological inundation modeling (+0.5m, +1.0m, +2.0m). |
+| `POST` | `/api/cases/{case_id}/run-sentinel-agents` | Trigger the 5-Agent Autonomous Sentinel pipeline. |
+| `GET` | `/api/cases/{case_id}/char-history` | Fetch historical river-island morphometry and erosion lineage. |
 
-### NASA Earthdata Live Discovery
+### 2. Live NASA Earthdata Connectors
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/nasa/nisar/search` | Search candidate NISAR Earth observations by bounding box & date. |
-| `GET` | `/api/nasa/gpm/search` | Query GPM IMERG precipitation data for baseline verification. |
+| `GET` | `/api/nasa/nisar/search` | Discover candidate NISAR/SAR Earth observation granules by BBox & date. |
+| `GET` | `/api/nasa/gpm/search` | Query NASA GPM IMERG precipitation rates for baseline verification. |
 | `GET` | `/api/nasa/firms/search` | Query NASA FIRMS VIIRS/MODIS thermal fire anomalies. |
-| `GET` | `/api/nasa/modis/search` | Query MODIS surface context and land reflectance. |
+| `GET` | `/api/nasa/modis/search` | Query NASA MODIS surface context and vegetation index. |
 | `GET` | `/api/nasa/health` | Probe NASA CMR reachability and authentication status. |
 
-### Ground-Truth & Field Alerts
+### 3. Field Ground-Truth & Community Sentinel
 | Method | Endpoint | Description |
 |---|---|---|
-| `POST` | `/api/cases/{case_id}/field-observations` | Submit geotagged field photo and observation note (multipart or JSON). |
-| `GET` | `/api/cases/{case_id}/alerts` | List configured threshold alerts for a case. |
-| `POST` | `/api/cases/{case_id}/alerts` | Subscribe to an anomaly threshold alert ($\Delta\text{dB}$, area). |
-| `POST` | `/api/cases/{case_id}/alerts/{id}/acknowledge` | Mark an alert state as `ACKNOWLEDGED`. |
+| `POST` | `/api/cases/{case_id}/field-observations` | Submit geotagged field photos, notes, and GPS coordinates. |
+| `GET` | `/api/cases/{case_id}/alerts` | List configured decibel anomaly alerts for a case. |
+| `POST` | `/api/cases/{case_id}/alerts` | Subscribe to a decibel anomaly alert threshold ($\Delta\text{dB}$). |
+| `POST` | `/api/cases/{case_id}/alerts/{id}/acknowledge` | Mark an anomaly alert as acknowledged. |
 | `GET` | `/api/global/events` | Planetary aggregator of all active cases with spatial coordinates. |
 
 ---
 
-## 🧪 Running Automated Tests
+## 🧪 Automated Testing Suite
 
-TRACE includes a comprehensive test suite covering the evidence fusion engine, the 7-point self audit, the sentinel agents, offline queues, and API routes:
+TRACE includes a rigorous testing suite covering the self-audit engine, evidence fusion, sentinel agent execution, and offline queues:
 
 ```bash
 # Activate your backend virtual environment
-.venv\Scripts\Activate.ps1  # Windows
-source .venv/bin/activate    # Linux/macOS
+.venv\Scripts\Activate.ps1   # Windows
+source .venv/bin/activate     # Linux / macOS
 
 # Run the complete test suite with pytest
 pytest server/tests -v
 ```
 
-**Key Test Modules:**
-- `test_self_audit_engine.py`: Validates that inconclusive signals are never falsely marked as supported.
-- `test_evidence_engine.py`: Confirms multi-mission fusion and enforces non-causal phrasing rules.
-- `test_sentinel_agents.py`: Simulates end-to-end multi-agent orchestration.
-- `test_offline_queue_resilience.py`: Tests client-side offline caching and sync retry mechanisms.
-- `test_scenario_simulator.py`: Verifies elevation-based water inundation scenarios and mandatory disclaimers.
-
----
-
-## 📂 Project Directory Structure
-
-```
-TRACE-Platform/
-├── client/                     # Frontend Application (Next.js 15)
-│   ├── app/
-│   │   ├── globals.css         # Custom tokens, neon accents & glassmorphism
-│   │   ├── layout.tsx          # Root HTML layout & fonts
-│   │   └── page.tsx            # Main application orchestrator
-│   ├── components/
-│   │   ├── mobile/             # Field Companion screens (Scan, Feel, Verify, etc.)
-│   │   ├── scientific/         # PlanetaryRealMap, EvidenceConfidenceWall, CharGuardian
-│   │   └── ui/                 # Reusable UI primitives (Buttons, Cards, Modals)
-│   └── lib/
-│       ├── api.ts              # Fully-typed API client
-│       ├── feelMapping.ts      # dB-to-haptics & Web Audio synthesis algorithm
-│       ├── offlineQueue.ts     # Offline storage & background sync engine
-│       ├── sarAnalysis.ts      # Polarization matrix & decibel calculators
-│       └── useGeolocation.ts   # Device GPS acquisition & tracking
-│
-├── server/                     # Backend Application (FastAPI)
-│   ├── app/
-│   │   ├── api/routes/         # Case, NASA, and Global route handlers
-│   │   ├── core/               # Database, PostGIS connection & seed scripts
-│   │   ├── models/             # SQLAlchemy & GeoAlchemy2 spatial tables
-│   │   ├── schemas/            # Pydantic v2 validation models
-│   │   └── services/
-│   │       ├── evidence_engine.py      # Cross-mission evidence fusion
-│   │       ├── self_audit_engine.py    # Deterministic 7-point quality engine
-│   │       ├── sentinel_agents.py      # 5 Autonomous sentinel agents
-│   │       ├── scenario_simulator.py   # Water level scenario modeling
-│   │       └── nasa/                   # CMR, NISAR, GPM, FIRMS, MODIS connectors
-│   ├── requirements.txt        # Server Python dependencies
-│   └── tests/                  # Pytest verification suite
-│
-├── package.json                # Turborepo root configuration
-├── pnpm-workspace.yaml         # pnpm workspace definition
-└── README.md                   # This documentation
+```bash
+# Validate frontend TypeScript types
+pnpm --filter client build
 ```
 
 ---
 
-## 🌍 Real-World Impact Scenarios
+## 🌍 Real-World Case Studies
 
-### 🌊 Scenario 1: Monsoon River Island ("Char") Protection
-Millions of people inhabit shifting river islands (*chars*) along the Ganges-Brahmaputra-Meghna deltas. Heavy monsoons submerge land and alter river channels rapidly, but optical satellites cannot see through monsoon clouds. TRACE utilizes NISAR L-band radar to monitor land boundary changes through heavy clouds, allowing disaster agencies to direct aid without false alarm panics.
-
-### 🚜 Scenario 2: Post-Hurricane Surface Water Inundation
-Following a hurricane landfall, standing water creates agricultural ruin and health emergencies. TRACE tracks backscatter drops across multiple passes, cross-references with GPM precipitation records, and empowers ground rangers to take georeferenced photos to confirm whether floodwaters are receding.
-
-### 🌲 Scenario 3: Wildfire Scar & Subsequent Mudslide Threat
-After severe wildfires tracked by NASA FIRMS, burn scars lose soil stability. When subsequent rainstorms hit, TRACE monitors InSAR phase decorrelation to detect early ground shift indicators before catastrophic mudslides occur.
-
----
-
-## 🤝 Contributing
-
-We welcome contributions from Earth scientists, radar specialists, software engineers, and GIS enthusiasts!
-
-1. Fork the Project (`https://github.com/sanjidtalukder/TRACE-Platform/fork`)
-2. Create your Feature Branch (`git checkout -b feature/AmazingRadarLens`)
-3. Commit your Changes (`git commit -m 'feat: Add polarization ratio comparison lens'`)
-4. Push to the Branch (`git push origin feature/AmazingRadarLens`)
-5. Open a Pull Request
+| Case ID | Region | Hazard Type | Description |
+|---|---|---|---|
+| **`TRACE-CHAR-01`** | **Jamuna River Delta, Bangladesh** | River Island Morphometry | Severe monsoonal erosion alters river-island boundaries. Optical satellites are completely obscured by monsoon clouds; TRACE penetrates the cloud cover with SAR to map shoreline shifts. |
+| **`CASE-017`** | **Sylhet Haor Basin, Bangladesh** | Flash Flood Inundation | Sudden cloudburst inundates agricultural lowlands. TRACE cross-correlates Sentinel-1 backscatter drops ($-4.82\text{ dB}$) with NASA GPM rainfall spikes ($78\text{ mm/hr}$). |
+| **`TRACE-2026-001`** | **Houston / Gulf Coast, USA** | Hurricane Storm Surge | Hurricane landfall creates extensive urban and coastal flooding. The optical-vs-SAR swipe slider reveals standing water beneath dense storm cloud decks. |
+| **`TRACE-WILD-01`** | **California Foothills, USA** | Wildfire Burn Scar | NASA FIRMS detects thermal anomalies; subsequent radar passes monitor soil loss and post-fire mudslide vulnerability. |
 
 ---
 
 ## 📜 Acknowledgements & Data Credits
 
-- **NASA Earth Science Data Systems (ESDS)**: For open and unrestricted access to global Earth observation datasets.
+- **NASA Earth Science Data Systems (ESDS)**: For unrestricted access to global Earth observation datasets.
 - **NASA / ISRO NISAR Mission**: For pioneering L-band and S-band radar imaging science.
 - **Alaska Satellite Facility (ASF) DAAC**: For SAR data access and infrastructure.
 - **NASA Land, Atmosphere Near-real-time Capability for EOS (LANCE)**: For FIRMS active fire data.
 - **NASA Global Precipitation Measurement (GPM)**: For IMERG precipitation products.
-- **NASA Space Apps Challenge 2026**: For inspiring innovative solutions to planetary challenges.
+- **NASA Space Apps Challenge 2026**: For inspiring innovative solutions to planetary environmental challenges.
 
 ---
 
 <div align="center">
 
-Made with 💙 for **NASA Space Apps Challenge 2026**  
+Made with 🛰️ for the **NASA Space Apps Challenge 2026**  
 **TRACE Team** • *Bridging Orbit and Ground with Scientific Rigor*
 
 </div>
