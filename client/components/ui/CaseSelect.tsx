@@ -131,14 +131,14 @@ export function CaseSelect({
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={`${selectId}-listbox`}
-        className={`w-full bg-[#060b17] border border-sky-500/30 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-sans font-medium text-slate-100 flex items-center justify-between gap-2 shadow-inner hover:border-sky-400/60 focus:outline-none focus:ring-1 focus:ring-sky-400 transition-all cursor-pointer ${
-          isOpen ? 'ring-1 ring-sky-400 border-sky-400/60' : ''
+        className={`w-full bg-[#0A0E18] border border-amber-500/30 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-sans font-medium text-slate-100 flex items-center justify-between gap-2 shadow-inner hover:border-amber-400/60 focus:outline-none focus:ring-1 focus:ring-amber-400 transition-all cursor-pointer ${
+          isOpen ? 'ring-1 ring-amber-400 border-amber-400/60' : ''
         } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         <span className="truncate text-left text-slate-100">{displayLabel}</span>
         <ChevronDown
-          className={`h-4 w-4 text-sky-400 transition-transform duration-200 shrink-0 ${
-            isOpen ? 'rotate-180 text-sky-300' : ''
+          className={`h-4 w-4 text-amber-400 transition-transform duration-200 shrink-0 ${
+            isOpen ? 'rotate-180 text-amber-300' : ''
           }`}
           aria-hidden="true"
         />
@@ -146,7 +146,7 @@ export function CaseSelect({
 
       {/* CUSTOM FLOATING DROPDOWN MENU */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1.5 z-50 min-w-full bg-[#060b19] border border-sky-400/50 rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.98),0_0_25px_rgba(56,189,248,0.25)] overflow-hidden animate-in fade-in-50 zoom-in-95 duration-150">
+        <div className="absolute top-full left-0 right-0 mt-1.5 z-50 min-w-full bg-[#0A0E18] border border-amber-500/40 rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.98),0_0_25px_rgba(245,158,11,0.2)] overflow-hidden animate-in fade-in-50 zoom-in-95 duration-150">
           <div className="tech-corner-tl" />
           <div className="tech-corner-tr" />
 
@@ -158,7 +158,7 @@ export function CaseSelect({
             aria-activedescendant={
               focusedIndex >= 0 ? `${selectId}-option-${focusedIndex}` : undefined
             }
-            className="py-1 max-h-64 overflow-y-auto divide-y divide-sky-500/10 focus:outline-none"
+            className="py-1 max-h-64 overflow-y-auto divide-y divide-amber-500/10 focus:outline-none"
           >
             {cases.map((c, index) => {
               const isSelected = c.case_id === selectedCaseId;
@@ -175,15 +175,15 @@ export function CaseSelect({
                   onMouseEnter={() => setFocusedIndex(index)}
                   className={`w-full px-3.5 py-2.5 text-left text-xs sm:text-sm flex items-center justify-between gap-3 transition-colors cursor-pointer select-none ${
                     isSelected
-                      ? 'bg-sky-500/25 text-sky-200 font-semibold border-l-2 border-sky-400'
+                      ? 'bg-amber-500/25 text-amber-200 font-semibold border-l-2 border-amber-400'
                       : isFocused
-                      ? 'bg-sky-500/15 text-white'
-                      : 'text-slate-200 hover:bg-sky-500/10 hover:text-white'
+                      ? 'bg-amber-500/15 text-white'
+                      : 'text-slate-200 hover:bg-amber-500/10 hover:text-white'
                   }`}
                 >
                   <span className="truncate">{formatted}</span>
                   {isSelected && (
-                    <Check className="h-4 w-4 text-sky-400 shrink-0" aria-hidden="true" />
+                    <Check className="h-4 w-4 text-amber-400 shrink-0" aria-hidden="true" />
                   )}
                 </li>
               );

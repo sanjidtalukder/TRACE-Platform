@@ -85,7 +85,7 @@ export function OpticalSarSwipeComparison({
 
   return (
     <Card
-      className="glass-panel border-sky-500/20 shadow-xl relative overflow-hidden"
+      className="glass-panel border-amber-500/20 shadow-xl relative overflow-hidden"
       role="region"
       aria-label="Optical vs SAR Swipe Comparison"
     >
@@ -96,8 +96,8 @@ export function OpticalSarSwipeComparison({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="space-y-0.5">
             <CardTitle className="text-xs sm:text-sm font-bold font-mono text-white flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-sky-400" aria-hidden="true" />
-              Optical vs. SAR X-Ray Multi-Sensor Comparison
+              <Sliders className="w-4 h-4 text-amber-400" aria-hidden="true" />
+              Optical vs. SAR Multi-Sensor Comparison
             </CardTitle>
             <CardDescription className="text-[11px] text-slate-400">
               Cross-examine visible ground reflectance with cloud-penetrating synthetic aperture radar backscatter.
@@ -105,12 +105,12 @@ export function OpticalSarSwipeComparison({
           </div>
 
           {/* Quick Preset Mode Buttons */}
-          <div className="flex items-center gap-1 bg-slate-950/80 p-1 rounded-lg border border-sky-500/20 shrink-0 self-start sm:self-center">
+          <div className="flex items-center gap-1 bg-slate-950/80 p-1 rounded-lg border border-[#1A2338] shrink-0 self-start sm:self-center">
             <button
               onClick={() => setSliderPos(100)}
               className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold transition-all ${
                 sliderPos >= 90
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 shadow-sm'
+                  ? 'bg-slate-800 text-slate-200 border border-slate-700 shadow-sm'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -120,7 +120,7 @@ export function OpticalSarSwipeComparison({
               onClick={() => setSliderPos(50)}
               className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold transition-all ${
                 sliderPos > 10 && sliderPos < 90
-                  ? 'bg-sky-500 text-slate-950 shadow-sm font-extrabold'
+                  ? 'bg-amber-500 text-slate-950 shadow-sm font-extrabold'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -130,7 +130,7 @@ export function OpticalSarSwipeComparison({
               onClick={() => setSliderPos(0)}
               className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold transition-all ${
                 sliderPos <= 10
-                  ? 'bg-sky-500/20 text-sky-300 border border-sky-400/40 shadow-sm'
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -148,7 +148,7 @@ export function OpticalSarSwipeComparison({
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          className={`relative w-full ${containerHeightClass} rounded-xl overflow-hidden border border-sky-500/20 bg-slate-950 flex items-center justify-center select-none shadow-inner cursor-ew-resize touch-none`}
+          className={`relative w-full ${containerHeightClass} rounded-xl overflow-hidden border border-amber-500/20 bg-slate-950 flex items-center justify-center select-none shadow-inner cursor-ew-resize touch-none`}
         >
           {/* Base Layer: SAR Radar X-Ray */}
           <div className="absolute inset-0 flex items-center justify-center bg-slate-950">
@@ -161,7 +161,7 @@ export function OpticalSarSwipeComparison({
               />
             ) : (
               <div className="flex flex-col items-center justify-center text-center p-4 text-slate-400 space-y-2 font-mono">
-                <Layers className="w-8 h-8 text-sky-400/80 animate-pulse" aria-hidden="true" />
+                <Layers className="w-8 h-8 text-amber-400/80 animate-pulse" aria-hidden="true" />
                 <div className="font-bold text-xs text-slate-200">{sarTitle}</div>
                 <div className="text-[10px] text-slate-400">Real NISAR L-band SAR Backscatter Raster Payload</div>
               </div>
@@ -169,8 +169,8 @@ export function OpticalSarSwipeComparison({
 
             {/* Persistent Right Badge: SAR Indicator */}
             <div className="absolute top-2.5 right-2.5 z-10 pointer-events-none">
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-[#060b17]/85 text-sky-300 border border-sky-400/30 backdrop-blur-md shadow-md">
-                <Layers className="w-3 h-3 text-sky-400" />
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-[#0A0E18]/85 text-amber-300 border border-amber-500/30 backdrop-blur-md shadow-md">
+                <Layers className="w-3 h-3 text-amber-400" />
                 SAR PENETRATION • NISAR L-BAND
               </span>
             </div>
@@ -178,7 +178,7 @@ export function OpticalSarSwipeComparison({
 
           {/* Top Layer: Optical Surface View (Clipped by sliderPos) */}
           <div
-            className="absolute inset-0 overflow-hidden border-r-2 border-sky-400 shadow-2xl bg-slate-950 flex items-center justify-center pointer-events-none"
+            className="absolute inset-0 overflow-hidden border-r-2 border-amber-400 shadow-2xl bg-slate-950 flex items-center justify-center pointer-events-none"
             style={{ width: `${sliderPos}%` }}
           >
             {hasOptical ? (
@@ -191,7 +191,7 @@ export function OpticalSarSwipeComparison({
               />
             ) : (
               <div className="flex flex-col items-center justify-center text-center p-4 text-slate-400 space-y-2 bg-slate-950/90 w-full h-full font-mono">
-                <ImageIcon className="w-8 h-8 text-cyan-400/80" aria-hidden="true" />
+                <ImageIcon className="w-8 h-8 text-slate-400/80" aria-hidden="true" />
                 <div className="font-bold text-xs text-slate-200">{opticalTitle}</div>
                 <div className="text-[10px] text-slate-400">Ground Field Photo / MODIS Surface Context</div>
               </div>
@@ -199,8 +199,8 @@ export function OpticalSarSwipeComparison({
 
             {/* Persistent Left Badge: Optical Indicator */}
             <div className="absolute top-2.5 left-2.5 z-10 pointer-events-none">
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-[#060b17]/85 text-cyan-300 border border-cyan-400/30 backdrop-blur-md shadow-md">
-                <ImageIcon className="w-3 h-3 text-cyan-400" />
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-[#0A0E18]/85 text-slate-300 border border-slate-700/50 backdrop-blur-md shadow-md">
+                <ImageIcon className="w-3 h-3 text-slate-300" />
                 OPTICAL SURFACE • MODIS / PHOTO
               </span>
             </div>
@@ -208,10 +208,10 @@ export function OpticalSarSwipeComparison({
 
           {/* Center Divider Line & Handle */}
           <div
-            className="absolute top-0 bottom-0 w-0.5 bg-sky-400 shadow-[0_0_14px_rgba(56,189,248,0.9)] pointer-events-none"
+            className="absolute top-0 bottom-0 w-0.5 bg-amber-400 shadow-[0_0_14px_rgba(245,158,11,0.9)] pointer-events-none"
             style={{ left: `${sliderPos}%` }}
           >
-            <div className="absolute top-1/2 -translate-y-1/2 -left-4 w-8 h-8 rounded-full bg-sky-500 border-2 border-white flex items-center justify-center shadow-lg shadow-sky-500/50 cursor-ew-resize">
+            <div className="absolute top-1/2 -translate-y-1/2 -left-4 w-8 h-8 rounded-full bg-amber-500 border-2 border-white flex items-center justify-center shadow-lg shadow-amber-500/50 cursor-ew-resize">
               <Sliders className="w-4 h-4 text-slate-950 stroke-[2.5px]" aria-hidden="true" />
             </div>
           </div>
@@ -220,14 +220,14 @@ export function OpticalSarSwipeComparison({
         {/* Interactive Slider Input & Coordinate Readout */}
         <div className="space-y-1 pt-0.5">
           <div className="flex justify-between items-center text-[11px] text-slate-400 font-mono">
-            <span className="flex items-center gap-1 text-cyan-300 font-semibold">
-              <ImageIcon className="w-3 h-3 text-cyan-400" aria-hidden="true" /> Optical View ({sliderPos}%)
+            <span className="flex items-center gap-1 text-slate-300 font-semibold">
+              <ImageIcon className="w-3 h-3 text-slate-400" aria-hidden="true" /> Optical View ({sliderPos}%)
             </span>
             <span className="text-[10px] text-slate-500 hidden sm:inline">
               Drag image or slider to swipe
             </span>
-            <span className="flex items-center gap-1 text-sky-300 font-semibold">
-              <Layers className="w-3 h-3 text-sky-400" aria-hidden="true" /> SAR Penetration ({100 - sliderPos}%)
+            <span className="flex items-center gap-1 text-amber-300 font-semibold">
+              <Layers className="w-3 h-3 text-amber-400" aria-hidden="true" /> SAR Penetration ({100 - sliderPos}%)
             </span>
           </div>
 
@@ -238,7 +238,7 @@ export function OpticalSarSwipeComparison({
             value={sliderPos}
             onChange={(e) => setSliderPos(Number(e.target.value))}
             aria-label="Optical vs SAR swipe slider position"
-            className="w-full h-2 bg-slate-950 border border-sky-500/20 rounded-lg appearance-none cursor-pointer accent-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/50"
+            className="w-full h-2 bg-slate-950 border border-amber-500/20 rounded-lg appearance-none cursor-pointer accent-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50"
           />
         </div>
 

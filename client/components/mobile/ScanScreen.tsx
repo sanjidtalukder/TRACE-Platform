@@ -315,7 +315,7 @@ export function ScanScreen({
             compact
             statusBadge={
               primaryNisarMeasurement?.delta_backscatter != null ? (
-                <span className="text-[10px] font-mono text-sky-300 bg-sky-500/15 px-2 py-0.5 rounded border border-sky-400/30">
+                <span className="text-[10px] font-mono text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded border border-amber-500/30">
                   Δ {primaryNisarMeasurement.delta_backscatter > 0 ? '+' : ''}{primaryNisarMeasurement.delta_backscatter.toFixed(2)} dB
                 </span>
               ) : null
@@ -325,7 +325,7 @@ export function ScanScreen({
 
         {/* SECONDARY NAVIGATION DOCK (OVERVIEW | SIGNALS | EVIDENCE | TIMELINE) */}
         <div className="px-2 pt-1.5 sm:px-3 shrink-0 mb-1 z-20">
-          <div className="flex items-center justify-between gap-1.5 p-1 bg-[#070e1c]/85 border border-sky-500/20 rounded-xl backdrop-blur-md shadow-sm">
+          <div className="flex items-center justify-between gap-1.5 p-1 bg-[#0A0E18]/85 border border-[#1A2234] rounded-xl backdrop-blur-md shadow-sm">
             <div className="grid grid-cols-4 gap-1 flex-1 sm:flex sm:items-center sm:gap-1.5" role="tablist" aria-label="SCAN Sub-modules">
               {navSegments.map((seg) => {
                 const Icon = seg.icon;
@@ -338,11 +338,11 @@ export function ScanScreen({
                     onClick={() => handleViewChange(seg.id)}
                     className={`min-h-[38px] sm:min-h-[36px] py-1 sm:py-1.5 px-0.5 sm:px-3 rounded-lg text-center font-mono text-[9px] xs:text-[10px] sm:text-[11px] tracking-tight uppercase transition-all flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 min-w-0 cursor-pointer select-none ${
                       isActive
-                        ? 'bg-sky-500/20 text-sky-200 border border-sky-400/40 font-bold shadow-[0_0_8px_rgba(56,189,248,0.2)]'
+                        ? 'bg-amber-500/20 text-amber-200 border border-amber-500/40 font-bold shadow-[0_0_8px_rgba(245,158,11,0.2)]'
                         : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 border border-transparent font-medium'
                     }`}
                   >
-                    <Icon className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-sky-300 stroke-[2.2px]' : 'text-slate-400'}`} />
+                    <Icon className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-amber-300 stroke-[2.2px]' : 'text-slate-400'}`} />
                     <span className="whitespace-nowrap">{seg.label}</span>
                   </button>
                 );
@@ -354,14 +354,14 @@ export function ScanScreen({
               variant="outline"
               size="sm"
               onClick={handleToggleInspector}
-              className={`hidden sm:inline-flex h-8 px-2.5 text-[10px] font-mono gap-1 border-sky-500/30 shrink-0 transition-all ${
+              className={`hidden sm:inline-flex h-8 px-2.5 text-[10px] font-mono gap-1 border-amber-500/30 shrink-0 transition-all ${
                 isInspectorActive
-                  ? 'bg-sky-500/25 border-sky-400 text-sky-200 shadow-sm'
-                  : 'bg-slate-900/90 text-sky-300 hover:bg-sky-500/15'
+                  ? 'bg-amber-500/25 border-amber-400 text-amber-200 shadow-sm'
+                  : 'bg-slate-900/90 text-amber-300 hover:bg-amber-500/15'
               }`}
               title={isInspectorActive ? 'Collapse Telemetry Inspector' : 'Open Telemetry Inspector'}
             >
-              <SlidersHorizontal className="h-3.5 w-3.5 text-sky-400" />
+              <SlidersHorizontal className="h-3.5 w-3.5 text-amber-400" />
               <span>Telemetry</span>
             </Button>
           </div>
@@ -386,8 +386,8 @@ export function ScanScreen({
 
         {/* LOADING SKELETON */}
         {(loadingCases || (loadingDetail && !caseDetail)) && (
-          <div className="flex-1 flex flex-col items-center justify-center space-y-3 font-mono text-xs text-sky-400 p-8">
-            <Radar className="w-10 h-10 animate-spin text-sky-400" />
+          <div className="flex-1 flex flex-col items-center justify-center space-y-3 font-mono text-xs text-amber-400 p-8">
+            <Radar className="w-10 h-10 animate-spin text-amber-400" />
             <span className="tracking-widest uppercase font-bold text-center">
               {loadingCases ? 'INITIALIZING SATELLITE CANVAS...' : 'SYNCHRONIZING NISAR DATA & SATELLITE EVIDENCE...'}
             </span>
@@ -400,7 +400,7 @@ export function ScanScreen({
         {/* NO CASES FOUND EMPTY STATE */}
         {!loadingCases && !loadingDetail && !apiError && cases.length === 0 && (
           <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-3 font-mono">
-            <Radar className="h-10 w-10 text-sky-400 animate-pulse" />
+            <Radar className="h-10 w-10 text-amber-400 animate-pulse" />
             <h3 className="text-sm font-bold text-slate-200 uppercase">No TRACE Investigation Nearby</h3>
             <p className="text-xs text-slate-400 max-w-sm">No active satellite investigation targets discovered in backend storage.</p>
           </div>
@@ -486,13 +486,13 @@ export function ScanScreen({
       {/* FULL STATE DETAIL MODAL */}
       {isModalOpen && caseDetail && (
         <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-xl flex flex-col justify-end sm:justify-center p-4">
-          <div className="glass-panel border-sky-500/30 rounded-2xl max-w-md w-full mx-auto max-h-[85vh] flex flex-col shadow-2xl overflow-hidden relative">
+          <div className="glass-panel border-amber-500/30 rounded-2xl max-w-md w-full mx-auto max-h-[85vh] flex flex-col shadow-2xl overflow-hidden relative bg-[#080d1a]/95">
             <div className="tech-corner-tl" />
             <div className="tech-corner-tr" />
 
-            <div className="p-4 border-b border-sky-500/20 flex items-center justify-between bg-slate-900/60">
+            <div className="p-4 border-b border-amber-500/20 flex items-center justify-between bg-slate-900/60">
               <div>
-                <span className="text-[10px] font-mono font-bold text-sky-300 uppercase tracking-widest bg-sky-500/15 px-2 py-0.5 rounded border border-sky-400/30">
+                <span className="text-[10px] font-mono font-bold text-amber-300 uppercase tracking-widest bg-amber-500/15 px-2 py-0.5 rounded border border-amber-400/30">
                   CASE // {caseDetail.case_id}
                 </span>
                 <h2 className="text-base font-extrabold text-white mt-1 font-mono">
@@ -503,7 +503,7 @@ export function ScanScreen({
                 variant="outline"
                 size="sm"
                 onClick={() => setIsModalOpen(false)}
-                className="h-8 w-8 p-0 rounded-full border-sky-500/30 text-sky-300 hover:bg-sky-500/20"
+                className="h-8 w-8 p-0 rounded-full border-amber-500/30 text-amber-300 hover:bg-amber-500/20"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -512,7 +512,7 @@ export function ScanScreen({
             <div className="p-4 overflow-y-auto custom-scrollbar space-y-4 text-xs">
               <div className="space-y-2">
                 <h4 className="font-semibold uppercase tracking-wider text-[10px] text-muted-foreground flex items-center gap-1">
-                  <Layers className="h-3 w-3 text-sky-400" />
+                  <Layers className="h-3 w-3 text-amber-400" />
                   Investigation Overview
                 </h4>
                 <div className="grid grid-cols-2 gap-2 bg-muted/40 p-3 rounded-lg border border-border/40">
@@ -530,7 +530,7 @@ export function ScanScreen({
               {caseDetail.nisar_measurements.length > 0 && (
                 <div className="space-y-2">
                   <h4 className="font-semibold uppercase tracking-wider text-[10px] text-muted-foreground flex items-center gap-1">
-                    <Activity className="h-3 w-3 text-sky-400" />
+                    <Activity className="h-3 w-3 text-amber-400" />
                     Backend NISAR Measurements
                   </h4>
                   {caseDetail.nisar_measurements.map((m) => (
@@ -540,7 +540,7 @@ export function ScanScreen({
                     >
                       <div className="flex justify-between font-semibold">
                         <span>{m.product_id}</span>
-                        <span className="text-sky-400">
+                        <span className="text-amber-400">
                           {m.delta_backscatter != null ? `${m.delta_backscatter} dB` : 'N/A'}
                         </span>
                       </div>

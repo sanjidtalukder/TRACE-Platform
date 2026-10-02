@@ -92,10 +92,10 @@ export function ChangeLensesView({ caseDetail }: ChangeLensesViewProps) {
 
   return (
     <div className="space-y-4" role="region" aria-label="Analytical Change Lenses">
-      <div className="glass-panel p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-sky-500/20">
+      <div className="glass-panel p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-amber-500/20 bg-[#080d1a]/85">
         <div>
           <h2 className="text-base font-extrabold text-white flex items-center gap-2 font-mono">
-            <Eye className="w-4 h-4 text-sky-400" aria-hidden="true" />
+            <Eye className="w-4 h-4 text-amber-400" aria-hidden="true" />
             Analytical Change Lenses
           </h2>
           <p className="text-xs text-slate-400">
@@ -118,12 +118,12 @@ export function ChangeLensesView({ caseDetail }: ChangeLensesViewProps) {
               onClick={() => setActiveLens(lens.id)}
               className={`p-3 rounded-xl border text-left transition-all relative flex flex-col justify-between ${
                 isSelected
-                  ? 'bg-sky-500/15 border-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.25)] ring-1 ring-sky-400/50'
-                  : 'bg-slate-950/70 border-sky-500/20 hover:bg-slate-900/60 hover:border-sky-500/40'
+                  ? 'bg-amber-500/15 border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.25)] ring-1 ring-amber-400/50'
+                  : 'bg-slate-950/70 border-amber-500/20 hover:bg-slate-900/60 hover:border-amber-500/40'
               }`}
             >
               <div className="flex items-center justify-between w-full mb-2">
-                <Icon className={`w-4 h-4 ${isSelected ? 'text-sky-300' : 'text-slate-400'}`} aria-hidden="true" />
+                <Icon className={`w-4 h-4 ${isSelected ? 'text-amber-300' : 'text-slate-400'}`} aria-hidden="true" />
                 {lens.available ? (
                   <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
                     AVAILABLE
@@ -141,7 +141,7 @@ export function ChangeLensesView({ caseDetail }: ChangeLensesViewProps) {
       </div>
 
       {/* Active Lens Detail Panel */}
-      <Card id={`lens-panel-${activeLens}`} className="glass-panel border-sky-500/20 shadow-xl">
+      <Card id={`lens-panel-${activeLens}`} className="glass-panel border-amber-500/20 shadow-xl bg-[#080d1a]/85">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="text-sm font-bold font-mono text-white flex items-center gap-2">
@@ -165,30 +165,30 @@ export function ChangeLensesView({ caseDetail }: ChangeLensesViewProps) {
           {getLensAvailability(activeLens) ? (
             <div className="space-y-3 font-mono">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <div className="p-3 rounded-xl bg-slate-950/80 border border-sky-500/20 shadow-inner">
+                <div className="p-3 rounded-xl bg-slate-950/80 border border-amber-500/20 shadow-inner">
                   <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Radar Signal (Δ dB)</span>
-                  <span className="font-bold text-sky-300 text-sm">
+                  <span className="font-bold text-amber-300 text-sm">
                     {latestNisar?.delta_backscatter != null
                       ? `${latestNisar.delta_backscatter > 0 ? '+' : ''}${latestNisar.delta_backscatter.toFixed(2)} dB`
                       : 'Active Baseline'}
                   </span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-950/80 border border-sky-500/20 shadow-inner">
+                <div className="p-3 rounded-xl bg-slate-950/80 border border-amber-500/20 shadow-inner">
                   <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Affected Spatial Area</span>
                   <span className="font-bold text-emerald-400 text-sm">
                     {latestNisar?.affected_area != null ? `${latestNisar.affected_area} km²` : 'AOI InSAR Mask'}
                   </span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-950/80 border border-sky-500/20 shadow-inner">
+                <div className="p-3 rounded-xl bg-slate-950/80 border border-amber-500/20 shadow-inner">
                   <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Domain Classification</span>
                   <span className="font-bold text-slate-200 text-sm capitalize truncate block">
                     {caseDetail?.event_type || 'Environmental Target'}
                   </span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-950/80 border border-sky-500/20 shadow-inner">
+                <div className="p-3 rounded-xl bg-slate-950/80 border border-amber-500/20 shadow-inner">
                   <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Multi-Sensor Records</span>
                   <span className="font-bold text-purple-300 text-sm">
                     {(caseDetail?.evidence?.length || 0) + (caseDetail?.field_observations?.length || 0)} Corroborated

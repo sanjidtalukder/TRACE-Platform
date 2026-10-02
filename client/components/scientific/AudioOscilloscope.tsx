@@ -52,12 +52,12 @@ export function AudioOscilloscope({
       ctx.scale(dpr, dpr);
 
       // 1. Dark CRT Oscilloscope Screen Background
-      ctx.fillStyle = '#040814';
+      ctx.fillStyle = '#060910';
       ctx.fillRect(0, 0, width, height);
 
-      // 2. Oscilloscope Grid Divisions (Subtle Cyan Grid)
+      // 2. Oscilloscope Grid Divisions (Subtle Golden Grid)
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+      ctx.strokeStyle = 'rgba(245, 158, 11, 0.08)';
 
       const gridCols = 8;
       const colStep = width / gridCols;
@@ -81,7 +81,7 @@ export function AudioOscilloscope({
 
       // 3. Center Zero-Axis Baseline
       const centerY = height / 2;
-      ctx.strokeStyle = 'rgba(56, 189, 248, 0.22)';
+      ctx.strokeStyle = 'rgba(245, 158, 11, 0.22)';
       ctx.setLineDash([4, 4]);
       ctx.beginPath();
       ctx.moveTo(0, centerY);
@@ -119,23 +119,23 @@ export function AudioOscilloscope({
         }
       }
 
-      // Waveform Stroke Styling
+      // Waveform Stroke Styling - SAR Gold / Microwave / Tactical
       ctx.shadowBlur = isPlaying ? 10 : 3;
       ctx.shadowColor = isPlaying
         ? toneType === 'square'
           ? '#f43f5e'
           : toneType === 'triangle'
-          ? '#a855f7'
-          : '#38bdf8'
-        : '#0284c7';
+          ? '#fbbf24'
+          : '#f59e0b'
+        : '#d97706';
 
       ctx.strokeStyle = isPlaying
         ? toneType === 'square'
           ? '#fb7185'
           : toneType === 'triangle'
-          ? '#c084fc'
-          : '#7dd3fc'
-        : 'rgba(56, 189, 248, 0.45)';
+          ? '#fde68a'
+          : '#fbbf24'
+        : 'rgba(245, 158, 11, 0.45)';
 
       ctx.lineWidth = isPlaying ? 2.4 : 1.5;
       ctx.lineCap = 'round';
@@ -161,7 +161,6 @@ export function AudioOscilloscope({
         }
       } else if (isPlaying) {
         // High-Precision Synthetic Waveform Model
-        // Speed of oscillation is proportional to frequency
         const cyclesOnScreen = Math.max(1.5, Math.min(6, frequencyHz / 80));
         phaseRef.current += (frequencyHz / 450) * 0.12;
 
@@ -176,10 +175,8 @@ export function AudioOscilloscope({
           if (toneType === 'sine') {
             waveVal = Math.sin(t);
           } else if (toneType === 'triangle') {
-            // Triangle wave formula
             waveVal = (2 / Math.PI) * Math.asin(Math.sin(t));
           } else if (toneType === 'square') {
-            // Band-limited softened square wave for visual appeal
             waveVal = Math.tanh(Math.sin(t) * 8);
           }
 
@@ -224,21 +221,21 @@ export function AudioOscilloscope({
 
   return (
     <div
-      className={`relative rounded-xl border border-sky-500/25 bg-slate-950/80 overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.5)] ${className}`}
+      className={`relative rounded-xl border border-amber-500/25 bg-[#0C111E] overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.5)] ${className}`}
     >
-      {/* Corner Bracket Sci-Fi Accents */}
+      {/* Corner Bracket Accents */}
       <div className="tech-corner-tl" />
       <div className="tech-corner-tr" />
       <div className="tech-corner-bl" />
       <div className="tech-corner-br" />
 
       {/* Top Telemetry Header Bar */}
-      <div className="flex items-center justify-between px-3 py-1.5 border-b border-sky-500/20 bg-gradient-to-r from-sky-950/40 via-slate-950/60 to-sky-950/40 text-[10px] font-mono">
+      <div className="flex items-center justify-between px-3 py-1.5 border-b border-[#1A2338] bg-gradient-to-r from-amber-950/30 via-slate-950/60 to-amber-950/30 text-[10px] font-mono">
         <div className="flex items-center gap-1.5">
           <span
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
               isPlaying
-                ? 'bg-sky-400 animate-ping shadow-[0_0_8px_#38bdf8]'
+                ? 'bg-amber-400 animate-ping shadow-[0_0_8px_#f59e0b]'
                 : 'bg-slate-600'
             }`}
           />
@@ -246,11 +243,11 @@ export function AudioOscilloscope({
             {isPlaying ? 'LIVE OSCILLOSCOPE' : 'OSCILLOSCOPE STANDBY'}
           </span>
         </div>
-        <div className="flex items-center gap-2 text-sky-400/80">
-          <span className="bg-sky-500/10 px-1.5 py-0.5 rounded border border-sky-500/20 text-[9px] uppercase tracking-wider">
+        <div className="flex items-center gap-2 text-amber-400/90">
+          <span className="bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20 text-[9px] uppercase tracking-wider text-amber-300">
             {toneType} WAVE
           </span>
-          <span className="font-bold text-sky-300">{frequencyHz} Hz</span>
+          <span className="font-bold text-amber-300">{frequencyHz} Hz</span>
         </div>
       </div>
 
@@ -275,16 +272,16 @@ export function AudioOscilloscope({
         {/* Beam Sweep Phosphor Flash when active */}
         {isPlaying && (
           <div
-            className="absolute inset-y-0 w-12 pointer-events-none bg-gradient-to-r from-transparent via-sky-400/15 to-transparent animate-pulse"
+            className="absolute inset-y-0 w-12 pointer-events-none bg-gradient-to-r from-transparent via-amber-400/15 to-transparent animate-pulse"
             style={{ left: '50%' }}
           />
         )}
       </div>
 
       {/* Bottom Telemetry Footer Bar */}
-      <div className="flex items-center justify-between px-3 py-1 border-t border-sky-500/15 bg-slate-950/70 text-[9px] font-mono text-slate-400">
+      <div className="flex items-center justify-between px-3 py-1 border-t border-[#1A2338] bg-slate-950/70 text-[9px] font-mono text-slate-400">
         <span className="tracking-wider">TIME BASE: 2.5ms/DIV</span>
-        <span className="text-sky-400/90 font-medium">
+        <span className="text-amber-300/90 font-medium">
           {isPlaying
             ? `PULSE: ${pulseMs}ms • GAP: ${pauseMs}ms`
             : 'SENSORY BUS: IDLE'}

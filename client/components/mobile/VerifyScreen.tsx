@@ -245,8 +245,8 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
 
       {/* OFFLINE LOCAL SAVED NOTICE */}
       {offlineNotice && (
-        <div className="p-3.5 rounded-xl bg-sky-500/10 border border-sky-500/30 text-xs text-sky-300 flex items-center gap-2 font-mono">
-          <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0" />
+        <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-300 flex items-center gap-2 font-mono">
+          <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
           <span>{offlineNotice}</span>
         </div>
       )}
@@ -255,7 +255,7 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
       <div className="space-y-1.5">
         <div className="flex items-center justify-between px-1">
           <label className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-            <ShieldCheck className="h-3.5 w-3.5 text-sky-400" />
+            <ShieldCheck className="h-3.5 w-3.5 text-amber-400" />
             Active Investigation Target
           </label>
         </div>
@@ -273,13 +273,13 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
       </div>
 
       {/* SECTION 2: ONE-TAP GROUND-TRUTH VERIFICATION CARD */}
-      <Card className="glass-panel border-sky-500/30 shadow-xl relative overflow-hidden">
+      <Card className="glass-panel border-amber-500/30 shadow-xl relative overflow-hidden bg-[#080d1a]/85">
         <div className="tech-corner-tl" />
         <div className="tech-corner-tr" />
 
         <CardHeader className="p-4 pb-2">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono font-bold text-sky-300 uppercase tracking-widest bg-sky-500/15 px-2.5 py-0.5 rounded border border-sky-400/30 shadow-[0_0_8px_rgba(56,189,248,0.2)]">
+            <span className="text-[10px] font-mono font-bold text-amber-300 uppercase tracking-widest bg-amber-500/15 px-2.5 py-0.5 rounded border border-amber-400/30 shadow-[0_0_8px_rgba(245,158,11,0.2)]">
               Closed-Loop One-Tap
             </span>
             {location ? (
@@ -368,11 +368,11 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
       )}
 
       {/* DETAILED FORM CARD */}
-      <Card className="glass-panel border-sky-500/20 shadow-lg">
+      <Card className="glass-panel border-amber-500/20 shadow-lg bg-[#080d1a]/85">
         <CardHeader className="p-4 pb-2">
           <CardTitle className="text-sm font-bold text-white flex items-center justify-between font-mono">
             <span>Detailed Field Observation Report</span>
-            <span className="text-[10px] font-mono font-extrabold text-sky-300 bg-sky-500/15 px-2 py-0.5 rounded border border-sky-400/30">
+            <span className="text-[10px] font-mono font-extrabold text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded border border-amber-400/30">
               {selectedCaseId || 'SELECT CASE'}
             </span>
           </CardTitle>
@@ -386,7 +386,7 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
             {/* PHOTO CAPTURE & PREVIEW */}
             <div className="space-y-2">
               <label className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1">
-                <Camera className="h-3.5 w-3.5 text-sky-400" />
+                <Camera className="h-3.5 w-3.5 text-amber-400" />
                 Field Photo (Optional)
               </label>
 
@@ -401,13 +401,13 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
               />
 
               {photoPreview ? (
-                <div className="relative rounded-xl border border-sky-500/30 overflow-hidden bg-slate-950/80 text-center">
+                <div className="relative rounded-xl border border-amber-500/30 overflow-hidden bg-slate-950/80 text-center">
                   <img
                     src={photoPreview}
                     alt="Field observation preview"
                     className="max-h-48 w-full object-cover"
                   />
-                  <div className="p-2.5 bg-slate-900/90 backdrop-blur-md border-t border-sky-500/20 flex items-center justify-between">
+                  <div className="p-2.5 bg-slate-900/90 backdrop-blur-md border-t border-amber-500/20 flex items-center justify-between">
                     <span className="text-[11px] font-mono truncate max-w-[200px] text-slate-300">
                       {photoName || 'Captured Photo'}
                     </span>
@@ -426,9 +426,9 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
               ) : (
                 <label
                   htmlFor="photo-upload-input"
-                  className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-sky-500/30 rounded-xl cursor-pointer hover:border-sky-400 hover:bg-sky-500/10 transition-all bg-slate-950/40"
+                  className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-amber-500/30 rounded-xl cursor-pointer hover:border-amber-400 hover:bg-amber-500/10 transition-all bg-slate-950/40"
                 >
-                  <Camera className="h-7 w-7 text-sky-400 mb-1.5 animate-pulse" />
+                  <Camera className="h-7 w-7 text-amber-400 mb-1.5 animate-pulse" />
                   <span className="text-xs font-mono font-bold text-white">Take Photo / Select Image</span>
                   <span className="text-[10px] font-mono text-slate-400 mt-0.5">Supports camera capture & file upload</span>
                 </label>
@@ -438,7 +438,7 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
             {/* FIELD OBSERVATION NOTE */}
             <div className="space-y-1.5">
               <label className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1">
-                <FileText className="h-3.5 w-3.5 text-sky-400" />
+                <FileText className="h-3.5 w-3.5 text-amber-400" />
                 Observation Note (Optional)
               </label>
               <textarea
@@ -446,15 +446,15 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
                 onChange={(e) => setNote(e.target.value)}
                 placeholder="e.g., Standing surface water observed along road boundary."
                 rows={3}
-                className="w-full bg-slate-950/80 border border-sky-500/30 rounded-xl p-3 text-xs font-sans text-slate-200 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-sky-400 resize-none shadow-inner"
+                className="w-full bg-slate-950/80 border border-amber-500/30 rounded-xl p-3 text-xs font-sans text-slate-200 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-amber-400 resize-none shadow-inner"
               />
             </div>
 
             {/* GPS LOCATION CAPTURE */}
-            <div className="space-y-1.5 bg-slate-950/70 p-3 rounded-xl border border-sky-500/20 shadow-inner">
+            <div className="space-y-1.5 bg-slate-950/70 p-3 rounded-xl border border-amber-500/20 shadow-inner">
               <div className="flex items-center justify-between text-xs font-mono">
                 <span className="font-semibold text-slate-300 flex items-center gap-1">
-                  <MapPin className="h-3.5 w-3.5 text-sky-400" />
+                  <MapPin className="h-3.5 w-3.5 text-amber-400" />
                   Captured Coordinates
                 </span>
                 <Button
@@ -463,7 +463,7 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
                   size="sm"
                   onClick={requestLocation}
                   disabled={locationStatus === 'loading'}
-                  className="h-6 text-[10px] font-mono px-2 gap-1 border-sky-500/30 text-sky-300"
+                  className="h-6 text-[10px] font-mono px-2 gap-1 border-amber-500/30 text-amber-300"
                 >
                   <RefreshCw className={`h-2.5 w-2.5 ${locationStatus === 'loading' ? 'animate-spin' : ''}`} />
                   Refresh GPS
@@ -471,7 +471,7 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
               </div>
 
               {location ? (
-                <p className="text-xs font-mono font-bold text-sky-300">
+                <p className="text-xs font-mono font-bold text-amber-300">
                   {location.latitude.toFixed(5)}°, {location.longitude.toFixed(5)}° (±{Math.round(location.accuracy || 0)}m)
                 </p>
               ) : (
@@ -483,7 +483,7 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
 
             {/* TIMESTAMP */}
             <div className="text-[11px] text-slate-400 flex items-center gap-1 font-mono">
-              <Clock className="h-3 w-3 text-sky-400" />
+              <Clock className="h-3 w-3 text-amber-400" />
               Timestamp: {new Date().toLocaleString()}
             </div>
 
@@ -499,7 +499,7 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
             <Button
               type="submit"
               disabled={submitting || !selectedCaseId || !location}
-              className="w-full h-11 text-xs font-mono font-bold uppercase tracking-wider gap-2 shadow-lg bg-sky-500 text-slate-950 hover:bg-sky-400 shadow-sky-500/20"
+              className="w-full h-11 text-xs font-mono font-bold uppercase tracking-wider gap-2 shadow-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-amber-500/25"
             >
               {submitting ? (
                 <>

@@ -99,17 +99,17 @@ export function MobileHeader({
   };
 
   return (
-    <header className="h-12 w-full backdrop-blur-xl bg-[#060b17]/95 border-b border-sky-500/20 px-3 sm:px-4 flex items-center justify-between shadow-[0_2px_15px_rgba(0,0,0,0.6)] z-40 shrink-0 select-none">
+    <header className="h-12 w-full backdrop-blur-xl bg-[#0A0E18]/95 border-b border-[#1A2234] px-3 sm:px-4 flex items-center justify-between shadow-[0_2px_15px_rgba(0,0,0,0.6)] z-40 shrink-0 select-none">
       {/* LEFT: TRACE FIELD Brand */}
       <div className="flex items-center gap-2.5 shrink-0">
-        <div className="relative flex items-center justify-center h-7 w-7 rounded-lg bg-sky-500/15 border border-sky-400/30 text-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.25)] shrink-0">
-          <Radar className="h-4 w-4 animate-pulse text-sky-400" />
-          <div className="absolute inset-0 rounded-lg bg-sky-400/10 animate-ping pointer-events-none" />
+        <div className="relative flex items-center justify-center h-7 w-7 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.25)] shrink-0">
+          <Radar className="h-4 w-4 animate-pulse text-amber-400" />
+          <div className="absolute inset-0 rounded-lg bg-amber-400/10 animate-ping pointer-events-none" />
         </div>
         <div className="flex items-baseline gap-1.5">
           <h1 className="text-sm font-extrabold tracking-tight text-white flex items-center gap-1.5 font-mono">
             TRACE{' '}
-            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/30 uppercase tracking-widest shadow-[0_0_8px_rgba(56,189,248,0.2)]">
+            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase tracking-widest shadow-[0_0_8px_rgba(245,158,11,0.2)]">
               FIELD
             </span>
           </h1>
@@ -121,7 +121,7 @@ export function MobileHeader({
 
       {/* CENTER: Primary Mission Mode Navigation (Desktop / Tablet) */}
       <nav
-        className="hidden md:flex items-center gap-1 bg-[#0b1426]/90 p-1 rounded-xl border border-sky-500/25 shadow-inner"
+        className="hidden md:flex items-center gap-1 bg-[#0C1220]/90 p-1 rounded-xl border border-[#1A2338] shadow-inner"
         aria-label="Mission Mode Switcher"
       >
         {MISSION_MODULES.map((m) => {
@@ -134,11 +134,11 @@ export function MobileHeader({
               title={`${m.title} — ${m.description}`}
               className={`group flex items-center gap-2 px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all ${
                 isActive
-                  ? 'bg-sky-500 text-slate-950 shadow-[0_0_14px_rgba(56,189,248,0.45)] ring-1 ring-sky-400/40'
+                  ? 'bg-amber-500 text-slate-950 shadow-[0_0_14px_rgba(245,158,11,0.4)] ring-1 ring-amber-400/40'
                   : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/60'
               }`}
             >
-              <Icon className={`h-3.5 w-3.5 ${isActive ? 'text-slate-950 stroke-[2.5px]' : 'text-slate-400 group-hover:text-sky-300'}`} />
+              <Icon className={`h-3.5 w-3.5 ${isActive ? 'text-slate-950 stroke-[2.5px]' : 'text-slate-400 group-hover:text-amber-300'}`} />
               <span>{m.title}</span>
               <span
                 className={`hidden lg:inline text-[10px] font-normal tracking-normal truncate max-w-[130px] ${
@@ -176,7 +176,7 @@ export function MobileHeader({
               ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/15'
               : locationStatus === 'loading'
               ? 'bg-amber-500/10 border-amber-500/30 text-amber-300'
-              : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-sky-500/30'
+              : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-amber-500/30'
           }`}
           title={
             location
@@ -233,11 +233,11 @@ export function MobileHeader({
             title={inspectorOpen ? 'Hide Telemetry Inspector' : 'Show Telemetry Inspector'}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-mono font-medium transition-all cursor-pointer ${
               inspectorOpen
-                ? 'bg-sky-500/25 border-sky-400 text-sky-200 shadow-[0_0_12px_rgba(56,189,248,0.3)]'
-                : 'bg-slate-900/90 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-sky-500/40'
+                ? 'bg-amber-500/25 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
+                : 'bg-slate-900/90 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-amber-500/40'
             }`}
           >
-            <SlidersHorizontal className="h-3.5 w-3.5 text-sky-400" />
+            <SlidersHorizontal className="h-3.5 w-3.5 text-amber-400" />
             <span className="hidden md:inline text-[11px]">Telemetry</span>
           </button>
         )}

@@ -31,7 +31,7 @@ const PlanetaryRealMap = dynamic(
     ssr: false,
     loading: () => (
       <div className="w-full h-[320px] sm:h-[380px] md:h-[420px] bg-[#050914] flex flex-col items-center justify-center p-6 text-center space-y-2 font-mono">
-        <Radar className="w-6 h-6 text-sky-400 animate-spin" />
+        <Radar className="w-6 h-6 text-amber-400 animate-spin" />
         <span className="text-xs text-slate-300">INITIALIZING PLANETARY GEOGRAPHIC BASEMAP...</span>
       </div>
     ),
@@ -158,7 +158,7 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
             variant="outline"
             size="sm"
             disabled={loading}
-            className="h-8 text-xs font-mono border-sky-500/30 text-sky-300 hover:bg-sky-500/20 hover:text-white shrink-0"
+            className="h-8 text-xs font-mono border-amber-500/30 text-amber-300 hover:bg-amber-500/20 hover:text-white shrink-0"
           >
             <RefreshCw className={`w-3.5 h-3.5 mr-1.5 ${loading ? 'animate-spin' : ''}`} />
             Refresh Pulse
@@ -167,18 +167,18 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
       />
 
       {/* FILTER BAR */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-950/80 p-3.5 sm:p-4 rounded-xl border border-sky-500/25 text-xs shadow-inner">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-950/80 p-3.5 sm:p-4 rounded-xl border border-amber-500/25 text-xs shadow-inner">
         <div className="flex flex-wrap items-center gap-3 sm:gap-4">
           <div className="flex items-center gap-2">
             <span className="text-slate-400 font-mono font-medium text-[11px] uppercase tracking-wider flex items-center gap-1">
-              <Filter className="w-3 h-3 text-sky-400" />
+              <Filter className="w-3 h-3 text-amber-400" />
               Event Type:
             </span>
             <div className="relative">
               <select
                 value={filterEventType}
                 onChange={(e) => setFilterEventType(e.target.value)}
-                className="bg-[#060b17] border border-sky-500/30 rounded-lg pl-3 pr-8 py-1.5 text-sky-200 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400 appearance-none cursor-pointer shadow-inner hover:border-sky-400/60 transition-colors"
+                className="bg-[#080d1a] border border-amber-500/30 rounded-lg pl-3 pr-8 py-1.5 text-amber-200 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-amber-400 focus:border-amber-400 appearance-none cursor-pointer shadow-inner hover:border-amber-400/60 transition-colors"
               >
                 <option value="ALL">All Event Types</option>
                 <option value="WILDFIRE">Wildfire</option>
@@ -187,7 +187,7 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
                 <option value="DEFORESTATION">Deforestation</option>
                 <option value="CHAR">Char River Change</option>
               </select>
-              <ChevronDown className="w-3.5 h-3.5 text-sky-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <ChevronDown className="w-3.5 h-3.5 text-amber-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
           </div>
 
@@ -199,14 +199,14 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
               <select
                 value={filterAuditVerdict}
                 onChange={(e) => setFilterAuditVerdict(e.target.value)}
-                className="bg-[#060b17] border border-sky-500/30 rounded-lg pl-3 pr-8 py-1.5 text-sky-200 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400 appearance-none cursor-pointer shadow-inner hover:border-sky-400/60 transition-colors"
+                className="bg-[#080d1a] border border-amber-500/30 rounded-lg pl-3 pr-8 py-1.5 text-amber-200 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-amber-400 focus:border-amber-400 appearance-none cursor-pointer shadow-inner hover:border-amber-400/60 transition-colors"
               >
                 <option value="ALL">All Verdicts</option>
                 <option value="SUPPORTED">SUPPORTED</option>
                 <option value="INCONCLUSIVE">INCONCLUSIVE</option>
                 <option value="REJECTED">REJECTED</option>
               </select>
-              <ChevronDown className="w-3.5 h-3.5 text-sky-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <ChevronDown className="w-3.5 h-3.5 text-amber-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
           </div>
 
@@ -215,23 +215,23 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
               variant="outline"
               size="sm"
               onClick={resetFilters}
-              className="h-7 px-2 text-[10px] font-mono gap-1 border-sky-500/30 text-sky-300 hover:bg-sky-500/15"
+              className="h-7 px-2 text-[10px] font-mono gap-1 border-amber-500/30 text-amber-300 hover:bg-amber-500/15"
               title="Reset Filters to Default"
             >
-              <RotateCcw className="w-3 h-3 text-sky-400" />
+              <RotateCcw className="w-3 h-3 text-amber-400" />
               Reset Filters
             </Button>
           )}
         </div>
 
-        <span className="text-[11px] font-mono text-sky-400 shrink-0 bg-sky-500/10 px-2.5 py-1 rounded border border-sky-500/20 font-bold self-start sm:self-center">
+        <span className="text-[11px] font-mono text-amber-400 shrink-0 bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/20 font-bold self-start sm:self-center">
           {events.length} ACTIVE EVENT{events.length === 1 ? '' : 'S'}
         </span>
       </div>
 
       {/* ZERO RESULTS EMPTY STATE */}
       {!loading && events.length === 0 && (
-        <Card className="glass-panel border-amber-500/30 shadow-xl p-6 text-center space-y-3 font-mono">
+        <Card className="glass-panel border-amber-500/30 shadow-xl p-6 text-center space-y-3 font-mono bg-[#080d1a]/85">
           <AlertTriangle className="w-8 h-8 text-amber-400 mx-auto animate-pulse" />
           <div className="space-y-1">
             <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wider">
@@ -246,7 +246,7 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
           <Button
             onClick={resetFilters}
             variant="outline"
-            className="h-8 text-xs font-mono border-sky-500/40 text-sky-300 hover:bg-sky-500/20"
+            className="h-8 text-xs font-mono border-amber-500/40 text-amber-300 hover:bg-amber-500/20"
           >
             <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
             Reset All Filters
@@ -255,13 +255,13 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
       )}
 
       {/* PLANETARY REAL INTERACTIVE GEOGRAPHIC MAP */}
-      <Card className="bg-slate-950/80 border-sky-500/25 overflow-hidden shadow-2xl relative">
-        <CardHeader className="p-4 sm:p-5 pb-2 border-b border-sky-500/20 flex flex-row items-center justify-between bg-slate-900/40">
+      <Card className="bg-slate-950/80 border-amber-500/25 overflow-hidden shadow-2xl relative">
+        <CardHeader className="p-4 sm:p-5 pb-2 border-b border-amber-500/20 flex flex-row items-center justify-between bg-slate-900/40">
           <CardTitle className="text-xs font-mono font-bold text-slate-300 uppercase tracking-widest flex items-center gap-2">
-            <Radar className="w-4 h-4 text-sky-400 shrink-0 animate-pulse" />
+            <Radar className="w-4 h-4 text-amber-400 shrink-0 animate-pulse" />
             Planetary Interactive Projection
           </CardTitle>
-          <span className="text-[10px] font-mono text-sky-300 bg-sky-500/15 px-2.5 py-0.5 rounded-full border border-sky-400/30 shrink-0">
+          <span className="text-[10px] font-mono text-amber-300 bg-amber-500/15 px-2.5 py-0.5 rounded-full border border-amber-400/30 shrink-0">
             WGS84 Equirectangular Grid
           </span>
         </CardHeader>
@@ -278,13 +278,13 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
 
       {/* SELECTED CASE METADATA DRAWER / PANEL */}
       {selectedEvent && (
-        <Card className="glass-panel border-sky-500/30 shadow-xl relative overflow-hidden">
+        <Card className="glass-panel border-amber-500/30 shadow-xl relative overflow-hidden bg-[#080d1a]/85">
           <div className="tech-corner-bl" />
           <div className="tech-corner-br" />
 
           <CardHeader className="p-4 sm:p-5 pb-2 flex flex-row items-center justify-between">
             <div>
-              <span className="text-[10px] font-mono font-bold text-sky-300 uppercase tracking-widest bg-sky-500/15 px-2.5 py-0.5 rounded border border-sky-400/30">
+              <span className="text-[10px] font-mono font-bold text-amber-300 uppercase tracking-widest bg-amber-500/15 px-2.5 py-0.5 rounded border border-amber-400/30">
                 CASE // {selectedEvent.case_id}
               </span>
               <CardTitle className="text-base font-extrabold text-white mt-1.5 tracking-tight font-mono">
@@ -295,10 +295,10 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
           </CardHeader>
 
           <CardContent className="p-4 sm:p-5 pt-2 space-y-4 text-xs">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-950/70 p-3.5 rounded-xl border border-sky-500/20">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-950/70 p-3.5 rounded-xl border border-amber-500/20">
               <div>
                 <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Coordinates</span>
-                <p className="font-mono text-sky-300 font-semibold truncate mt-1">
+                <p className="font-mono text-amber-300 font-semibold truncate mt-1">
                   {selectedEvent.latitude != null && selectedEvent.longitude != null
                     ? `${selectedEvent.latitude.toFixed(4)}°, ${selectedEvent.longitude.toFixed(4)}°`
                     : 'Unavailable'}
@@ -326,7 +326,7 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
             {onSelectCase && (
               <Button
                 onClick={() => onSelectCase(selectedEvent.case_id)}
-                className="w-full h-10 bg-sky-500 text-slate-950 hover:bg-sky-400 text-xs font-mono font-bold uppercase tracking-wider gap-2 shadow-lg shadow-sky-500/20"
+                className="w-full h-10 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-mono font-bold uppercase tracking-wider gap-2 shadow-lg shadow-amber-500/25"
               >
                 Open Mission Control Case ({selectedEvent.case_id})
                 <ChevronRight className="w-4 h-4" />

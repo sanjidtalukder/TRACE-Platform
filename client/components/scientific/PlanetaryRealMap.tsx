@@ -243,18 +243,18 @@ export function PlanetaryRealMap({
             : 'border-amber-400 bg-amber-500 shadow-amber-400/50';
 
         const labelColor = isSelected
-          ? 'bg-slate-950/95 text-sky-300 border-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.4)] ring-1 ring-sky-400/50'
-          : 'bg-slate-950/80 text-slate-300 border-slate-700 hover:border-sky-400';
+          ? 'bg-slate-950/95 text-amber-300 border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.5)] ring-1 ring-amber-400/50'
+          : 'bg-slate-950/80 text-slate-300 border-slate-700 hover:border-amber-400';
 
         const pingEffect = isSelected
-          ? '<span class="absolute -inset-2.5 rounded-full bg-sky-400/35 animate-ping pointer-events-none"></span>'
+          ? '<span class="absolute -inset-2.5 rounded-full bg-amber-400/35 animate-ping pointer-events-none"></span>'
           : '';
 
         const iconHtml = `
           <div class="relative flex flex-col items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer group">
             ${pingEffect}
             <div class="relative flex items-center justify-center w-5 h-5 rounded-full border-2 ${statusBorder} shadow-lg transition-transform duration-200 ${
-              isSelected ? 'scale-125 ring-4 ring-sky-400/60' : 'group-hover:scale-110'
+              isSelected ? 'scale-125 ring-4 ring-amber-400/60' : 'group-hover:scale-110'
             }">
               <div class="w-1.5 h-1.5 rounded-full bg-[#050914]"></div>
             </div>
@@ -417,11 +417,11 @@ export function PlanetaryRealMap({
 
       const reticleHtml = `
         <div class="relative flex items-center justify-center -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-          <div class="absolute w-8 h-8 rounded-full border border-sky-400 bg-sky-400/25 sar-inspect-pulse"></div>
-          <div class="relative w-4 h-4 rounded-full border-2 border-sky-300 bg-slate-950 flex items-center justify-center shadow-[0_0_12px_rgba(56,189,248,0.9)]">
-            <div class="w-1.5 h-1.5 rounded-full bg-sky-400"></div>
+          <div class="absolute w-8 h-8 rounded-full border border-amber-400 bg-amber-400/25 sar-inspect-pulse"></div>
+          <div class="relative w-4 h-4 rounded-full border-2 border-amber-300 bg-slate-950 flex items-center justify-center shadow-[0_0_12px_rgba(245,158,11,0.9)]">
+            <div class="w-1.5 h-1.5 rounded-full bg-amber-400"></div>
           </div>
-          <div class="absolute top-4 whitespace-nowrap text-[8px] font-mono font-extrabold px-1 py-0.2 bg-slate-950/90 text-sky-300 border border-sky-400/50 rounded shadow">
+          <div class="absolute top-4 whitespace-nowrap text-[8px] font-mono font-extrabold px-1 py-0.2 bg-slate-950/90 text-amber-300 border border-amber-400/50 rounded shadow">
             PROBE LOCK
           </div>
         </div>
@@ -507,8 +507,8 @@ export function PlanetaryRealMap({
 
       {/* Cyber Reticle / WGS84 Crosshairs Overlay */}
       <div className="absolute inset-0 pointer-events-none z-10">
-        <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-sky-500/10" />
-        <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-sky-500/10" />
+        <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-amber-500/10" />
+        <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-amber-500/10" />
         <div className="tech-corner-tl" />
         <div className="tech-corner-tr" />
         <div className="tech-corner-bl" />
@@ -529,7 +529,7 @@ export function PlanetaryRealMap({
           className={`h-8 px-2.5 rounded-xl font-mono text-[10px] font-bold tracking-wider uppercase transition-all duration-200 flex items-center gap-1.5 border shadow-lg backdrop-blur-xl ${
             isChangeDetectionActive
               ? 'bg-rose-500/20 text-rose-300 border-rose-400 shadow-[0_0_12px_rgba(244,63,94,0.35)] ring-1 ring-rose-400'
-              : 'bg-slate-950/85 text-slate-400 hover:text-slate-200 border-sky-500/30 hover:bg-slate-900/80'
+              : 'bg-slate-950/85 text-slate-400 hover:text-slate-200 border-amber-500/30 hover:bg-slate-900/80'
           }`}
           title="Toggle Temporal Change Detection Layer (Log-Ratio Difference)"
           aria-pressed={isChangeDetectionActive}
@@ -551,8 +551,8 @@ export function PlanetaryRealMap({
           onClick={handleToggleInspectMode}
           className={`h-8 px-2.5 rounded-xl font-mono text-[10px] font-bold tracking-wider uppercase transition-all duration-200 flex items-center gap-1.5 border shadow-lg backdrop-blur-xl ${
             isInspectModeActive
-              ? 'bg-sky-500 text-slate-950 border-sky-400 shadow-[0_0_14px_rgba(56,189,248,0.5)] ring-1 ring-sky-300'
-              : 'bg-slate-950/85 text-slate-400 hover:text-slate-200 border-sky-500/30 hover:bg-slate-900/80'
+              ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-[0_0_14px_rgba(245,158,11,0.5)] ring-1 ring-amber-300'
+              : 'bg-slate-950/85 text-slate-400 hover:text-slate-200 border-amber-500/30 hover:bg-slate-900/80'
           }`}
           title="Enable Inspect Signal Probe: Click anywhere on map to view Backscatter Time-Series"
           aria-pressed={isInspectModeActive}
@@ -561,7 +561,7 @@ export function PlanetaryRealMap({
           <span className="hidden xs:inline">Inspect Signal</span>
           <span
             className={`text-[9px] font-mono px-1 py-0.2 rounded ${
-              isInspectModeActive ? 'bg-slate-950 text-sky-300 font-extrabold' : 'bg-black/30'
+              isInspectModeActive ? 'bg-slate-950 text-amber-300 font-extrabold' : 'bg-black/30'
             }`}
           >
             {isInspectModeActive ? 'ACTIVE' : 'OFF'}
@@ -574,7 +574,7 @@ export function PlanetaryRealMap({
         <button
           onClick={handleZoomIn}
           aria-label="Zoom in"
-          className="w-7 h-7 rounded-lg bg-slate-950/85 border border-sky-500/30 text-sky-300 hover:text-white hover:bg-sky-500/20 hover:border-sky-400 flex items-center justify-center transition-all shadow-md active:scale-95"
+          className="w-7 h-7 rounded-lg bg-slate-950/85 border border-amber-500/30 text-amber-300 hover:text-white hover:bg-amber-500/20 hover:border-amber-400 flex items-center justify-center transition-all shadow-md active:scale-95"
           title="Zoom in"
         >
           <Plus className="w-3.5 h-3.5" />
@@ -582,7 +582,7 @@ export function PlanetaryRealMap({
         <button
           onClick={handleZoomOut}
           aria-label="Zoom out"
-          className="w-7 h-7 rounded-lg bg-slate-950/85 border border-sky-500/30 text-sky-300 hover:text-white hover:bg-sky-500/20 hover:border-sky-400 flex items-center justify-center transition-all shadow-md active:scale-95"
+          className="w-7 h-7 rounded-lg bg-slate-950/85 border border-amber-500/30 text-amber-300 hover:text-white hover:bg-amber-500/20 hover:border-amber-400 flex items-center justify-center transition-all shadow-md active:scale-95"
           title="Zoom out"
         >
           <Minus className="w-3.5 h-3.5" />
@@ -590,10 +590,10 @@ export function PlanetaryRealMap({
         <button
           onClick={handleRecenter}
           aria-label="Recenter to active case location"
-          className="w-7 h-7 rounded-lg bg-slate-950/85 border border-sky-500/30 text-sky-300 hover:text-white hover:bg-sky-500/20 hover:border-sky-400 flex items-center justify-center transition-all shadow-md active:scale-95"
+          className="w-7 h-7 rounded-lg bg-slate-950/85 border border-amber-500/30 text-amber-300 hover:text-white hover:bg-amber-500/20 hover:border-amber-400 flex items-center justify-center transition-all shadow-md active:scale-95"
           title="Recenter to active target"
         >
-          <Crosshair className="w-3.5 h-3.5 text-sky-400" />
+          <Crosshair className="w-3.5 h-3.5 text-amber-400" />
         </button>
       </div>
 
@@ -614,8 +614,8 @@ export function PlanetaryRealMap({
       {/* BOTTOM-LEFT TELEMETRY STRIP */}
       <div className="absolute bottom-2 left-3 z-20 pointer-events-none flex flex-wrap items-center gap-1.5">
         {/* Coordinate Telemetry Badge */}
-        <div className="bg-slate-950/85 backdrop-blur-md px-2.5 py-1 rounded-md border border-sky-500/20 font-mono text-[9px] text-slate-400 flex items-center gap-2 shadow-md">
-          <span className="text-sky-400 font-bold">WGS84:</span>
+        <div className="bg-slate-950/85 backdrop-blur-md px-2.5 py-1 rounded-md border border-amber-500/20 font-mono text-[9px] text-slate-400 flex items-center gap-2 shadow-md">
+          <span className="text-amber-400 font-bold">WGS84:</span>
           <span>
             {currentCenterCoords
               ? `${Math.abs(currentCenterCoords.lat).toFixed(4)}°${
@@ -630,7 +630,7 @@ export function PlanetaryRealMap({
         </div>
 
         {/* Active Polarization Pill Badge */}
-        <div className="bg-slate-950/85 backdrop-blur-md px-2 py-1 rounded-md border border-sky-500/20 font-mono text-[9px] text-slate-300 flex items-center gap-1.5 shadow-md">
+        <div className="bg-slate-950/85 backdrop-blur-md px-2 py-1 rounded-md border border-amber-500/20 font-mono text-[9px] text-slate-300 flex items-center gap-1.5 shadow-md">
           <span
             className="w-1.5 h-1.5 rounded-full"
             style={{ backgroundColor: POLARIZATION_REGISTRY[polarization].colorTheme }}
@@ -641,8 +641,8 @@ export function PlanetaryRealMap({
 
         {/* Active Inspect Mode Notice */}
         {isInspectModeActive && (
-          <div className="bg-sky-500/20 backdrop-blur-md px-2 py-1 rounded-md border border-sky-400/40 font-mono text-[9px] text-sky-300 flex items-center gap-1 animate-pulse shadow-md">
-            <Crosshair className="w-3 h-3 text-sky-400" />
+          <div className="bg-amber-500/20 backdrop-blur-md px-2 py-1 rounded-md border border-amber-400/40 font-mono text-[9px] text-amber-300 flex items-center gap-1 animate-pulse shadow-md">
+            <Crosshair className="w-3 h-3 text-amber-400" />
             <span>CLICK MAP TO PROBE SIGNAL</span>
           </div>
         )}
@@ -657,7 +657,7 @@ export function PlanetaryRealMap({
           </div>
           <div className="text-[11px] text-slate-400 max-w-sm">
             Geographic basemap connection interrupted. Case coordinates:{' '}
-            <span className="text-sky-300 font-bold">
+            <span className="text-amber-300 font-bold">
               {selectedEvent?.latitude != null && selectedEvent?.longitude != null
                 ? `${selectedEvent.latitude.toFixed(4)}°, ${selectedEvent.longitude.toFixed(4)}°`
                 : 'Offline'}
@@ -665,7 +665,7 @@ export function PlanetaryRealMap({
           </div>
           <button
             onClick={() => setTileError(false)}
-            className="mt-2 text-[10px] px-2.5 py-1 rounded border border-sky-500/30 text-sky-300 hover:bg-sky-500/15 flex items-center gap-1.5"
+            className="mt-2 text-[10px] px-2.5 py-1 rounded border border-amber-500/30 text-amber-300 hover:bg-amber-500/15 flex items-center gap-1.5"
           >
             <RefreshCw className="w-3 h-3" /> Retry Stream
           </button>

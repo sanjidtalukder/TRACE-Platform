@@ -142,14 +142,14 @@ export function ThresholdAlertModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-xl p-3 sm:p-4 animate-in fade-in duration-200">
-      <Card className="w-full max-w-md max-h-[88vh] flex flex-col glass-panel border-sky-500/30 shadow-2xl overflow-hidden relative">
+      <Card className="w-full max-w-md max-h-[88vh] flex flex-col glass-panel border-amber-500/30 shadow-2xl overflow-hidden relative bg-[#080d1a]/95">
         <div className="tech-corner-tl" />
         <div className="tech-corner-tr" />
 
         {/* CLOSE BUTTON */}
         <button
           onClick={onClose}
-          className="absolute top-3.5 right-3.5 text-slate-400 hover:text-white p-1.5 rounded-lg border border-sky-500/20 bg-slate-900/60 transition-colors"
+          className="absolute top-3.5 right-3.5 text-slate-400 hover:text-white p-1.5 rounded-lg border border-amber-500/20 bg-slate-900/60 transition-colors"
           aria-label="Close Modal"
         >
           <X className="h-4 w-4" />
@@ -157,7 +157,7 @@ export function ThresholdAlertModal({
 
         <CardHeader className="p-4 pb-2 space-y-1 shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-sky-500/10 border border-sky-400/30 text-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.25)]">
+            <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-400/30 text-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.25)]">
               <BellRing className="h-5 w-5 animate-pulse" />
             </div>
             <div>
@@ -189,7 +189,7 @@ export function ThresholdAlertModal({
               <div className="space-y-0.5 text-left">
                 <div className="font-mono font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
                   <span>{isTriggered ? 'Threshold Exceeded' : 'Alert Armed & Active'}</span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950/60 border border-sky-500/20">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950/60 border border-amber-500/20">
                     {existingAlert.triggered_state}
                   </span>
                 </div>
@@ -213,11 +213,11 @@ export function ThresholdAlertModal({
             <div className="space-y-1.5">
               <label className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400 flex items-center justify-between">
                 <span className="flex items-center gap-1">
-                  <Activity className="h-3.5 w-3.5 text-sky-400" />
+                  <Activity className="h-3.5 w-3.5 text-amber-400" />
                   Target NISAR Measurement
                 </span>
                 {currentVal !== undefined && currentVal !== null && (
-                  <span className="text-[10px] font-mono text-sky-300 font-bold">
+                  <span className="text-[10px] font-mono text-amber-300 font-bold">
                     Current: {currentVal} {metricName === 'delta_backscatter' ? 'dB' : 'ha'}
                   </span>
                 )}
@@ -229,8 +229,8 @@ export function ThresholdAlertModal({
                   onClick={() => handleMetricChange('delta_backscatter')}
                   className={`p-3 rounded-xl border text-left font-mono transition-all ${
                     metricName === 'delta_backscatter'
-                      ? 'border-sky-400 bg-sky-500/15 text-white shadow-[0_0_12px_rgba(56,189,248,0.25)]'
-                      : 'border-sky-500/20 bg-slate-950/60 text-slate-400 hover:border-sky-500/40'
+                      ? 'border-amber-400 bg-amber-500/15 text-white shadow-[0_0_12px_rgba(245,158,11,0.25)]'
+                      : 'border-amber-500/20 bg-slate-950/60 text-slate-400 hover:border-amber-500/40'
                   }`}
                 >
                   <div className="font-bold text-xs text-slate-200">Backscatter Change</div>
@@ -242,8 +242,8 @@ export function ThresholdAlertModal({
                   onClick={() => handleMetricChange('affected_area')}
                   className={`p-3 rounded-xl border text-left font-mono transition-all ${
                     metricName === 'affected_area'
-                      ? 'border-sky-400 bg-sky-500/15 text-white shadow-[0_0_12px_rgba(56,189,248,0.25)]'
-                      : 'border-sky-500/20 bg-slate-950/60 text-slate-400 hover:border-sky-500/40'
+                      ? 'border-amber-400 bg-amber-500/15 text-white shadow-[0_0_12px_rgba(245,158,11,0.25)]'
+                      : 'border-amber-500/20 bg-slate-950/60 text-slate-400 hover:border-amber-500/40'
                   }`}
                 >
                   <div className="font-bold text-xs text-slate-200">Affected Inundation Area</div>
@@ -256,10 +256,10 @@ export function ThresholdAlertModal({
             <div className="space-y-1.5">
               <label className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400 flex items-center justify-between">
                 <span className="flex items-center gap-1">
-                  <Sliders className="h-3.5 w-3.5 text-sky-400" />
+                  <Sliders className="h-3.5 w-3.5 text-amber-400" />
                   Anomaly Threshold Limit
                 </span>
-                <span className="text-[10px] text-sky-400/80 font-mono">
+                <span className="text-[10px] text-amber-400/80 font-mono">
                   {comparison === 'less_than' ? 'Trigger if ≤ value' : 'Trigger if ≥ value'}
                 </span>
               </label>
@@ -270,7 +270,7 @@ export function ThresholdAlertModal({
                   step="0.1"
                   value={thresholdValue}
                   onChange={(e) => setThresholdValue(parseFloat(e.target.value) || 0)}
-                  className="w-full bg-slate-950 border border-sky-500/30 rounded-xl px-3 py-2 text-xs font-mono font-bold text-sky-300 focus:outline-none focus:ring-1 focus:ring-sky-400 shadow-inner"
+                  className="w-full bg-slate-950 border border-amber-500/30 rounded-xl px-3 py-2 text-xs font-mono font-bold text-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-400 shadow-inner"
                   placeholder="e.g. -2.0"
                 />
                 <span className="text-xs font-mono font-bold text-slate-300 shrink-0 w-12 text-center">
@@ -288,7 +288,7 @@ export function ThresholdAlertModal({
                       variant="outline"
                       size="sm"
                       onClick={() => handlePresetSelect(-1.5)}
-                      className="h-6 text-[10px] font-mono px-2 py-0 border-sky-500/30 text-sky-300 hover:bg-sky-500/20"
+                      className="h-6 text-[10px] font-mono px-2 py-0 border-amber-500/30 text-amber-300 hover:bg-amber-500/20"
                     >
                       -1.5 dB
                     </Button>
@@ -297,7 +297,7 @@ export function ThresholdAlertModal({
                       variant="outline"
                       size="sm"
                       onClick={() => handlePresetSelect(-2.0)}
-                      className="h-6 text-[10px] font-mono px-2 py-0 border-sky-500/30 text-sky-300 hover:bg-sky-500/20"
+                      className="h-6 text-[10px] font-mono px-2 py-0 border-amber-500/30 text-amber-300 hover:bg-amber-500/20"
                     >
                       -2.0 dB
                     </Button>
@@ -306,7 +306,7 @@ export function ThresholdAlertModal({
                       variant="outline"
                       size="sm"
                       onClick={() => handlePresetSelect(-2.5)}
-                      className="h-6 text-[10px] font-mono px-2 py-0 border-sky-500/30 text-sky-300 hover:bg-sky-500/20"
+                      className="h-6 text-[10px] font-mono px-2 py-0 border-amber-500/30 text-amber-300 hover:bg-amber-500/20"
                     >
                       -2.5 dB
                     </Button>
@@ -318,7 +318,7 @@ export function ThresholdAlertModal({
                       variant="outline"
                       size="sm"
                       onClick={() => handlePresetSelect(30.0)}
-                      className="h-6 text-[10px] font-mono px-2 py-0 border-sky-500/30 text-sky-300 hover:bg-sky-500/20"
+                      className="h-6 text-[10px] font-mono px-2 py-0 border-amber-500/30 text-amber-300 hover:bg-amber-500/20"
                     >
                       30 ha
                     </Button>
@@ -327,7 +327,7 @@ export function ThresholdAlertModal({
                       variant="outline"
                       size="sm"
                       onClick={() => handlePresetSelect(50.0)}
-                      className="h-6 text-[10px] font-mono px-2 py-0 border-sky-500/30 text-sky-300 hover:bg-sky-500/20"
+                      className="h-6 text-[10px] font-mono px-2 py-0 border-amber-500/30 text-amber-300 hover:bg-amber-500/20"
                     >
                       50 ha
                     </Button>
@@ -336,7 +336,7 @@ export function ThresholdAlertModal({
                       variant="outline"
                       size="sm"
                       onClick={() => handlePresetSelect(100.0)}
-                      className="h-6 text-[10px] font-mono px-2 py-0 border-sky-500/30 text-sky-300 hover:bg-sky-500/20"
+                      className="h-6 text-[10px] font-mono px-2 py-0 border-amber-500/30 text-amber-300 hover:bg-amber-500/20"
                     >
                       100 ha
                     </Button>
@@ -346,16 +346,16 @@ export function ThresholdAlertModal({
             </div>
 
             {/* ALERT ACTIVE TOGGLE */}
-            <div className="flex items-center justify-between p-3 rounded-xl border border-sky-500/20 bg-slate-950/70 shadow-inner">
+            <div className="flex items-center justify-between p-3 rounded-xl border border-amber-500/20 bg-slate-950/70 shadow-inner">
               <span className="text-xs font-mono font-bold text-slate-200 flex items-center gap-1.5">
-                <Bell className="h-3.5 w-3.5 text-sky-400" />
+                <Bell className="h-3.5 w-3.5 text-amber-400" />
                 Alert Subscription Enabled
               </span>
               <button
                 type="button"
                 onClick={() => setIsActive(!isActive)}
                 className={`w-10 h-5 rounded-full p-0.5 transition-colors duration-200 ease-in-out ${
-                  isActive ? 'bg-sky-500 shadow-[0_0_8px_rgba(56,189,248,0.5)]' : 'bg-slate-800'
+                  isActive ? 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]' : 'bg-slate-800'
                 }`}
               >
                 <div
@@ -399,7 +399,7 @@ export function ThresholdAlertModal({
               <Button
                 type="submit"
                 disabled={saving || !caseId || loading}
-                className="w-2/3 h-10 text-xs font-mono font-bold uppercase tracking-wider gap-2 shadow-lg bg-sky-500 text-slate-950 hover:bg-sky-400 shadow-sky-500/20"
+                className="w-2/3 h-10 text-xs font-mono font-bold uppercase tracking-wider gap-2 shadow-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-amber-500/25"
               >
                 {saving ? (
                   <>

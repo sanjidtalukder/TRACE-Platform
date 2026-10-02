@@ -71,7 +71,7 @@ export function MobileNav({ activeTab, onTabChange }: MobileNavProps) {
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#060b17]/95 backdrop-blur-xl border-t border-sky-500/25 shadow-[0_-4px_25px_rgba(0,0,0,0.8)]"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0A0E18]/95 backdrop-blur-xl border-t border-[#1A2234] shadow-[0_-4px_25px_rgba(0,0,0,0.8)]"
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
       aria-label="Mission Modules Navigation"
     >
@@ -85,12 +85,12 @@ export function MobileNav({ activeTab, onTabChange }: MobileNavProps) {
               aria-current={item.isActive ? 'page' : undefined}
               className={`flex-1 min-h-[44px] flex flex-col items-center justify-center py-1 px-0.5 rounded-lg transition-all duration-200 select-none ${
                 item.isActive
-                  ? 'text-sky-300 font-extrabold bg-sky-500/20 border border-sky-400/50 shadow-[0_0_12px_rgba(56,189,248,0.3)] ring-1 ring-sky-400/30'
+                  ? 'text-amber-300 font-extrabold bg-amber-500/20 border border-amber-500/40 shadow-[0_0_12px_rgba(245,158,11,0.25)] ring-1 ring-amber-400/30'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 border border-transparent'
               }`}
               aria-label={`${item.label} Module`}
             >
-              <Icon className={`h-4 w-4 shrink-0 transition-transform ${item.isActive ? 'stroke-[2.5px] text-sky-400 scale-105' : 'text-slate-400'}`} />
+              <Icon className={`h-4 w-4 shrink-0 transition-transform ${item.isActive ? 'stroke-[2.5px] text-amber-400 scale-105' : 'text-slate-400'}`} />
               <span className="text-[9px] mt-0.5 tracking-wider font-mono font-bold leading-tight">{item.label}</span>
             </button>
           );

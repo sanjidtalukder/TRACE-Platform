@@ -41,7 +41,7 @@ export function PayloadCarousel({
       name: 'NISAR L-SAR',
       role: 'Primary Radar Payload',
       icon: Activity,
-      iconColor: 'text-sky-400',
+      iconColor: 'text-amber-400',
       status: primaryNisarMeasurement ? 'PASS' : 'STANDBY',
       statusColor: primaryNisarMeasurement
         ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
@@ -57,10 +57,10 @@ export function PayloadCarousel({
       name: 'NASA FIRMS',
       role: 'Thermal Radiance',
       icon: Flame,
-      iconColor: 'text-amber-400',
+      iconColor: 'text-orange-400',
       status: hasFirmsEvidence ? 'DETECTED' : 'MONITORING',
       statusColor: hasFirmsEvidence
-        ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+        ? 'bg-orange-500/15 text-orange-300 border-orange-500/30'
         : 'bg-slate-800 text-slate-400 border-slate-700',
       metricLabel: 'Thermal Radiance',
       metricValue: hasFirmsEvidence ? 'Active Anomalies' : 'Baseline Norm',
@@ -70,10 +70,10 @@ export function PayloadCarousel({
       name: 'NASA GPM',
       role: 'Microwave Rain',
       icon: Droplets,
-      iconColor: 'text-cyan-400',
+      iconColor: 'text-blue-400',
       status: hasGpmEvidence ? 'ACTIVE' : 'MONITORING',
       statusColor: hasGpmEvidence
-        ? 'bg-sky-500/15 text-sky-400 border-sky-500/30'
+        ? 'bg-blue-500/15 text-blue-400 border-blue-500/30'
         : 'bg-slate-800 text-slate-400 border-slate-700',
       metricLabel: 'Precipitation',
       metricValue: hasGpmEvidence ? 'IMERG Baseline' : 'Nominal Flux',
@@ -111,12 +111,12 @@ export function PayloadCarousel({
     <div className="space-y-2">
       <div className="flex items-center justify-between px-1">
         <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-          <Layers className="h-3.5 w-3.5 text-sky-400" />
+          <Layers className="h-3.5 w-3.5 text-amber-400" />
           Sensor Payload Status
         </span>
         <span className="text-[10px] font-mono text-slate-400 flex items-center gap-1">
           <span>Swipe</span>
-          <span className="text-sky-400">→</span>
+          <span className="text-amber-400">→</span>
         </span>
       </div>
 
@@ -128,13 +128,13 @@ export function PayloadCarousel({
             <div
               key={p.id}
               onClick={() => onSelectPayload?.(p.id)}
-              className="flex-shrink-0 w-44 snap-start p-3 rounded-xl bg-slate-950/75 border border-sky-500/20 hover:border-sky-400/40 transition-all shadow-inner relative overflow-hidden group cursor-pointer"
+              className="flex-shrink-0 w-44 snap-start p-3 rounded-xl bg-slate-950/85 border border-amber-500/20 hover:border-amber-400/40 transition-all shadow-inner relative overflow-hidden group cursor-pointer"
             >
               <div className="tech-corner-tl" />
               <div className="tech-corner-tr" />
 
               <div className="flex items-center justify-between mb-2">
-                <div className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 group-hover:border-sky-500/30 transition-colors">
+                <div className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 group-hover:border-amber-500/30 transition-colors">
                   <Icon className={`h-3.5 w-3.5 ${p.iconColor}`} />
                 </div>
                 <span
@@ -153,11 +153,11 @@ export function PayloadCarousel({
                 </div>
               </div>
 
-              <div className="mt-2.5 pt-2 border-t border-sky-500/10 flex items-center justify-between font-mono">
+              <div className="mt-2.5 pt-2 border-t border-amber-500/10 flex items-center justify-between font-mono">
                 <span className="text-[9px] text-slate-400 uppercase">
                   {p.metricLabel}
                 </span>
-                <span className="text-[11px] font-bold text-sky-300">
+                <span className="text-[11px] font-bold text-amber-300">
                   {p.metricValue}
                 </span>
               </div>

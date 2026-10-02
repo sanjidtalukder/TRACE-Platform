@@ -13,13 +13,13 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: 'cover',
-  themeColor: '#060911',
+  themeColor: '#080C14',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen flex flex-col bg-deep-space-container text-foreground antialiased selection:bg-sky-500/30">
+      <body className="min-h-screen flex flex-col bg-deep-space-container text-foreground antialiased selection:bg-amber-500/30 selection:text-amber-100">
         {children}
       </body>
     </html>

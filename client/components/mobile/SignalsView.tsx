@@ -13,7 +13,7 @@ const PlanetaryRealMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-[320px] sm:h-[380px] bg-[#050914] flex flex-col items-center justify-center space-y-3 font-mono text-xs text-sky-400">
+      <div className="w-full h-[320px] sm:h-[380px] bg-[#050914] flex flex-col items-center justify-center space-y-3 font-mono text-xs text-amber-400">
         <Radar className="w-8 h-8 animate-spin" />
         <span className="tracking-widest uppercase">INITIALIZING SAR RADAR PROJECTION...</span>
       </div>
@@ -65,17 +65,17 @@ export function SignalsView({
       <ChangeLensesView caseDetail={caseDetail} />
 
       {/* 2. PROMINENT SIGNAL STRENGTH GAUGE */}
-      <Card className="glass-panel border-sky-500/25 shadow-xl relative overflow-hidden">
+      <Card className="glass-panel border-amber-500/25 shadow-xl relative overflow-hidden bg-[#080d1a]/85">
         <div className="tech-corner-tl" />
         <div className="tech-corner-tr" />
 
         <CardHeader className="p-4 pb-2">
           <div className="flex items-center justify-between">
             <CardTitle className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-              <Radio className="h-3.5 w-3.5 text-sky-400" />
+              <Radio className="h-3.5 w-3.5 text-amber-400" />
               SAR Signal Intensity Gauge
             </CardTitle>
-            <span className="text-[10px] font-mono text-sky-300 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">
+            <span className="text-[10px] font-mono text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
               L-BAND 1.25 GHz
             </span>
           </div>
@@ -100,12 +100,12 @@ export function SignalsView({
                 strokeDasharray={`${arcLength} ${circumference}`}
                 strokeLinecap="round"
               />
-              {/* Active Neon Glow Arc */}
+              {/* Active Golden Phosphor Arc */}
               <circle
                 cx="65"
                 cy="65"
                 r={radius}
-                className="stroke-sky-400 drop-shadow-[0_0_8px_rgba(56,189,248,0.8)] transition-all duration-700 ease-out"
+                className="stroke-amber-400 drop-shadow-[0_0_10px_rgba(245,158,11,0.85)] transition-all duration-700 ease-out"
                 strokeWidth="8"
                 fill="none"
                 strokeDasharray={`${arcLength} ${circumference}`}
@@ -119,18 +119,18 @@ export function SignalsView({
               <span className="text-[9px] font-mono uppercase tracking-widest text-slate-400">
                 DELTA
               </span>
-              <div className="font-mono font-black text-2xl text-white tracking-tight drop-shadow-[0_0_12px_rgba(56,189,248,0.4)]">
+              <div className="font-mono font-black text-2xl text-white tracking-tight drop-shadow-[0_0_12px_rgba(245,158,11,0.4)]">
                 {delta != null ? (
                   <>
                     {delta > 0 ? '+' : ''}
                     {delta.toFixed(2)}
-                    <span className="text-xs text-sky-400 font-bold ml-1">dB</span>
+                    <span className="text-xs text-amber-400 font-bold ml-1">dB</span>
                   </>
                 ) : (
                   <span className="text-base text-slate-400">N/A</span>
                 )}
               </div>
-              <span className="text-[9px] font-mono font-semibold text-sky-300 bg-sky-500/15 px-2 py-0.5 rounded-full border border-sky-400/30 mt-1">
+              <span className="text-[9px] font-mono font-semibold text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded-full border border-amber-400/30 mt-1">
                 {getSignalStatusText(delta)}
               </span>
             </div>
@@ -142,9 +142,9 @@ export function SignalsView({
               variant="outline"
               size="sm"
               onClick={onNavigateToFeel}
-              className="mt-2 w-full h-9 text-xs font-mono font-bold gap-2 border-sky-500/40 text-sky-300 hover:bg-sky-500/20 hover:text-white shadow-sm"
+              className="mt-2 w-full h-9 text-xs font-mono font-bold gap-2 border-amber-500/40 text-amber-300 hover:bg-amber-500/20 hover:text-white shadow-sm"
             >
-              <Volume2 className="h-3.5 w-3.5 text-sky-400" />
+              <Volume2 className="h-3.5 w-3.5 text-amber-400" />
               FEEL Signal (Acoustic / Haptic Engine)
             </Button>
           )}
@@ -152,27 +152,27 @@ export function SignalsView({
       </Card>
 
       {/* 3. DETAILED METRICS CARD */}
-      <Card className="glass-panel border-sky-500/20 shadow-md">
+      <Card className="glass-panel border-amber-500/20 shadow-md bg-[#080d1a]/85">
         <CardHeader className="p-4 pb-2">
           <CardTitle className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-            <Activity className="h-3.5 w-3.5 text-sky-400" />
+            <Activity className="h-3.5 w-3.5 text-amber-400" />
             Detailed Radar Telemetry
           </CardTitle>
         </CardHeader>
         <CardContent className="p-4 pt-1 space-y-2.5">
           <div className="grid grid-cols-2 gap-2 text-xs font-mono">
             {/* Primary Signal */}
-            <div className="bg-slate-950/70 p-2.5 rounded-lg border border-sky-500/20">
+            <div className="bg-slate-950/70 p-2.5 rounded-lg border border-amber-500/20">
               <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
                 Primary Signal
               </span>
-              <span className="text-sm font-bold text-sky-300">
+              <span className="text-sm font-bold text-amber-300">
                 {delta != null ? `${delta > 0 ? '+' : ''}${delta.toFixed(2)} dB` : 'Unavailable'}
               </span>
             </div>
 
             {/* Target Event Context */}
-            <div className="bg-slate-950/70 p-2.5 rounded-lg border border-sky-500/20">
+            <div className="bg-slate-950/70 p-2.5 rounded-lg border border-amber-500/20">
               <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
                 Target Event Context
               </span>
@@ -182,7 +182,7 @@ export function SignalsView({
             </div>
 
             {/* Metric Mode */}
-            <div className="bg-slate-950/70 p-2.5 rounded-lg border border-sky-500/20">
+            <div className="bg-slate-950/70 p-2.5 rounded-lg border border-amber-500/20">
               <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
                 Metric Calculation
               </span>
@@ -192,7 +192,7 @@ export function SignalsView({
             </div>
 
             {/* Affected Area */}
-            <div className="bg-slate-950/70 p-2.5 rounded-lg border border-sky-500/20">
+            <div className="bg-slate-950/70 p-2.5 rounded-lg border border-amber-500/20">
               <span className="text-[10px] text-slate-400 uppercase tracking-wider block">
                 Affected Area
               </span>
@@ -208,7 +208,7 @@ export function SignalsView({
           {primaryNisarMeasurement?.product_id && (
             <div className="p-2.5 bg-slate-950/60 rounded-lg border border-slate-800 flex items-center justify-between text-[11px] font-mono">
               <span className="text-slate-400">NISAR Product:</span>
-              <span className="text-sky-300 truncate max-w-[200px]" title={primaryNisarMeasurement.product_id}>
+              <span className="text-amber-300 truncate max-w-[200px]" title={primaryNisarMeasurement.product_id}>
                 {primaryNisarMeasurement.product_id}
               </span>
             </div>
@@ -218,18 +218,18 @@ export function SignalsView({
 
       {/* 4. SAR SPATIAL POLARIMETRY & SIGNAL INSPECTOR MAP */}
       {caseDetail && (
-        <Card className="bg-slate-950/80 border-sky-500/25 overflow-hidden shadow-2xl relative">
-          <CardHeader className="p-4 pb-2 border-b border-sky-500/20 flex flex-row items-center justify-between bg-slate-900/40">
+        <Card className="bg-slate-950/80 border-amber-500/25 overflow-hidden shadow-2xl relative">
+          <CardHeader className="p-4 pb-2 border-b border-amber-500/20 flex flex-row items-center justify-between bg-slate-900/40">
             <div className="space-y-0.5">
               <CardTitle className="text-xs font-mono font-bold text-slate-300 uppercase tracking-widest flex items-center gap-2">
-                <Radar className="w-4 h-4 text-sky-400 shrink-0 animate-pulse" />
+                <Radar className="w-4 h-4 text-amber-400 shrink-0 animate-pulse" />
                 SAR Polarimetric & Temporal Change Map
               </CardTitle>
               <CardDescription className="text-[10px] text-slate-400 font-mono">
                 Inspect Sentinel-1 dual-polarization, log-ratio difference heatmap, and point-level backscatter time-series.
               </CardDescription>
             </div>
-            <span className="text-[10px] font-mono text-sky-300 bg-sky-500/15 px-2.5 py-0.5 rounded-full border border-sky-400/30 shrink-0 hidden sm:inline-block">
+            <span className="text-[10px] font-mono text-amber-300 bg-amber-500/15 px-2.5 py-0.5 rounded-full border border-amber-400/30 shrink-0 hidden sm:inline-block">
               AOI // {caseDetail.case_id}
             </span>
           </CardHeader>

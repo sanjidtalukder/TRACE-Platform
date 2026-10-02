@@ -200,17 +200,17 @@ export function EvidenceConfidenceWall({ caseId, initialEvidence, initialAudit }
     sourceBadge?: string;
   }) => {
     return (
-      <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 hover:border-sky-500/30 transition-all space-y-2">
+      <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 hover:border-amber-500/30 transition-all space-y-2">
         {/* Top: Evidence Name, Source, Validation Status */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-start gap-2.5 min-w-0">
-            <div className="p-1.5 rounded-lg bg-sky-500/10 border border-sky-400/20 text-sky-400 shrink-0 mt-0.5">
+            <div className="p-1.5 rounded-lg bg-amber-500/10 border border-amber-400/20 text-amber-400 shrink-0 mt-0.5">
               <Icon className="w-4 h-4" aria-hidden="true" />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-bold text-slate-100 text-xs sm:text-sm font-sans">{evidence}</span>
-                <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-300 border border-sky-400/20 uppercase tracking-wider">
+                <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-400/20 uppercase tracking-wider">
                   {sourceBadge}
                 </span>
               </div>
@@ -231,7 +231,7 @@ export function EvidenceConfidenceWall({ caseId, initialEvidence, initialAudit }
           {signal && (
             <div className="bg-slate-900/60 p-2 rounded-lg border border-slate-800 flex items-center justify-between">
               <span className="text-slate-400 text-[10px] uppercase">Signal:</span>
-              <span className="text-sky-300 font-bold truncate ml-2">{signal}</span>
+              <span className="text-amber-300 font-bold truncate ml-2">{signal}</span>
             </div>
           )}
 
@@ -258,20 +258,20 @@ export function EvidenceConfidenceWall({ caseId, initialEvidence, initialAudit }
   return (
     <div className="space-y-6" role="region" aria-label="Evidence and Confidence Wall">
       {/* Header & Controls */}
-      <div className="glass-panel p-4 sm:p-5 rounded-2xl flex flex-col gap-3.5 border-sky-500/20 relative overflow-hidden shadow-lg">
+      <div className="glass-panel p-4 sm:p-5 rounded-2xl flex flex-col gap-3.5 border-amber-500/20 relative overflow-hidden shadow-lg bg-[#080d1a]/85">
         <div className="tech-corner-tl" />
         <div className="tech-corner-tr" />
 
         <div className="flex items-start gap-3">
-          <div className="p-2.5 rounded-xl bg-sky-500/15 border border-sky-400/30 text-sky-400 shrink-0 shadow-[0_0_12px_rgba(56,189,248,0.2)] mt-0.5">
-            <ShieldCheck className="w-5 h-5 text-sky-400 animate-pulse" aria-hidden="true" />
+          <div className="p-2.5 rounded-xl bg-amber-500/15 border border-amber-400/30 text-amber-400 shrink-0 shadow-[0_0_12px_rgba(245,158,11,0.2)] mt-0.5">
+            <ShieldCheck className="w-5 h-5 text-amber-400 animate-pulse" aria-hidden="true" />
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 flex-wrap">
               <h2 className="text-base sm:text-lg font-bold text-white tracking-tight leading-tight font-mono">
                 Evidence & Self-Audit Matrix
               </h2>
-              <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-300 border border-sky-400/30 uppercase tracking-wider">
+              <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-400/30 uppercase tracking-wider">
                 Autonomous Verification
               </span>
             </div>
@@ -288,7 +288,7 @@ export function EvidenceConfidenceWall({ caseId, initialEvidence, initialAudit }
               onClick={handleRunEvaluation}
               disabled={loading}
               size="sm"
-              className="w-full sm:w-auto bg-sky-500 hover:bg-sky-400 text-slate-950 font-mono font-bold text-xs shadow-lg shadow-sky-500/20 transition-all justify-center cursor-pointer"
+              className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-mono font-bold text-xs shadow-lg shadow-amber-500/25 transition-all justify-center cursor-pointer"
             >
               {loading ? (
                 <Activity className="w-3.5 h-3.5 animate-spin mr-1.5" aria-hidden="true" />
@@ -303,18 +303,18 @@ export function EvidenceConfidenceWall({ caseId, initialEvidence, initialAudit }
               disabled={loadingAgents}
               size="sm"
               variant="outline"
-              className="w-full sm:w-auto border-sky-500/30 text-sky-300 hover:bg-sky-500/15 font-mono font-bold text-xs transition-all justify-center cursor-pointer"
+              className="w-full sm:w-auto border-amber-500/30 text-amber-300 hover:bg-amber-500/15 font-mono font-bold text-xs transition-all justify-center cursor-pointer"
             >
               {loadingAgents ? (
-                <Activity className="w-3.5 h-3.5 animate-spin mr-1.5 text-sky-400" aria-hidden="true" />
+                <Activity className="w-3.5 h-3.5 animate-spin mr-1.5 text-amber-400" aria-hidden="true" />
               ) : (
-                <Bot className="w-3.5 h-3.5 mr-1.5 text-sky-400" aria-hidden="true" />
+                <Bot className="w-3.5 h-3.5 mr-1.5 text-amber-400" aria-hidden="true" />
               )}
               {loadingAgents ? 'Running...' : 'Run Agents'}
             </Button>
           </div>
 
-          <div className="flex items-center justify-between sm:justify-end gap-1.5 bg-slate-950/80 p-1 px-2.5 rounded-lg border border-sky-500/20 shadow-inner">
+          <div className="flex items-center justify-between sm:justify-end gap-1.5 bg-slate-950/80 p-1 px-2.5 rounded-lg border border-amber-500/20 shadow-inner">
             <span className="text-[10px] font-mono text-slate-400 uppercase font-semibold">Simulate Offset:</span>
             <div className="flex items-center gap-1">
               {[0.5, 1.0, 2.0].map((offset) => (
@@ -326,7 +326,7 @@ export function EvidenceConfidenceWall({ caseId, initialEvidence, initialAudit }
                   variant="outline"
                   className={`h-6 text-[10px] px-2 font-mono ${
                     waterOffset === offset && scenarioData
-                      ? 'bg-sky-500 text-slate-950 font-bold shadow-[0_0_8px_rgba(56,189,248,0.4)]'
+                      ? 'bg-amber-500 text-slate-950 font-bold shadow-[0_0_8px_rgba(245,158,11,0.4)]'
                       : 'text-slate-400 hover:text-white border-slate-800'
                   }`}
                 >
@@ -340,7 +340,7 @@ export function EvidenceConfidenceWall({ caseId, initialEvidence, initialAudit }
 
       {/* Audit Summary Banner */}
       {auditData && (
-        <div className="glass-panel border-sky-500/30 p-4 sm:p-5 rounded-2xl relative overflow-hidden shadow-xl space-y-3">
+        <div className="glass-panel border-amber-500/30 p-4 sm:p-5 rounded-2xl relative overflow-hidden shadow-xl space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div className="space-y-0.5">
               <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest block font-semibold">
@@ -354,10 +354,10 @@ export function EvidenceConfidenceWall({ caseId, initialEvidence, initialAudit }
           </div>
 
           {/* Visual Progress Meter Bar */}
-          <div className="space-y-1.5 bg-slate-950/70 p-3.5 rounded-xl border border-sky-500/20 shadow-inner">
+          <div className="space-y-1.5 bg-slate-950/70 p-3.5 rounded-xl border border-amber-500/20 shadow-inner">
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-400 font-mono font-semibold">Deterministic Confidence Score</span>
-              <span className="font-mono font-black text-sky-300 text-sm">
+              <span className="font-mono font-black text-amber-300 text-sm">
                 {(auditData.confidence_score * 100).toFixed(0)}%
               </span>
             </div>
@@ -401,8 +401,8 @@ export function EvidenceConfidenceWall({ caseId, initialEvidence, initialAudit }
             onClick={() => setActiveCategory(cat.id as any)}
             className={`min-h-[36px] px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all whitespace-nowrap cursor-pointer select-none ${
               activeCategory === cat.id
-                ? 'bg-sky-500 text-slate-950 shadow-[0_0_12px_rgba(56,189,248,0.3)] font-bold'
-                : 'bg-slate-950/70 text-slate-400 border border-sky-500/20 hover:bg-slate-900/60 hover:text-slate-200'
+                ? 'bg-amber-500 text-slate-950 shadow-[0_0_14px_rgba(245,158,11,0.4)] font-bold'
+                : 'bg-slate-950/70 text-slate-400 border border-amber-500/20 hover:bg-slate-900/60 hover:text-slate-200'
             }`}
           >
             {cat.label}
@@ -496,7 +496,7 @@ export function EvidenceConfidenceWall({ caseId, initialEvidence, initialAudit }
         {(activeCategory === 'ALL' || activeCategory === 'DERIVED') && (
           <div className="glass-panel p-4 sm:p-5 rounded-2xl border-slate-800 space-y-4">
             <div className="flex items-center gap-2 pb-1 border-b border-slate-800">
-              <Layers className="w-4 h-4 text-sky-400 shrink-0" aria-hidden="true" />
+              <Layers className="w-4 h-4 text-amber-400 shrink-0" aria-hidden="true" />
               <div>
                 <h3 className="text-xs sm:text-sm font-bold font-mono text-white uppercase tracking-wider">
                   DERIVED EVIDENCE & CORRELATION CHECKS
@@ -582,7 +582,7 @@ export function EvidenceConfidenceWall({ caseId, initialEvidence, initialAudit }
                         key={idx}
                         className="flex justify-between items-center text-slate-300 border-b border-purple-900/30 pb-1.5"
                       >
-                        <span className="font-mono font-bold text-sky-300">{step.agent_name}</span>
+                        <span className="font-mono font-bold text-amber-300">{step.agent_name}</span>
                         <span className="text-[10px] text-slate-400 truncate max-w-[200px]">{step.summary}</span>
                       </div>
                     ))}
@@ -610,8 +610,8 @@ export function EvidenceConfidenceWall({ caseId, initialEvidence, initialAudit }
 
             <div className="space-y-3 text-xs">
               {scenarioData && (
-                <div className="p-3.5 rounded-xl bg-sky-950/30 border border-sky-800/40 space-y-2">
-                  <div className="flex justify-between items-center font-semibold text-sky-300 font-mono text-xs">
+                <div className="p-3.5 rounded-xl bg-amber-950/20 border border-amber-800/40 space-y-2">
+                  <div className="flex justify-between items-center font-semibold text-amber-300 font-mono text-xs">
                     <span>Water Level Offset: +{scenarioData.water_level_offset_m}m</span>
                     <span className="text-[10px] text-amber-400 font-bold uppercase">{scenarioData.disclaimer}</span>
                   </div>

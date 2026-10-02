@@ -25,13 +25,13 @@ export function TimelineView({
     switch (phase?.toLowerCase()) {
       case 'before':
         return (
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-500/20">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
             BEFORE BASELINE
           </span>
         );
       case 'change':
         return (
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">
             SAR DETECTION
           </span>
         );
@@ -95,17 +95,17 @@ export function TimelineView({
 
   return (
     <div className="space-y-4 pb-6">
-      <Card className="glass-panel border-sky-500/20 shadow-xl relative overflow-hidden">
+      <Card className="glass-panel border-amber-500/20 shadow-xl relative overflow-hidden bg-[#080d1a]/85">
         <div className="tech-corner-tl" />
         <div className="tech-corner-tr" />
 
         <CardHeader className="p-4 pb-2">
           <div className="flex items-center justify-between">
             <CardTitle className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-              <Calendar className="h-3.5 w-3.5 text-sky-400" />
+              <Calendar className="h-3.5 w-3.5 text-amber-400" />
               Chronological Satellite Activity
             </CardTitle>
-            <span className="text-[10px] font-mono text-sky-300 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20 flex items-center gap-1">
+            <span className="text-[10px] font-mono text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 flex items-center gap-1">
               <Clock className="h-3 w-3" /> UTC SEQUENCE
             </span>
           </div>
@@ -116,16 +116,16 @@ export function TimelineView({
 
         <CardContent className="p-4 pt-1">
           {events.length > 0 ? (
-            <div className="relative border-l-2 border-sky-500/30 ml-2.5 pl-4 sm:pl-5 space-y-4 my-2 pb-1">
+            <div className="relative border-l-2 border-amber-500/40 ml-2.5 pl-4 sm:pl-5 space-y-4 my-2 pb-1">
               {events.map((item, idx) => (
                 <div key={item.id || idx} className="relative group">
                   {/* Step Circular Indicator */}
-                  <div className="absolute -left-[23px] sm:-left-[27px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#060b17] border-2 border-sky-400 flex items-center justify-center ring-4 ring-[#060b17] shadow-[0_0_8px_rgba(56,189,248,0.4)]">
-                    <div className="w-1 h-1 rounded-full bg-sky-400" />
+                  <div className="absolute -left-[23px] sm:-left-[27px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#080d1a] border-2 border-amber-400 flex items-center justify-center ring-4 ring-[#080d1a] shadow-[0_0_10px_rgba(245,158,11,0.5)]">
+                    <div className="w-1 h-1 rounded-full bg-amber-400" />
                   </div>
 
                   {/* Event Card */}
-                  <div className="p-3 rounded-xl bg-slate-950/75 border border-sky-500/20 hover:border-sky-400/40 transition-all shadow-inner space-y-2">
+                  <div className="p-3 rounded-xl bg-slate-950/75 border border-amber-500/20 hover:border-amber-400/40 transition-all shadow-inner space-y-2">
                     <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-1">
                       <span className="font-mono font-bold text-xs text-slate-100 leading-snug">
                         {item.title}
@@ -134,22 +134,22 @@ export function TimelineView({
                     </div>
 
                     <div className="text-[11px] font-mono text-slate-400 flex items-center gap-1.5">
-                      <Clock className="w-3 h-3 text-sky-400 shrink-0" />
+                      <Clock className="w-3 h-3 text-amber-400 shrink-0" />
                       <span>{new Date(item.timestamp).toUTCString()}</span>
                     </div>
 
                     {/* Clean Readable Label/Value Cards (replacing raw JSON) */}
                     {item.details && Object.keys(item.details).length > 0 && (
-                      <div className="grid grid-cols-2 gap-1.5 pt-2 border-t border-sky-500/15">
+                      <div className="grid grid-cols-2 gap-1.5 pt-2 border-t border-amber-500/15">
                         {Object.entries(item.details).map(([k, v]) => (
                           <div
                             key={k}
-                            className="bg-slate-900/80 p-2 rounded-lg border border-sky-500/10 space-y-0.5"
+                            className="bg-slate-900/80 p-2 rounded-lg border border-amber-500/10 space-y-0.5"
                           >
                             <span className="text-[9px] font-mono uppercase tracking-wider text-slate-400 block truncate">
                               {formatDetailLabel(k)}
                             </span>
-                            <span className="text-xs font-mono font-bold text-sky-300 block truncate">
+                            <span className="text-xs font-mono font-bold text-amber-300 block truncate">
                               {formatDetailValue(k, v)}
                             </span>
                           </div>
@@ -161,10 +161,10 @@ export function TimelineView({
               ))}
             </div>
           ) : (
-            <div className="p-4 rounded-xl bg-slate-950/70 border border-sky-500/20 space-y-2 font-mono shadow-inner text-xs">
+            <div className="p-4 rounded-xl bg-slate-950/70 border border-amber-500/20 space-y-2 font-mono shadow-inner text-xs">
               <div className="flex justify-between items-center text-slate-400">
                 <span>Declared Observation Window:</span>
-                <span className="font-bold text-sky-300">
+                <span className="font-bold text-amber-300">
                   {observationStart ? new Date(observationStart).toLocaleDateString() : 'N/A'} –{' '}
                   {observationEnd ? new Date(observationEnd).toLocaleDateString() : 'N/A'}
                 </span>

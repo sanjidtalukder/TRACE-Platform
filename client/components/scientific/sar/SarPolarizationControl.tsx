@@ -60,10 +60,10 @@ export function SarPolarizationControl({
       aria-label="SAR Radar Polarization Control"
     >
       {/* Outer Tactical Glass Container */}
-      <div className="glass-panel p-1 rounded-xl border-sky-500/30 shadow-2xl flex items-center gap-1 backdrop-blur-xl bg-slate-950/85">
+      <div className="glass-panel p-1 rounded-xl border-amber-500/30 shadow-2xl flex items-center gap-1 backdrop-blur-xl bg-slate-950/85">
         {/* Radar Icon & Band Label */}
-        <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 border-r border-sky-500/20 text-sky-400">
-          <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
+        <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 border-r border-amber-500/20 text-amber-400">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
           <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-slate-300">
             POL:
           </span>
@@ -86,7 +86,7 @@ export function SarPolarizationControl({
                 className={`relative group px-2.5 py-1.5 sm:py-1 rounded-lg font-mono text-[10px] font-bold tracking-wider transition-all duration-200 flex items-center gap-1.5 ${
                   isActive
                     ? item.id === 'VV'
-                      ? 'bg-sky-500 text-slate-950 shadow-[0_0_12px_rgba(56,189,248,0.45)] ring-1 ring-sky-400'
+                      ? 'bg-amber-500 text-slate-950 shadow-[0_0_12px_rgba(245,158,11,0.45)] ring-1 ring-amber-400'
                       : item.id === 'VH'
                       ? 'bg-emerald-400 text-slate-950 shadow-[0_0_12px_rgba(52,211,153,0.45)] ring-1 ring-emerald-300'
                       : 'bg-amber-400 text-slate-950 shadow-[0_0_12px_rgba(251,191,36,0.45)] ring-1 ring-amber-300'
@@ -122,8 +122,8 @@ export function SarPolarizationControl({
           onClick={() => setShowTooltip((prev) => !prev)}
           className={`p-1.5 rounded-lg border transition-all ml-0.5 ${
             showTooltip
-              ? 'bg-sky-500/20 border-sky-400 text-sky-300'
-              : 'border-sky-500/20 text-slate-400 hover:text-sky-300 hover:bg-slate-900/60'
+              ? 'bg-amber-500/20 border-amber-400 text-amber-300'
+              : 'border-amber-500/20 text-slate-400 hover:text-amber-300 hover:bg-slate-900/60'
           }`}
           title="SAR Polarization Physics & Interpretations"
           aria-expanded={showTooltip}
@@ -137,13 +137,13 @@ export function SarPolarizationControl({
       {showTooltip && (
         <div
           id={`pol-desc-${currentPolarization}`}
-          className="absolute top-full mt-2 left-0 sm:left-auto sm:right-0 z-50 w-72 sm:w-80 max-w-[calc(100vw-24px)] glass-panel border-sky-500/35 p-3.5 rounded-xl shadow-2xl space-y-2.5 font-mono text-[11px] animate-in fade-in slide-in-from-top-2 duration-150"
+          className="absolute top-full mt-2 left-0 sm:left-auto sm:right-0 z-50 w-72 sm:w-80 max-w-[calc(100vw-24px)] glass-panel border-amber-500/35 p-3.5 rounded-xl shadow-2xl space-y-2.5 font-mono text-[11px] animate-in fade-in slide-in-from-top-2 duration-150 bg-[#080d1a]/95"
         >
           <div className="tech-corner-tl" />
           <div className="tech-corner-tr" />
 
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-sky-500/20 pb-2">
+          <div className="flex items-center justify-between border-b border-amber-500/20 pb-2">
             <div className="flex items-center gap-1.5">
               <span
                 className="w-2 h-2 rounded-full"
@@ -168,8 +168,8 @@ export function SarPolarizationControl({
           </p>
 
           {/* Physical Mechanism */}
-          <div className="bg-slate-950/80 p-2 rounded-lg border border-sky-500/20 space-y-1">
-            <span className="text-[9px] font-bold text-sky-400 uppercase tracking-wider block">
+          <div className="bg-slate-950/80 p-2 rounded-lg border border-amber-500/20 space-y-1">
+            <span className="text-[9px] font-bold text-amber-400 uppercase tracking-wider block">
               Physical Mechanism:
             </span>
             <p className="text-[10px] text-slate-400 leading-normal font-sans">
@@ -193,7 +193,7 @@ export function SarPolarizationControl({
           </div>
 
           {/* Technical Specs Footer */}
-          <div className="pt-1.5 border-t border-sky-500/15 flex items-center justify-between text-[9px] text-slate-500">
+          <div className="pt-1.5 border-t border-amber-500/20 flex items-center justify-between text-[9px] text-slate-500">
             <span>{activeInfo.frequencyBand}</span>
             <span>{activeInfo.sensor}</span>
           </div>

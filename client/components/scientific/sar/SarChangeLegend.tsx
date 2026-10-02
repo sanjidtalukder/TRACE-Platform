@@ -37,7 +37,7 @@ export function SarChangeLegend({
 
   return (
     <div
-      className={`glass-panel rounded-xl border-sky-500/30 shadow-2xl backdrop-blur-xl bg-slate-950/90 text-xs font-mono select-none transition-all duration-200 ${
+      className={`glass-panel rounded-xl border-amber-500/30 shadow-2xl backdrop-blur-xl bg-slate-950/90 text-xs font-mono select-none transition-all duration-200 ${
         isOpen ? 'w-64 sm:w-72' : 'w-auto'
       } ${className}`}
       role="region"
@@ -69,15 +69,15 @@ export function SarChangeLegend({
 
       {/* Expanded Legend Content */}
       {isOpen && (
-        <div className="p-3 pt-0 border-t border-sky-500/15 space-y-3">
+        <div className="p-3 pt-0 border-t border-amber-500/15 space-y-3">
           {/* Temporal Difference Timeframe Window */}
-          <div className="bg-slate-900/70 p-2 rounded-lg border border-sky-500/20 space-y-1.5 mt-2">
+          <div className="bg-slate-900/70 p-2 rounded-lg border border-amber-500/20 space-y-1.5 mt-2">
             <div className="flex items-center justify-between text-[9px] text-slate-400 uppercase tracking-wider">
               <span className="flex items-center gap-1">
-                <Calendar className="w-3 h-3 text-sky-400" />
+                <Calendar className="w-3 h-3 text-amber-400" />
                 Comparison Epochs:
               </span>
-              <span className="text-sky-300 font-bold">SENTINEL-1</span>
+              <span className="text-amber-300 font-bold">SENTINEL-1</span>
             </div>
 
             <div className="flex items-center justify-between text-[10px] font-bold text-slate-200">
@@ -85,7 +85,7 @@ export function SarChangeLegend({
                 <span className="text-[8px] text-slate-400 block font-normal">T₁ BASELINE</span>
                 <span>{baselineDate}</span>
               </div>
-              <ArrowRight className="w-3 h-3 text-sky-400 mx-1 shrink-0" />
+              <ArrowRight className="w-3 h-3 text-amber-400 mx-1 shrink-0" />
               <div className="bg-slate-950/80 px-2 py-0.5 rounded border border-rose-500/30 text-rose-300">
                 <span className="text-[8px] text-slate-400 block font-normal">T₂ POST-EVENT</span>
                 <span>{postEventDate}</span>
@@ -102,7 +102,7 @@ export function SarChangeLegend({
             </div>
 
             {/* Continuous Scientific Heatmap Ramp */}
-            <div className="relative h-3 rounded-full overflow-hidden shadow-inner border border-sky-500/30">
+            <div className="relative h-3 rounded-full overflow-hidden shadow-inner border border-amber-500/30">
               <div
                 className="w-full h-full"
                 style={{
@@ -150,13 +150,13 @@ export function SarChangeLegend({
           </div>
 
           {/* Opacity Slider Control */}
-          <div className="pt-2 border-t border-sky-500/15 space-y-1">
+          <div className="pt-2 border-t border-amber-500/15 space-y-1">
             <div className="flex items-center justify-between text-[9px] text-slate-400 uppercase">
               <span className="flex items-center gap-1">
-                <Sliders className="w-3 h-3 text-sky-400" />
+                <Sliders className="w-3 h-3 text-amber-400" />
                 Layer Opacity:
               </span>
-              <span className="font-mono text-sky-300 font-bold">{Math.round(opacity * 100)}%</span>
+              <span className="font-mono text-amber-300 font-bold">{Math.round(opacity * 100)}%</span>
             </div>
             <input
               type="range"
@@ -166,7 +166,7 @@ export function SarChangeLegend({
               value={opacity}
               onChange={(e) => onOpacityChange(parseFloat(e.target.value))}
               aria-label="Change detection layer opacity"
-              className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-sky-400 focus:outline-none"
+              className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400 focus:outline-none"
             />
           </div>
 

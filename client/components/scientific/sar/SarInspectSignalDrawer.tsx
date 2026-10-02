@@ -110,8 +110,8 @@ export function SarInspectSignalDrawer({
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-sky-500/15 text-sky-300 border border-sky-400/30">
-            <Minus className="w-3 h-3 text-sky-400" />
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-slate-800/70 text-slate-300 border border-slate-700/70">
+            <Minus className="w-3 h-3 text-slate-400" />
             STABLE BASELINE (±0.5 dB)
           </span>
         );
@@ -125,18 +125,18 @@ export function SarInspectSignalDrawer({
       aria-modal="true"
       aria-labelledby="inspect-signal-title"
     >
-      <div className="glass-panel border-sky-500/35 rounded-2xl max-w-2xl w-full mx-auto max-h-[92vh] flex flex-col shadow-2xl overflow-hidden relative bg-slate-950/95">
+      <div className="glass-panel border-amber-500/35 rounded-2xl max-w-2xl w-full mx-auto max-h-[92vh] flex flex-col shadow-2xl overflow-hidden relative bg-[#080d1a]/95">
         <div className="tech-corner-tl" />
         <div className="tech-corner-tr" />
         <div className="tech-corner-bl" />
         <div className="tech-corner-br" />
 
         {/* Modal / Drawer Header */}
-        <div className="p-4 border-b border-sky-500/20 flex items-center justify-between bg-slate-900/60">
+        <div className="p-4 border-b border-amber-500/20 flex items-center justify-between bg-slate-900/60">
           <div className="space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-[10px] font-mono font-extrabold text-sky-300 uppercase tracking-widest bg-sky-500/15 px-2 py-0.5 rounded border border-sky-400/30 flex items-center gap-1">
-                <Crosshair className="w-3 h-3 text-sky-400" />
+              <span className="text-[10px] font-mono font-extrabold text-amber-300 uppercase tracking-widest bg-amber-500/15 px-2 py-0.5 rounded border border-amber-400/30 flex items-center gap-1">
+                <Crosshair className="w-3 h-3 text-amber-400" />
                 SIGNAL INSPECTOR // POINT PROBE
               </span>
               {getTrendBadge()}
@@ -156,7 +156,7 @@ export function SarInspectSignalDrawer({
               variant="outline"
               size="sm"
               onClick={handleCopyCoordinates}
-              className="h-8 px-2.5 text-[10px] font-mono border-sky-500/30 text-slate-300 hover:text-white hover:bg-sky-500/20"
+              className="h-8 px-2.5 text-[10px] font-mono border-amber-500/30 text-slate-300 hover:text-white hover:bg-amber-500/20"
               title="Copy Coordinates"
             >
               {copiedCoords ? (
@@ -166,7 +166,7 @@ export function SarInspectSignalDrawer({
                 </>
               ) : (
                 <>
-                  <MapPin className="w-3 h-3 text-sky-400 mr-1" />
+                  <MapPin className="w-3 h-3 text-amber-400 mr-1" />
                   {coordinate.lat.toFixed(4)}°, {coordinate.lng.toFixed(4)}°
                 </>
               )}
@@ -176,7 +176,7 @@ export function SarInspectSignalDrawer({
               variant="outline"
               size="sm"
               onClick={onClose}
-              className="h-8 w-8 p-0 rounded-full border-sky-500/30 text-slate-400 hover:text-white hover:bg-sky-500/20"
+              className="h-8 w-8 p-0 rounded-full border-amber-500/30 text-slate-400 hover:text-white hover:bg-amber-500/20"
               aria-label="Close Signal Inspector"
             >
               <X className="h-4 w-4" />
@@ -188,10 +188,10 @@ export function SarInspectSignalDrawer({
         <div className="p-4 overflow-y-auto space-y-4 text-xs font-mono">
           {/* Telemetry Metric Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            <div className="bg-slate-900/80 p-2.5 rounded-xl border border-sky-500/25">
+            <div className="bg-slate-900/80 p-2.5 rounded-xl border border-amber-500/25">
               <span className="text-[9px] text-slate-400 uppercase tracking-wider block">Current σ° (VV)</span>
-              <p className="text-base font-black text-sky-300 mt-0.5">
-                {currentVV > 0 ? '+' : ''}{currentVV.toFixed(2)} <span className="text-[10px] text-sky-400/80 font-normal">dB</span>
+              <p className="text-base font-black text-amber-300 mt-0.5">
+                {currentVV > 0 ? '+' : ''}{currentVV.toFixed(2)} <span className="text-[10px] text-amber-400/80 font-normal">dB</span>
               </p>
               <span className="text-[8px] text-slate-500 block">Baseline: {baselineVV.toFixed(1)} dB</span>
             </div>
@@ -212,7 +212,7 @@ export function SarInspectSignalDrawer({
               <span className="text-[8px] text-slate-500 block">Polarimetric Quotient</span>
             </div>
 
-            <div className="bg-slate-900/80 p-2.5 rounded-xl border border-sky-500/25">
+            <div className="bg-slate-900/80 p-2.5 rounded-xl border border-amber-500/25">
               <span className="text-[9px] text-slate-400 uppercase tracking-wider block">Surface Character</span>
               <p className="text-xs font-bold text-slate-200 mt-1 truncate">
                 {surfaceCategory}
@@ -222,10 +222,10 @@ export function SarInspectSignalDrawer({
           </div>
 
           {/* Interactive Chart.js Dual-Line Graph */}
-          <div className="glass-panel p-3 rounded-xl border-sky-500/20 space-y-2">
+          <div className="glass-panel p-3 rounded-xl border-amber-500/20 space-y-2 bg-slate-950/80">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                <Activity className="w-3.5 h-3.5 text-sky-400" />
+                <Activity className="w-3.5 h-3.5 text-amber-400" />
                 Sentinel-1 Multi-Pass Time-Series (dB vs Date)
               </span>
               <span className="text-[9px] text-slate-400">
@@ -240,9 +240,9 @@ export function SarInspectSignalDrawer({
               height={220}
             />
 
-            <div className="flex items-center justify-between text-[9px] text-slate-500 pt-1 border-t border-sky-500/10">
+            <div className="flex items-center justify-between text-[9px] text-slate-500 pt-1 border-t border-amber-500/10">
               <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-sky-400" /> σ° VV (Roughness / Water)
+                <span className="w-2 h-2 rounded-full bg-amber-400" /> σ° VV (Roughness / Water)
               </span>
               <span className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-400" /> σ° VH (Canopy / Volume)
@@ -254,8 +254,8 @@ export function SarInspectSignalDrawer({
           </div>
 
           {/* Scientific Interpretation Narrative */}
-          <div className="bg-slate-900/70 p-3 rounded-xl border border-sky-500/20 space-y-1.5">
-            <div className="flex items-center gap-1 text-[10px] font-bold text-sky-400 uppercase tracking-wider">
+          <div className="bg-slate-900/70 p-3 rounded-xl border border-amber-500/20 space-y-1.5">
+            <div className="flex items-center gap-1 text-[10px] font-bold text-amber-400 uppercase tracking-wider">
               <Info className="w-3.5 h-3.5" />
               Radar Physical Interpretation
             </div>
@@ -270,12 +270,12 @@ export function SarInspectSignalDrawer({
         </div>
 
         {/* Modal / Drawer Footer */}
-        <div className="p-3 border-t border-sky-500/20 bg-slate-900/40 flex items-center justify-between gap-2">
+        <div className="p-3 border-t border-amber-500/20 bg-slate-900/40 flex items-center justify-between gap-2">
           <Button
             variant="outline"
             size="sm"
             onClick={handleDownloadCsv}
-            className="h-8 text-xs font-mono border-sky-500/30 text-sky-300 hover:bg-sky-500/20 gap-1.5"
+            className="h-8 text-xs font-mono border-amber-500/30 text-amber-300 hover:bg-amber-500/20 gap-1.5"
           >
             <Download className="w-3.5 h-3.5" />
             Export Time-Series CSV
@@ -284,7 +284,7 @@ export function SarInspectSignalDrawer({
           <Button
             size="sm"
             onClick={onClose}
-            className="h-8 px-4 text-xs font-mono font-bold bg-sky-500 hover:bg-sky-400 text-slate-950 rounded-xl"
+            className="h-8 px-4 text-xs font-mono font-bold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 rounded-xl shadow-md shadow-amber-500/20"
           >
             Close Signal Drawer
           </Button>
