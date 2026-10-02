@@ -19,9 +19,16 @@ export default function DeepLinkCasePage({ params }: PageProps) {
   const resolvedParams = use(params);
   const caseId = resolvedParams.case_id;
 
-  const { status: locationStatus } = useGeolocation();
+  const { location, status: locationStatus, requestLocation } = useGeolocation();
   const [serverStatus, setServerStatus] = useState<'loading' | 'connected' | 'disconnected'>('loading');
   const [activeTab, setActiveTab] = useState<MobileTab>('overview');
+  const [inspectorOpen, setInspectorOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (window.innerWidth >= 1280) {
+      setInspectorOpen(true);
+    }
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -51,17 +58,21 @@ export default function DeepLinkCasePage({ params }: PageProps) {
       : 'overview';
 
   return (
-    <div className="min-h-screen bg-[#060911] text-foreground flex flex-col antialiased selection:bg-primary/20 overflow-x-hidden">
-      {/* 6. TRACE FIELD Header with Mission Modules Hamburger Menu */}
+    <div className="h-screen w-screen bg-[#060911] text-foreground flex flex-col antialiased selection:bg-primary/20 overflow-hidden">
+      {/* 1. APP HEADER */}
       <MobileHeader
         locationStatus={locationStatus}
+        location={location}
+        onRequestLocation={requestLocation}
         serverStatus={serverStatus}
         activeTab={activeTab}
         onTabChange={setActiveTab}
+        inspectorOpen={inspectorOpen}
+        onToggleInspector={() => setInspectorOpen((prev) => !prev)}
       />
 
-      {/* Main Tab Content */}
-      <main className="flex-1 pt-2 pb-safe-content">
+      {/* 2. MAIN FULL-VIEWPORT CANVAS & WORKSPACE */}
+      <main className="flex-1 h-[calc(100vh-48px)] overflow-hidden relative flex flex-col pb-14 md:pb-0">
         {isScanScreenView && (
           <ScanScreen
             overrideCaseId={caseId}
@@ -69,26 +80,36 @@ export default function DeepLinkCasePage({ params }: PageProps) {
             onMobileViewChange={(v) => setActiveTab(v)}
             onNavigateToFeel={() => setActiveTab('feel')}
             onNavigateToVerify={() => setActiveTab('verify')}
+            inspectorOpen={inspectorOpen}
+            onToggleInspector={() => setInspectorOpen((prev) => !prev)}
           />
         )}
         {activeTab === 'pulse' && (
-          <GlobalPulseView onSelectCase={() => setActiveTab('overview')} />
+          <div className="h-full w-full overflow-hidden p-2 sm:p-3 flex flex-col">
+            <GlobalPulseView onSelectCase={() => setActiveTab('overview')} />
+          </div>
         )}
         {activeTab === 'char' && (
-          <CharGuardianView
-            initialCaseId={caseId}
-            onNavigateToVerify={() => setActiveTab('verify')}
-          />
+          <div className="h-full w-full overflow-y-auto custom-scrollbar p-2 sm:p-3">
+            <CharGuardianView
+              initialCaseId={caseId}
+              onNavigateToVerify={() => setActiveTab('verify')}
+            />
+          </div>
         )}
         {activeTab === 'feel' && (
-          <FeelScreen initialCaseId={caseId} onNavigateToVerify={() => setActiveTab('verify')} />
+          <div className="h-full w-full overflow-y-auto custom-scrollbar p-2 sm:p-3 flex flex-col justify-center">
+            <FeelScreen initialCaseId={caseId} onNavigateToVerify={() => setActiveTab('verify')} />
+          </div>
         )}
         {activeTab === 'verify' && (
-          <VerifyScreen initialCaseId={caseId} onSuccess={() => setActiveTab('overview')} />
+          <div className="h-full w-full overflow-y-auto custom-scrollbar p-2 sm:p-3">
+            <VerifyScreen initialCaseId={caseId} onSuccess={() => setActiveTab('overview')} />
+          </div>
         )}
       </main>
 
-      {/* 12. TRACE FIELD Navigation */}
+      {/* 3. MOBILE NAVIGATION DOCK */}
       <MobileNav activeTab={activeTab} onTabChange={setActiveTab} />
     </div>
   );

@@ -141,8 +141,8 @@ export function ThresholdAlertModal({
   const isTriggered = existingAlert?.triggered_state === 'TRIGGERED';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-xl p-4 animate-in fade-in duration-200">
-      <Card className="w-full max-w-md glass-panel border-sky-500/30 shadow-2xl overflow-hidden relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-xl p-3 sm:p-4 animate-in fade-in duration-200">
+      <Card className="w-full max-w-md max-h-[88vh] flex flex-col glass-panel border-sky-500/30 shadow-2xl overflow-hidden relative">
         <div className="tech-corner-tl" />
         <div className="tech-corner-tr" />
 
@@ -155,7 +155,7 @@ export function ThresholdAlertModal({
           <X className="h-4 w-4" />
         </button>
 
-        <CardHeader className="p-4 pb-2 space-y-1">
+        <CardHeader className="p-4 pb-2 space-y-1 shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="p-2 rounded-xl bg-sky-500/10 border border-sky-400/30 text-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.25)]">
               <BellRing className="h-5 w-5 animate-pulse" />
@@ -171,7 +171,7 @@ export function ThresholdAlertModal({
           </div>
         </CardHeader>
 
-        <CardContent className="p-4 space-y-4 text-xs">
+        <CardContent className="p-4 space-y-4 text-xs overflow-y-auto custom-scrollbar flex-1">
           {/* TRIGGERED / ARMED ALERT STATUS BANNER */}
           {existingAlert && (
             <div

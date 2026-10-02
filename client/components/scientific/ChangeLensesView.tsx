@@ -163,19 +163,50 @@ export function ChangeLensesView({ caseDetail }: ChangeLensesViewProps) {
         </CardHeader>
         <CardContent className="text-xs">
           {getLensAvailability(activeLens) ? (
-            <div className="p-4 rounded-xl bg-slate-950/80 border border-sky-500/20 space-y-2 font-mono shadow-inner">
-              <div className="flex justify-between items-center text-slate-300">
-                <span className="font-semibold text-slate-400">Primary Sensor Signal</span>
-                <span className="font-bold text-sky-300">
-                  {latestNisar?.delta_backscatter ? `${latestNisar.delta_backscatter} dB` : 'Active'}
-                </span>
+            <div className="space-y-3 font-mono">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div className="p-3 rounded-xl bg-slate-950/80 border border-sky-500/20 shadow-inner">
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Radar Signal (Δ dB)</span>
+                  <span className="font-bold text-sky-300 text-sm">
+                    {latestNisar?.delta_backscatter != null
+                      ? `${latestNisar.delta_backscatter > 0 ? '+' : ''}${latestNisar.delta_backscatter.toFixed(2)} dB`
+                      : 'Active Baseline'}
+                  </span>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-950/80 border border-sky-500/20 shadow-inner">
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Affected Spatial Area</span>
+                  <span className="font-bold text-emerald-400 text-sm">
+                    {latestNisar?.affected_area != null ? `${latestNisar.affected_area} km²` : 'AOI InSAR Mask'}
+                  </span>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-950/80 border border-sky-500/20 shadow-inner">
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Domain Classification</span>
+                  <span className="font-bold text-slate-200 text-sm capitalize truncate block">
+                    {caseDetail?.event_type || 'Environmental Target'}
+                  </span>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-950/80 border border-sky-500/20 shadow-inner">
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Multi-Sensor Records</span>
+                  <span className="font-bold text-purple-300 text-sm">
+                    {(caseDetail?.evidence?.length || 0) + (caseDetail?.field_observations?.length || 0)} Corroborated
+                  </span>
+                </div>
               </div>
-              <div className="flex justify-between items-center text-slate-300">
-                <span className="font-semibold text-slate-400">Target Event Context</span>
-                <span className="font-bold text-slate-200">{caseDetail?.event_type}</span>
-              </div>
-              <p className="text-[11px] font-sans text-slate-400 pt-1 leading-relaxed">
-                Analytical lens processing confirms active radar change signature corresponding to {activeLens.toLowerCase()} domain criteria.
+
+              {caseDetail?.observation_start && (
+                <div className="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+                  <span className="text-slate-500 uppercase">Temporal Baseline Window:</span>
+                  <span className="text-slate-300 font-sans">
+                    {new Date(caseDetail.observation_start).toLocaleDateString()} — {new Date(caseDetail.observation_end).toLocaleDateString()}
+                  </span>
+                </div>
+              )}
+
+              <p className="text-[11px] font-sans text-slate-300 pt-0.5 leading-relaxed">
+                Analytical lens processing confirms active radar change signature corresponding to {activeLens.toLowerCase()} domain criteria across spatial and temporal dimensions.
               </p>
             </div>
           ) : (

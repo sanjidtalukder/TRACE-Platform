@@ -5,8 +5,6 @@ import {
   MapPin,
   RefreshCw,
   Compass,
-  CheckCircle2,
-  AlertTriangle,
   Radar,
   BellRing,
   Share2,
@@ -15,8 +13,9 @@ import {
   Activity,
   ShieldCheck,
   ChevronRight,
+  SlidersHorizontal,
+  Layers,
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { OpticalSarSwipeComparison } from '@/components/scientific/OpticalSarSwipeComparison';
 import { PayloadCarousel } from '@/components/mobile/PayloadCarousel';
@@ -52,6 +51,8 @@ interface OverviewViewProps {
   onNavigateToVerify?: () => void;
   onOpenDetailModal: () => void;
   onSelectPayload?: (payloadId: string) => void;
+  onToggleInspector?: () => void;
+  inspectorOpen?: boolean;
 }
 
 export function OverviewView({
@@ -76,6 +77,8 @@ export function OverviewView({
   onNavigateToVerify,
   onOpenDetailModal,
   onSelectPayload,
+  onToggleInspector,
+  inspectorOpen = false,
 }: OverviewViewProps) {
   const [targetPlaceName, setTargetPlaceName] = React.useState<string | null>(null);
 
@@ -89,201 +92,157 @@ export function OverviewView({
     }
   }, [selectedCentroid]);
 
+  const formattedCaseTitle = caseDetail ? formatCaseLabel(caseDetail) : 'Active Target';
+
   return (
-    <div className="space-y-3.5">
-      {/* 7.1 COMPACT LOCATION & DEVICE LOCK STRIP */}
-      <div className="glass-panel border-sky-500/20 p-2.5 rounded-xl shadow-md flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="p-1.5 rounded-lg bg-sky-500/10 border border-sky-400/30 text-sky-400 shrink-0">
-            <MapPin className="h-3.5 w-3.5" />
-          </div>
-          <div className="min-w-0">
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-300">
-                GPS LOCK:
-              </span>
-              {locationStatus === 'granted' && location ? (
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  {location.placeName && (
-                    <span className="text-[11px] font-mono font-extrabold text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30 shadow-[0_0_8px_rgba(52,211,153,0.25)]">
-                      {location.placeName}
-                    </span>
-                  )}
-                  <span className="text-[11px] font-mono font-bold text-sky-300 truncate">
-                    {location.latitude.toFixed(4)}°, {location.longitude.toFixed(4)}°
-                  </span>
-                  <span className="text-[9px] text-slate-400 font-normal">
-                    (±{Math.round(location.accuracy || 0)}m)
-                  </span>
-                </div>
-              ) : locationStatus === 'loading' ? (
-                <span className="text-[10px] font-mono text-amber-400 animate-pulse flex items-center gap-1">
-                  <Compass className="h-3 w-3 animate-spin" /> ACQUIRING...
-                </span>
-              ) : (
-                <span className="text-[10px] font-mono text-slate-400">
-                  {locationStatus === 'denied' ? 'OFFLINE (DENIED)' : 'UNAVAILABLE'}
-                </span>
-              )}
-            </div>
-          </div>
+    <div className="w-full flex flex-col space-y-3.5 relative">
+      {/* 1. TOP COMMAND & CASE SELECTOR STRIP */}
+      <div className="glass-panel border-sky-500/20 p-2.5 rounded-xl shadow-lg flex flex-wrap items-center justify-between gap-2 shrink-0 z-20 relative">
+        {/* Left: Case Selector */}
+        <div className="flex-1 max-w-sm sm:max-w-md min-w-[200px]">
+          {cases.length > 0 && (
+            <CaseSelect
+              cases={cases}
+              selectedCaseId={selectedCaseId}
+              onSelectCaseId={onSelectCaseId}
+            />
+          )}
         </div>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={requestLocation}
-          disabled={locationStatus === 'loading'}
-          className="h-7 text-[10px] font-mono border-sky-500/30 text-sky-300 hover:bg-sky-500/15 px-2 gap-1 shrink-0"
-        >
-          <RefreshCw className={`h-2.5 w-2.5 ${locationStatus === 'loading' ? 'animate-spin' : ''}`} />
-          <span>Sync</span>
-        </Button>
-      </div>
+        {/* Right: Quick Action Controls */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          {/* Anomaly Alert Quick Button */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onOpenAlertModal}
+            className={`h-8 px-2.5 text-[10px] font-mono gap-1 border-sky-500/30 ${
+              hasTriggeredAlert
+                ? 'border-amber-500/50 text-amber-300 bg-amber-500/20 animate-pulse font-bold'
+                : 'text-slate-300 hover:text-white hover:bg-sky-500/15'
+            }`}
+            title="Configure Decibel Anomaly Alert"
+          >
+            <BellRing className="h-3.5 w-3.5 text-amber-400" />
+            <span className="hidden sm:inline">{hasTriggeredAlert ? 'EXCEEDED' : 'Alert'}</span>
+          </Button>
 
-      {/* 7.1 TARGET SELECTION & SUMMARY */}
-      <div className="space-y-1.5">
-        <div className="flex items-center justify-between px-1">
-          <label className="text-[10px] font-mono font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1">
-            <Radar className="h-3 w-3 text-sky-400" />
-            Investigation Target
-          </label>
-          <span className="text-[9px] font-mono text-sky-400/90 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">
-            {cases.length} DETECTED
-          </span>
+          {/* Share Case Quick Button */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onShareCase}
+            className="h-8 px-2.5 text-[10px] font-mono gap-1 border-sky-500/30 text-slate-300 hover:text-white hover:bg-sky-500/15"
+            title="Share Case Deep Link"
+          >
+            {copiedLink ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Share2 className="h-3.5 w-3.5 text-sky-400" />}
+            <span className="hidden sm:inline">{copiedLink ? 'Copied' : 'Share'}</span>
+          </Button>
+
+          {/* Telemetry Inspector Toggle Button */}
+          {onToggleInspector && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onToggleInspector}
+              className={`h-8 px-2.5 text-[10px] font-mono gap-1 border-sky-500/30 transition-all ${
+                inspectorOpen
+                  ? 'bg-sky-500/25 border-sky-400 text-sky-200'
+                  : 'bg-slate-900/90 text-sky-300 hover:bg-sky-500/15'
+              }`}
+              title="Toggle Detailed Telemetry Inspector Panel"
+            >
+              <SlidersHorizontal className="h-3.5 w-3.5 text-sky-400" />
+              <span className="hidden md:inline">Telemetry</span>
+            </Button>
+          )}
         </div>
-
-        {cases.length > 0 && (
-          <CaseSelect
-            cases={cases}
-            selectedCaseId={selectedCaseId}
-            onSelectCaseId={onSelectCaseId}
-          />
-        )}
       </div>
 
-      {/* ACTIVE CASE HEADER BADGE & EVENT CONTEXT */}
-      {caseDetail && (
-        <Card className="glass-panel border-sky-500/25 shadow-xl relative overflow-hidden">
-          <div className="tech-corner-tl" />
-          <div className="tech-corner-tr" />
+      {/* 2. HERO OPTICAL VS SAR COMPARISON (VISUALLY PROMINENT) */}
+      <div className="w-full relative shadow-2xl rounded-xl overflow-hidden">
+        <OpticalSarSwipeComparison
+          opticalUri={opticalUriCandidate}
+          sarUri={sarUriCandidate}
+          containerHeightClass="h-[280px] xs:h-[320px] sm:h-[400px] md:h-[460px] min-h-[240px]"
+        />
+      </div>
 
-          <CardHeader className="p-3.5 pb-2">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono font-extrabold text-sky-300 bg-sky-500/15 px-2.5 py-0.5 rounded border border-sky-400/30 uppercase tracking-widest shadow-[0_0_10px_rgba(56,189,248,0.2)]">
-                CASE // {caseDetail.case_id}
-              </span>
-
-              <div className="flex items-center gap-1.5">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={onOpenAlertModal}
-                  className={`h-6 text-[10px] font-mono px-2 gap-1 border-sky-500/30 ${
-                    hasTriggeredAlert
-                      ? 'border-amber-500/50 text-amber-300 bg-amber-500/20 animate-pulse font-bold'
-                      : 'text-slate-300 hover:text-white hover:bg-sky-500/15'
-                  }`}
-                  title="Configure Anomaly Alert"
-                >
-                  <BellRing className="h-3 w-3" />
-                  {hasTriggeredAlert ? 'EXCEEDED' : 'Alert'}
-                </Button>
-
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={onShareCase}
-                  className="h-6 text-[10px] font-mono px-2 gap-1 border-sky-500/30 text-slate-300 hover:text-white hover:bg-sky-500/15"
-                  title="Share Case Link"
-                >
-                  {copiedLink ? <Check className="h-3 w-3 text-emerald-400" /> : <Share2 className="h-3 w-3 text-sky-400" />}
-                  {copiedLink ? 'Copied' : 'Share'}
-                </Button>
-
-                <span
-                  className={`text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${
-                    caseDetail.status === 'active'
-                      ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30 shadow-[0_0_8px_rgba(52,211,153,0.3)]'
-                      : 'bg-slate-800 text-slate-400 border-slate-700'
-                  }`}
-                >
-                  ● {caseDetail.status}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-baseline justify-between pt-1">
-              <CardTitle className="text-base font-extrabold text-white capitalize font-mono tracking-tight">
-                {caseDetail.event_type}
-              </CardTitle>
-              <CardDescription className="text-[10px] text-slate-400 flex items-center gap-1 font-mono">
-                <Calendar className="h-3 w-3 text-sky-400" />
-                Start: {new Date(caseDetail.observation_start).toLocaleDateString()}
-              </CardDescription>
-            </div>
-          </CardHeader>
-        </Card>
-      )}
-
-      {/* 7.2 OPTICAL VS SAR COMPARISON (VISUALLY PROMINENT) */}
-      <OpticalSarSwipeComparison
-        opticalUri={opticalUriCandidate}
-        sarUri={sarUriCandidate}
-      />
-
-      {/* 7.3 RADAR METRICS (COMPACT 2-COLUMN GRID) */}
-      <div className="grid grid-cols-2 gap-2 text-xs">
-        {/* Backscatter */}
+      {/* 3. RADAR METRICS & TARGET TELEMETRY GRID (2-COLUMN) */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
+        {/* Metric 1: Backscatter Delta */}
         <div className="glass-panel border-sky-500/20 rounded-xl p-3 space-y-1 shadow-inner relative">
           <div className="tech-corner-tl" />
           <span className="text-[10px] font-mono font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
             <Activity className="h-3 w-3 text-sky-400" />
-            Backscatter
+            Radar Backscatter
           </span>
 
           {primaryNisarMeasurement?.delta_backscatter != null ? (
-            <p className="text-base font-extrabold font-mono text-sky-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.3)]">
-              {primaryNisarMeasurement.delta_backscatter > 0 ? '+' : ''}
-              {primaryNisarMeasurement.delta_backscatter.toFixed(2)} dB
-            </p>
+            <div className="flex items-baseline gap-1.5 pt-0.5">
+              <span className="text-xl font-extrabold font-mono text-sky-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.35)]">
+                {primaryNisarMeasurement.delta_backscatter > 0 ? '+' : ''}
+                {primaryNisarMeasurement.delta_backscatter.toFixed(2)}
+              </span>
+              <span className="text-xs font-mono text-slate-400 font-bold">dB</span>
+            </div>
           ) : (
-            <p className="text-xs font-mono text-slate-400 italic">
-              Unavailable
-            </p>
+            <p className="text-xs font-mono text-slate-400 italic pt-1">Evaluating</p>
           )}
         </div>
 
-        {/* Distance */}
+        {/* Metric 2: Distance to Target */}
         <div className="glass-panel border-sky-500/20 rounded-xl p-3 space-y-1 shadow-inner relative">
           <div className="tech-corner-tr" />
           <span className="text-[10px] font-mono font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
             <Compass className="h-3 w-3 text-sky-400" />
-            Distance
+            Field Distance
           </span>
 
           {distanceToUser != null ? (
-            <p className="text-base font-extrabold font-mono text-slate-200">
-              {distanceToUser} km
-            </p>
+            <div className="flex items-baseline gap-1.5 pt-0.5">
+              <span className="text-xl font-extrabold font-mono text-slate-100">
+                {distanceToUser.toLocaleString()}
+              </span>
+              <span className="text-xs font-mono text-slate-400 font-bold">km</span>
+            </div>
           ) : (
-            <p className="text-xs font-mono text-slate-400 italic">
-              {locationStatus === 'granted' ? 'Centroid unknown' : 'GPS off'}
+            <p className="text-xs font-mono text-slate-400 italic pt-1">
+              {locationStatus === 'granted' ? 'Centroid Unknown' : 'GPS Offline'}
             </p>
           )}
         </div>
+
+        {/* Metric 3: Observation Location & Time */}
+        <div className="col-span-2 sm:col-span-1 glass-panel border-sky-500/20 rounded-xl p-3 space-y-1 shadow-inner relative">
+          <span className="text-[10px] font-mono font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+            <MapPin className="h-3 w-3 text-sky-400" />
+            Target Region
+          </span>
+          <div className="pt-0.5">
+            <p className="text-xs font-mono font-bold text-sky-200 truncate">
+              {targetPlaceName || (selectedCentroid ? `${selectedCentroid.latitude.toFixed(2)}°, ${selectedCentroid.longitude.toFixed(2)}°` : 'Global Grid')}
+            </p>
+            {caseDetail && (
+              <span className="text-[10px] font-mono text-slate-400 flex items-center gap-1 mt-0.5">
+                <Calendar className="h-3 w-3 text-sky-400" />
+                {new Date(caseDetail.observation_start).toLocaleDateString()}
+              </span>
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* QUICK ACTIONS FOR FEEL & VERIFY */}
+      {/* 4. QUICK FIELD ACTIONS (FEEL & VERIFY) */}
       <div className="grid grid-cols-2 gap-2">
         {onNavigateToFeel && (
           <Button
             variant="outline"
             onClick={onNavigateToFeel}
-            className="h-9 text-xs font-mono font-bold gap-1.5 border-sky-500/40 text-sky-300 hover:bg-sky-500/20 hover:text-white shadow-sm"
+            className="h-10 text-xs font-mono font-bold gap-2 border-sky-500/40 text-sky-300 hover:bg-sky-500/20 hover:text-white shadow-sm"
           >
-            <Activity className="h-3.5 w-3.5 text-sky-400" />
-            FEEL Signal
+            <Activity className="h-4 w-4 text-sky-400" />
+            FEEL Signal (Haptic/Audio)
           </Button>
         )}
 
@@ -291,46 +250,37 @@ export function OverviewView({
           <Button
             variant="outline"
             onClick={onNavigateToVerify}
-            className="h-9 text-xs font-mono font-bold gap-1.5 border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/20 hover:text-white shadow-sm"
+            className="h-10 text-xs font-mono font-bold gap-2 border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/20 hover:text-white shadow-sm"
           >
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
-            VERIFY Ground
+            <ShieldCheck className="h-4 w-4 text-emerald-400" />
+            VERIFY Ground Truth
           </Button>
         )}
       </div>
 
-      {/* 7.4 PAYLOAD STATUS HORIZONTAL CAROUSEL */}
-      <PayloadCarousel
-        caseDetail={caseDetail}
-        primaryNisarMeasurement={primaryNisarMeasurement}
-        onSelectPayload={onSelectPayload}
-      />
-
-      {/* AOI Centroid & Full State Button */}
-      {selectedCentroid && (
-        <div className="text-[11px] flex items-center justify-between border-t border-sky-500/15 pt-2 text-slate-400 font-mono px-1 gap-2 flex-wrap">
-          <span className="flex items-center gap-1">
-            <MapPin className="h-3 w-3 text-sky-400" />
-            Target Area:
+      {/* 5. MULTI-MISSION SATELLITE SENSORS CAROUSEL */}
+      <div className="space-y-1.5 pt-1">
+        <div className="flex items-center justify-between px-1">
+          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+            <Layers className="h-3.5 w-3.5 text-sky-400" />
+            Active Satellite Payloads & Ground Sensors
           </span>
-          <div className="flex items-center gap-1.5 flex-wrap">
-            {targetPlaceName && (
-              <span className="text-[10px] font-bold text-sky-300 bg-sky-500/10 px-1.5 py-0.5 rounded border border-sky-500/20">
-                {targetPlaceName}
-              </span>
-            )}
-            <span className="font-bold text-slate-200">
-              {selectedCentroid.latitude.toFixed(4)}°, {selectedCentroid.longitude.toFixed(4)}°
-            </span>
-          </div>
+          <span className="text-[10px] font-mono text-sky-400/80">MULTI-MISSION FUSION</span>
         </div>
-      )}
+        <PayloadCarousel
+          caseDetail={caseDetail}
+          primaryNisarMeasurement={primaryNisarMeasurement}
+          onSelectPayload={onSelectPayload}
+        />
+      </div>
 
+      {/* 6. FULL INVESTIGATION DOSSIER BUTTON */}
       <Button
-        className="w-full h-9 text-xs font-mono font-bold uppercase tracking-wider gap-2 shadow-lg bg-sky-500 text-slate-950 hover:bg-sky-400 shadow-sky-500/20 rounded-xl"
+        className="w-full h-11 text-xs font-mono font-bold uppercase tracking-wider gap-2 shadow-lg bg-sky-500 text-slate-950 hover:bg-sky-400 shadow-sky-500/20 rounded-xl cursor-pointer"
         onClick={onOpenDetailModal}
       >
-        Open Full Investigation State
+        <Radar className="h-4 w-4" />
+        Open Full Scientific Investigation Dossier
         <ChevronRight className="h-4 w-4" />
       </Button>
     </div>

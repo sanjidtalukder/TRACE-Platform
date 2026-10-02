@@ -114,7 +114,7 @@ export function CaseSelect({
   };
 
   return (
-    <div ref={containerRef} className={`relative w-full ${className}`}>
+    <div ref={containerRef} className={`relative w-full ${isOpen ? 'z-50' : 'z-20'} ${className}`}>
       {/* TRIGGER BUTTON */}
       <button
         id={selectId}
@@ -131,7 +131,7 @@ export function CaseSelect({
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={`${selectId}-listbox`}
-        className={`w-full bg-[#060b17]/95 border border-sky-500/30 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-sans font-medium text-slate-100 flex items-center justify-between gap-2 shadow-inner hover:border-sky-400/60 focus:outline-none focus:ring-1 focus:ring-sky-400 transition-all cursor-pointer ${
+        className={`w-full bg-[#060b17] border border-sky-500/30 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-sans font-medium text-slate-100 flex items-center justify-between gap-2 shadow-inner hover:border-sky-400/60 focus:outline-none focus:ring-1 focus:ring-sky-400 transition-all cursor-pointer ${
           isOpen ? 'ring-1 ring-sky-400 border-sky-400/60' : ''
         } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
@@ -146,7 +146,7 @@ export function CaseSelect({
 
       {/* CUSTOM FLOATING DROPDOWN MENU */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1.5 z-50 min-w-full bg-[#070d1e]/98 backdrop-blur-2xl border border-sky-500/40 rounded-xl shadow-[0_16px_50px_rgba(0,0,0,0.9),0_0_20px_rgba(56,189,248,0.2)] overflow-hidden animate-in fade-in-50 zoom-in-95 duration-150">
+        <div className="absolute top-full left-0 right-0 mt-1.5 z-50 min-w-full bg-[#060b19] border border-sky-400/50 rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.98),0_0_25px_rgba(56,189,248,0.25)] overflow-hidden animate-in fade-in-50 zoom-in-95 duration-150">
           <div className="tech-corner-tl" />
           <div className="tech-corner-tr" />
 

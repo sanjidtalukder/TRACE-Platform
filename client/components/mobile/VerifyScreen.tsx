@@ -28,6 +28,7 @@ import {
 } from '@/lib/api';
 import { formatCaseLabel } from '@/lib/formatCaseLabel';
 import { CaseSelect } from '@/components/ui/CaseSelect';
+import { HeroModuleHeader } from '@/components/mobile/HeroMissionHeader';
 
 import { useOfflineSync } from '@/lib/useOfflineSync';
 import { Wifi, WifiOff, CloudOff } from 'lucide-react';
@@ -205,6 +206,18 @@ export function VerifyScreen({ initialCaseId, onSuccess }: VerifyScreenProps) {
 
   return (
     <div className="space-y-4 pb-safe-content max-w-md mx-auto px-4" role="region" aria-label="Ground Truth Closed-Loop System">
+      {/* MODULE ORIENTATION HERO HEADER */}
+      <HeroModuleHeader
+        module="verify"
+        targetCaseLabel={selectedCase ? formatCaseLabel(selectedCase) : null}
+        statusBadge={
+          <span className="text-[10px] font-mono text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
+            GPS {locationStatus === 'granted' ? 'LOCK ACTIVE' : 'OFFLINE'}
+          </span>
+        }
+        compact
+      />
+
       {/* OFFLINE QUEUE STATUS BANNER */}
       {pendingCount > 0 && (
         <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-xs text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.1)]">

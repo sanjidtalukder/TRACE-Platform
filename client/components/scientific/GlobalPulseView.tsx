@@ -13,12 +13,17 @@ import {
   Calendar,
   Layers,
   ChevronRight,
+  ChevronDown,
   RefreshCw,
+  Filter,
+  RotateCcw,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import dynamic from 'next/dynamic';
 import { fetchGlobalEvents, fetchCaseDetail, type GlobalEventItem, type CaseDetailResponse } from '@/lib/api';
+import { formatCaseLabel } from '@/lib/formatCaseLabel';
+import { HeroModuleHeader } from '@/components/mobile/HeroMissionHeader';
 
 const PlanetaryRealMap = dynamic(
   () => import('@/components/scientific/PlanetaryRealMap').then((mod) => mod.PlanetaryRealMap),
@@ -55,8 +60,12 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
       const auditParam = filterAuditVerdict === 'ALL' ? undefined : filterAuditVerdict;
       const res = await fetchGlobalEvents(typeParam, auditParam);
       setEvents(res.items);
-      if (res.items.length > 0 && !selectedCaseId) {
-        setSelectedCaseId(res.items[0].case_id);
+      if (res.items.length > 0) {
+        if (!selectedCaseId || !res.items.some((e) => e.case_id === selectedCaseId)) {
+          setSelectedCaseId(res.items[0].case_id);
+        }
+      } else {
+        setSelectedCaseId(null);
       }
     } catch (err: any) {
       setError(err.message || 'Failed to fetch global pulse events');
@@ -90,6 +99,13 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
   }, [selectedCaseId]);
 
   const selectedEvent = events.find((e) => e.case_id === selectedCaseId) || events[0] || null;
+
+  const isFiltered = filterEventType !== 'ALL' || filterAuditVerdict !== 'ALL';
+
+  const resetFilters = () => {
+    setFilterEventType('ALL');
+    setFilterAuditVerdict('ALL');
+  };
 
   const getVerdictBadge = (verdict: string) => {
     switch (verdict?.toUpperCase()) {
@@ -128,75 +144,115 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto px-4 sm:px-6 pb-28 sm:pb-24">
-      {/* HEADER CARD */}
-      <div className="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative overflow-hidden">
-        <div className="tech-corner-tl" />
-        <div className="tech-corner-tr" />
-
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-sky-500/10 border border-sky-400/30 text-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.2)]">
-              <Globe className="w-5 h-5 animate-pulse" />
-            </div>
-            <h2 className="text-lg font-extrabold text-white tracking-tight font-mono flex items-center gap-2">
-              GLOBAL PULSE <span className="text-xs font-normal text-sky-400/80 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">PLANETARY MATRIX</span>
-            </h2>
-          </div>
-          <p className="text-xs text-slate-400 leading-relaxed max-w-2xl">
-            Real-time planetary satellite case markers linked directly to multi-mission evidence pipelines.
-          </p>
-        </div>
-
-        <Button
-          onClick={loadGlobalEvents}
-          variant="outline"
-          size="sm"
-          disabled={loading}
-          className="h-8 text-xs font-mono border-sky-500/30 text-sky-300 hover:bg-sky-500/20 hover:text-white shrink-0"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 mr-1.5 ${loading ? 'animate-spin' : ''}`} />
-          Refresh Pulse
-        </Button>
-      </div>
+      {/* MODULE ORIENTATION HERO HEADER */}
+      <HeroModuleHeader
+        module="pulse"
+        statusBadge={
+          <span className="text-[10px] font-mono text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
+            {events.length} ACTIVE SURVEILLANCE EVENTS
+          </span>
+        }
+        rightAction={
+          <Button
+            onClick={loadGlobalEvents}
+            variant="outline"
+            size="sm"
+            disabled={loading}
+            className="h-8 text-xs font-mono border-sky-500/30 text-sky-300 hover:bg-sky-500/20 hover:text-white shrink-0"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 mr-1.5 ${loading ? 'animate-spin' : ''}`} />
+            Refresh Pulse
+          </Button>
+        }
+      />
 
       {/* FILTER BAR */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-950/70 p-4 rounded-xl border border-sky-500/20 text-xs shadow-inner">
-        <div className="flex flex-wrap items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-950/80 p-3.5 sm:p-4 rounded-xl border border-sky-500/25 text-xs shadow-inner">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-slate-400 font-mono font-medium">Event Type:</span>
-            <select
-              value={filterEventType}
-              onChange={(e) => setFilterEventType(e.target.value)}
-              className="bg-slate-900 border border-sky-500/30 rounded-lg px-3 py-1.5 text-slate-200 font-mono focus:outline-none focus:ring-1 focus:ring-sky-400"
-            >
-              <option value="ALL">All Event Types</option>
-              <option value="WILDFIRE">Wildfire</option>
-              <option value="FLOOD">Flood</option>
-              <option value="EARTHQUAKE">Earthquake</option>
-              <option value="DEFORESTATION">Deforestation</option>
-              <option value="CHAR">Char River Change</option>
-            </select>
+            <span className="text-slate-400 font-mono font-medium text-[11px] uppercase tracking-wider flex items-center gap-1">
+              <Filter className="w-3 h-3 text-sky-400" />
+              Event Type:
+            </span>
+            <div className="relative">
+              <select
+                value={filterEventType}
+                onChange={(e) => setFilterEventType(e.target.value)}
+                className="bg-[#060b17] border border-sky-500/30 rounded-lg pl-3 pr-8 py-1.5 text-sky-200 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400 appearance-none cursor-pointer shadow-inner hover:border-sky-400/60 transition-colors"
+              >
+                <option value="ALL">All Event Types</option>
+                <option value="WILDFIRE">Wildfire</option>
+                <option value="FLOOD">Flood</option>
+                <option value="EARTHQUAKE">Earthquake</option>
+                <option value="DEFORESTATION">Deforestation</option>
+                <option value="CHAR">Char River Change</option>
+              </select>
+              <ChevronDown className="w-3.5 h-3.5 text-sky-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-slate-400 font-mono font-medium">Audit Verdict:</span>
-            <select
-              value={filterAuditVerdict}
-              onChange={(e) => setFilterAuditVerdict(e.target.value)}
-              className="bg-slate-900 border border-sky-500/30 rounded-lg px-3 py-1.5 text-slate-200 font-mono focus:outline-none focus:ring-1 focus:ring-sky-400"
-            >
-              <option value="ALL">All Verdicts</option>
-              <option value="SUPPORTED">SUPPORTED</option>
-              <option value="INCONCLUSIVE">INCONCLUSIVE</option>
-              <option value="REJECTED">REJECTED</option>
-            </select>
+            <span className="text-slate-400 font-mono font-medium text-[11px] uppercase tracking-wider">
+              Audit Verdict:
+            </span>
+            <div className="relative">
+              <select
+                value={filterAuditVerdict}
+                onChange={(e) => setFilterAuditVerdict(e.target.value)}
+                className="bg-[#060b17] border border-sky-500/30 rounded-lg pl-3 pr-8 py-1.5 text-sky-200 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400 appearance-none cursor-pointer shadow-inner hover:border-sky-400/60 transition-colors"
+              >
+                <option value="ALL">All Verdicts</option>
+                <option value="SUPPORTED">SUPPORTED</option>
+                <option value="INCONCLUSIVE">INCONCLUSIVE</option>
+                <option value="REJECTED">REJECTED</option>
+              </select>
+              <ChevronDown className="w-3.5 h-3.5 text-sky-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
           </div>
+
+          {isFiltered && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={resetFilters}
+              className="h-7 px-2 text-[10px] font-mono gap-1 border-sky-500/30 text-sky-300 hover:bg-sky-500/15"
+              title="Reset Filters to Default"
+            >
+              <RotateCcw className="w-3 h-3 text-sky-400" />
+              Reset Filters
+            </Button>
+          )}
         </div>
 
-        <span className="text-[11px] font-mono text-sky-400 shrink-0 bg-sky-500/10 px-2.5 py-1 rounded border border-sky-500/20">
+        <span className="text-[11px] font-mono text-sky-400 shrink-0 bg-sky-500/10 px-2.5 py-1 rounded border border-sky-500/20 font-bold self-start sm:self-center">
           {events.length} ACTIVE EVENT{events.length === 1 ? '' : 'S'}
         </span>
       </div>
+
+      {/* ZERO RESULTS EMPTY STATE */}
+      {!loading && events.length === 0 && (
+        <Card className="glass-panel border-amber-500/30 shadow-xl p-6 text-center space-y-3 font-mono">
+          <AlertTriangle className="w-8 h-8 text-amber-400 mx-auto animate-pulse" />
+          <div className="space-y-1">
+            <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wider">
+              No Surveillance Events Match Current Filters
+            </h3>
+            <p className="text-xs text-slate-400 max-w-md mx-auto">
+              No active planetary cases found for {filterEventType !== 'ALL' ? `Type: ${filterEventType}` : ''}
+              {filterEventType !== 'ALL' && filterAuditVerdict !== 'ALL' ? ' and ' : ''}
+              {filterAuditVerdict !== 'ALL' ? `Verdict: ${filterAuditVerdict}` : ''}.
+            </p>
+          </div>
+          <Button
+            onClick={resetFilters}
+            variant="outline"
+            className="h-8 text-xs font-mono border-sky-500/40 text-sky-300 hover:bg-sky-500/20"
+          >
+            <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
+            Reset All Filters
+          </Button>
+        </Card>
+      )}
 
       {/* PLANETARY REAL INTERACTIVE GEOGRAPHIC MAP */}
       <Card className="bg-slate-950/80 border-sky-500/25 overflow-hidden shadow-2xl relative">
@@ -231,8 +287,8 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
               <span className="text-[10px] font-mono font-bold text-sky-300 uppercase tracking-widest bg-sky-500/15 px-2.5 py-0.5 rounded border border-sky-400/30">
                 CASE // {selectedEvent.case_id}
               </span>
-              <CardTitle className="text-base font-extrabold text-white capitalize mt-1.5 tracking-tight font-mono">
-                {selectedEvent.event_type} Investigation
+              <CardTitle className="text-base font-extrabold text-white mt-1.5 tracking-tight font-mono">
+                {formatCaseLabel(selectedEvent)}
               </CardTitle>
             </div>
             {getVerdictBadge(selectedEvent.audit_verdict)}

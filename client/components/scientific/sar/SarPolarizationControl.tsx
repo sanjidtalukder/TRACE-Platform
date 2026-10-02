@@ -137,7 +137,7 @@ export function SarPolarizationControl({
       {showTooltip && (
         <div
           id={`pol-desc-${currentPolarization}`}
-          className="absolute top-full mt-2 left-0 sm:left-auto sm:right-0 z-50 w-72 sm:w-80 glass-panel border-sky-500/35 p-3.5 rounded-xl shadow-2xl space-y-2.5 font-mono text-[11px] animate-in fade-in slide-in-from-top-2 duration-150"
+          className="absolute top-full mt-2 left-0 sm:left-auto sm:right-0 z-50 w-72 sm:w-80 max-w-[calc(100vw-24px)] glass-panel border-sky-500/35 p-3.5 rounded-xl shadow-2xl space-y-2.5 font-mono text-[11px] animate-in fade-in slide-in-from-top-2 duration-150"
         >
           <div className="tech-corner-tl" />
           <div className="tech-corner-tr" />

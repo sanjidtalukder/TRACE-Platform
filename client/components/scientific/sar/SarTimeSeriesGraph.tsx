@@ -3,30 +3,14 @@
 import React, { useEffect, useRef } from 'react';
 import {
   Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
+  registerables,
   type ChartData,
   type ChartOptions,
 } from 'chart.js';
 import { type SarTimeSeriesPoint } from '@/lib/sarAnalysis';
 
-// Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
+// Register all Chart.js components including LineController, scales, and elements
+ChartJS.register(...registerables);
 
 interface SarTimeSeriesGraphProps {
   points: SarTimeSeriesPoint[];

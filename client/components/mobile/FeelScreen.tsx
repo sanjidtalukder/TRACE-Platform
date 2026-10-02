@@ -19,6 +19,7 @@ import { useHaptics } from '@/lib/useHaptics';
 import { fetchCases, fetchCaseDetail, type CaseDetailResponse, type CaseListItem } from '@/lib/api';
 import { formatCaseLabel } from '@/lib/formatCaseLabel';
 import { CaseSelect } from '@/components/ui/CaseSelect';
+import { HeroModuleHeader } from '@/components/mobile/HeroMissionHeader';
 
 interface FeelScreenProps {
   initialCaseId?: string | null;
@@ -85,16 +86,27 @@ export function FeelScreen({ initialCaseId, onNavigateToVerify }: FeelScreenProp
 
   return (
     <div className="space-y-4 pb-20 max-w-md mx-auto px-4">
+      {/* MODULE ORIENTATION HERO HEADER */}
+      <HeroModuleHeader
+        module="feel"
+        targetCaseLabel={caseDetail ? formatCaseLabel(caseDetail) : null}
+        statusBadge={
+          deltaValue != null ? (
+            <span className="text-[10px] font-mono text-sky-300 bg-sky-500/15 px-2 py-0.5 rounded border border-sky-400/30">
+              SIGNAL: {deltaValue > 0 ? '+' : ''}{deltaValue.toFixed(2)} dB
+            </span>
+          ) : null
+        }
+        compact
+      />
+
       {/* SECTION 1: HEADER & CASE PICKER */}
       <div className="space-y-1.5">
         <div className="flex items-center justify-between px-1">
           <label className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
             <Activity className="h-3.5 w-3.5 text-sky-400" />
-            Select Investigation to Feel
+            Select Investigation Target
           </label>
-          <span className="text-[9px] font-mono text-sky-400/80 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">
-            HAPTIC SENSORY LINK
-          </span>
         </div>
 
         {caseList.length > 0 && (
@@ -195,8 +207,8 @@ export function FeelScreen({ initialCaseId, onNavigateToVerify }: FeelScreenProp
               <span className="text-[10px] font-mono font-extrabold text-sky-300 bg-sky-500/15 px-3 py-1 rounded-full border border-sky-400/30 tracking-widest shadow-[0_0_10px_rgba(56,189,248,0.2)]">
                 CASE // {caseDetail.case_id}
               </span>
-              <h2 className="text-lg font-extrabold text-white capitalize mt-2 tracking-tight">
-                {caseDetail.event_type}
+              <h2 className="text-lg font-extrabold text-white mt-2 tracking-tight">
+                {formatCaseLabel(caseDetail)}
               </h2>
             </div>
           </div>

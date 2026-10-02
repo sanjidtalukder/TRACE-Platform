@@ -25,6 +25,7 @@ import {
 import { SarPolarizationControl } from './sar/SarPolarizationControl';
 import { SarChangeLegend } from './sar/SarChangeLegend';
 import { SarInspectSignalDrawer } from './sar/SarInspectSignalDrawer';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 export interface PlanetaryRealMapProps {
@@ -95,9 +96,7 @@ export function PlanetaryRealMap({
 
     let isMounted = true;
 
-    async function initMap() {
-      const L = (await import('leaflet')).default;
-
+    function initMap() {
       if (!isMounted || !mapContainerRef.current) return;
 
       // Clean up previous instance if exists
@@ -224,8 +223,7 @@ export function PlanetaryRealMap({
 
     let isMounted = true;
 
-    async function updateMarkers() {
-      const L = (await import('leaflet')).default;
+    function updateMarkers() {
       if (!isMounted || !markersLayerRef.current) return;
 
       const layer = markersLayerRef.current;
@@ -312,8 +310,7 @@ export function PlanetaryRealMap({
 
     let isMounted = true;
 
-    async function updateGeometry() {
-      const L = (await import('leaflet')).default;
+    function updateGeometry() {
       if (!isMounted || !geometryLayerRef.current) return;
 
       const layer = geometryLayerRef.current;
@@ -351,8 +348,7 @@ export function PlanetaryRealMap({
 
     let isMounted = true;
 
-    async function updateChangeDetectionLayer() {
-      const L = (await import('leaflet')).default;
+    function updateChangeDetectionLayer() {
       if (!isMounted || !changeLayerRef.current) return;
 
       const layer = changeLayerRef.current;
@@ -408,9 +404,8 @@ export function PlanetaryRealMap({
     if (!mapReady || !mapInstanceRef.current) return;
     const map = mapInstanceRef.current;
 
-    async function handleMapClick(e: any) {
+    function handleMapClick(e: any) {
       if (!isInspectModeActive) return;
-      const L = (await import('leaflet')).default;
 
       const lat = e.latlng.lat;
       const lng = e.latlng.lng;

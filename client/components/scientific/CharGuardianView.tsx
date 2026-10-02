@@ -30,6 +30,7 @@ import { CaseSelect } from '@/components/ui/CaseSelect';
 import { EvidenceConfidenceWall } from '@/components/scientific/EvidenceConfidenceWall';
 import { ChangeLensesView } from '@/components/scientific/ChangeLensesView';
 import { EnhancedEventTimeline } from '@/components/scientific/EnhancedEventTimeline';
+import { HeroModuleHeader } from '@/components/mobile/HeroMissionHeader';
 
 interface CharGuardianViewProps {
   initialCaseId?: string | null;
@@ -136,37 +137,33 @@ export function CharGuardianView({ initialCaseId, onNavigateToVerify }: CharGuar
     }
   };
 
+  const selectedCaseItem = cases.find((c) => c.case_id === selectedCaseId);
+
   return (
     <div className="space-y-6 max-w-5xl mx-auto px-4 sm:px-6 pb-28 sm:pb-24">
-      {/* HEADER CARD */}
-      <div className="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative overflow-hidden">
-        <div className="tech-corner-tl" />
-        <div className="tech-corner-tr" />
-
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-400/30 text-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.2)]">
-              <Anchor className="w-5 h-5 animate-pulse" />
+      {/* MODULE ORIENTATION HERO HEADER */}
+      <HeroModuleHeader
+        module="char"
+        targetCaseLabel={selectedCaseItem ? formatCaseLabel(selectedCaseItem) : selectedCaseId ? `CASE // ${selectedCaseId}` : null}
+        statusBadge={
+          charHistory ? (
+            <span className="text-[10px] font-mono text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
+              {charHistory.historical_observations?.length || 0} SAR ACQUISITIONS
+            </span>
+          ) : null
+        }
+        rightAction={
+          cases.length > 0 ? (
+            <div className="w-full sm:w-auto sm:min-w-[300px] shrink-0">
+              <CaseSelect
+                cases={cases}
+                selectedCaseId={selectedCaseId}
+                onSelectCaseId={setSelectedCaseId}
+              />
             </div>
-            <h2 className="text-lg font-extrabold text-white tracking-tight font-mono flex items-center gap-2">
-              CHAR GUARDIAN <span className="text-xs font-normal text-emerald-400/80 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">RIVER-ISLAND ENGINE</span>
-            </h2>
-          </div>
-          <p className="text-xs text-slate-400 leading-relaxed max-w-2xl">
-            Real Earth-observation SAR change monitoring for river island & coastal land dynamics in Bangladesh.
-          </p>
-        </div>
-
-        {cases.length > 0 && (
-          <div className="w-full sm:w-auto sm:min-w-[340px] shrink-0">
-            <CaseSelect
-              cases={cases}
-              selectedCaseId={selectedCaseId}
-              onSelectCaseId={setSelectedCaseId}
-            />
-          </div>
-        )}
-      </div>
+          ) : null
+        }
+      />
 
       {loadingHistory && (
         <Card className="glass-panel border-sky-500/20">

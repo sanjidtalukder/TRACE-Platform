@@ -1002,7 +1002,15 @@ class CaseService:
             if c.challenge_checks:
                 for cc in c.challenge_checks:
                     if cc.check_type in {"OVERALL_SELF_AUDIT", "DETERMINISTIC_SELF_AUDIT"}:
-                        audit_state = cc.status.upper()
+                        raw = cc.status.upper()
+                        if raw in {"PASS", "SUPPORTED"}:
+                            audit_state = "SUPPORTED"
+                        elif raw in {"FAIL", "REJECTED"}:
+                            audit_state = "REJECTED"
+                        elif raw in {"INCONCLUSIVE", "WARNING"}:
+                            audit_state = "INCONCLUSIVE"
+                        else:
+                            audit_state = raw
                         break
                 if audit_state == "UNAVAILABLE" and len(c.challenge_checks) > 0:
                     has_fail = any(cc.status.upper() in {"FAIL", "REJECTED"} for cc in c.challenge_checks)
@@ -1016,8 +1024,14 @@ class CaseService:
                 has_contra = any(e.status.upper() in {"CONTRADICTORY", "CONTRADICTS"} for e in c.evidence)
                 evidence_state = "CONTRADICTED" if has_contra else ("SUPPORTED" if has_supp else "INCONCLUSIVE")
 
-            if audit_verdict and audit_verdict.strip().upper() != audit_state:
-                continue
+            if audit_verdict:
+                target_verdict = audit_verdict.strip().upper()
+                if target_verdict == "PASS":
+                    target_verdict = "SUPPORTED"
+                elif target_verdict == "FAIL":
+                    target_verdict = "REJECTED"
+                if target_verdict != audit_state:
+                    continue
 
             gt_count = len(c.field_observations) if c.field_observations else 0
             prov_count = len(c.provenance_records) if c.provenance_records else 0

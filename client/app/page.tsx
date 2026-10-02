@@ -10,13 +10,19 @@ import { FeelScreen } from '@/components/mobile/FeelScreen';
 import { VerifyScreen } from '@/components/mobile/VerifyScreen';
 import { GlobalPulseView } from '@/components/scientific/GlobalPulseView';
 import { CharGuardianView } from '@/components/scientific/CharGuardianView';
-import { HeroMissionHeader } from '@/components/mobile/HeroMissionHeader';
 
 export default function HomePage() {
-  const { status: locationStatus } = useGeolocation();
+  const { location, status: locationStatus, requestLocation } = useGeolocation();
   const [serverStatus, setServerStatus] = useState<'loading' | 'connected' | 'disconnected'>('loading');
   const [activeTab, setActiveTab] = useState<MobileTab>('overview');
   const [currentCaseId, setCurrentCaseId] = useState<string | null>(null);
+  const [inspectorOpen, setInspectorOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (window.innerWidth >= 1280) {
+      setInspectorOpen(true);
+    }
+  }, []);
 
   const handleSelectCaseFromPulse = (caseId: string) => {
     setCurrentCaseId(caseId);
@@ -56,61 +62,68 @@ export default function HomePage() {
       : 'overview';
 
   return (
-    <div className="min-h-screen bg-[#060911] text-foreground flex flex-col antialiased selection:bg-primary/20 overflow-x-hidden">
-      {/* 6. TRACE FIELD Header with Mission Modules Hamburger Menu */}
+    <div className="h-screen w-screen bg-[#060911] text-foreground flex flex-col antialiased selection:bg-primary/20 overflow-hidden">
+      {/* 1. COMPACT APP HEADER */}
       <MobileHeader
         locationStatus={locationStatus}
+        location={location}
+        onRequestLocation={requestLocation}
         serverStatus={serverStatus}
         activeTab={activeTab}
         onTabChange={setActiveTab}
+        inspectorOpen={inspectorOpen}
+        onToggleInspector={() => setInspectorOpen((prev) => !prev)}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 pt-2 pb-safe-content space-y-2">
+      {/* 2. MAIN FULL-VIEWPORT CANVAS & WORKSPACE */}
+      <main className="flex-1 h-[calc(100vh-48px)] overflow-hidden relative flex flex-col pb-14 md:pb-0">
         {isScanScreenView && (
-          <>
-            {/* Mission Control Hero Explanation & Module Cards — Desktop Only to prevent mobile scrolling */}
-            <div className="hidden md:block">
-              <HeroMissionHeader activeTab={activeTab} onTabChange={setActiveTab} />
-            </div>
-
-            <ScanScreen
-              overrideCaseId={currentCaseId}
-              currentMobileView={currentMobileScanView}
-              onMobileViewChange={(v) => setActiveTab(v)}
-              onNavigateToFeel={() => setActiveTab('feel')}
-              onNavigateToVerify={() => setActiveTab('verify')}
-            />
-          </>
+          <ScanScreen
+            overrideCaseId={currentCaseId}
+            currentMobileView={currentMobileScanView}
+            onMobileViewChange={(v) => setActiveTab(v)}
+            onNavigateToFeel={() => setActiveTab('feel')}
+            onNavigateToVerify={() => setActiveTab('verify')}
+            inspectorOpen={inspectorOpen}
+            onToggleInspector={() => setInspectorOpen((prev) => !prev)}
+          />
         )}
 
         {activeTab === 'pulse' && (
-          <GlobalPulseView onSelectCase={handleSelectCaseFromPulse} />
+          <div className="h-full w-full overflow-y-auto custom-scrollbar p-2 sm:p-3 pb-24">
+            <GlobalPulseView onSelectCase={handleSelectCaseFromPulse} />
+          </div>
         )}
 
         {activeTab === 'char' && (
-          <CharGuardianView
-            initialCaseId={currentCaseId}
-            onNavigateToVerify={() => setActiveTab('verify')}
-          />
+          <div className="h-full w-full overflow-y-auto custom-scrollbar p-2 sm:p-3 pb-24">
+            <CharGuardianView
+              initialCaseId={currentCaseId}
+              onNavigateToVerify={() => setActiveTab('verify')}
+            />
+          </div>
         )}
 
         {activeTab === 'feel' && (
-          <FeelScreen
-            initialCaseId={currentCaseId}
-            onNavigateToVerify={() => setActiveTab('verify')}
-          />
+          <div className="h-full w-full overflow-y-auto custom-scrollbar p-2 sm:p-3 pb-24">
+            <FeelScreen
+              initialCaseId={currentCaseId}
+              onNavigateToVerify={() => setActiveTab('verify')}
+            />
+          </div>
         )}
 
         {activeTab === 'verify' && (
-          <VerifyScreen
-            initialCaseId={currentCaseId}
-            onSuccess={() => setActiveTab('overview')}
-          />
+          <div className="h-full w-full overflow-y-auto custom-scrollbar p-2 sm:p-3">
+            <VerifyScreen
+              initialCaseId={currentCaseId}
+              onSuccess={() => setActiveTab('overview')}
+            />
+          </div>
         )}
       </main>
 
-      {/* 12. TRACE FIELD Navigation */}
+      {/* 3. MOBILE NAVIGATION DOCK (< md) */}
       <MobileNav activeTab={activeTab} onTabChange={setActiveTab} />
     </div>
   );
