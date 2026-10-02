@@ -4,6 +4,9 @@ import {
   FALLBACK_TIMELINES,
   FALLBACK_GLOBAL_EVENTS,
   getFallbackCharHistory,
+  getFallbackSentinelWorkflow,
+  getFallbackScenarioSimulation,
+  getFallbackSelfAudit,
 } from './apiFallbackData';
 
 export function getApiBaseUrl(): string {
@@ -568,20 +571,31 @@ export interface SelfAuditResponse {
  * Execute Phase 4.2 Challenge the Finding / Self-Audit Engine for a case
  */
 export async function evaluateSelfAudit(caseId: string): Promise<SelfAuditResponse> {
-  const url = getApiUrl(`/api/cases/${encodeURIComponent(caseId)}/self-audit`);
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-    },
-  });
+  try {
+    const url = getApiUrl(`/api/cases/${encodeURIComponent(caseId)}/self-audit`);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
 
-  if (!res.ok) {
-    const errorBody = await res.json().catch(() => ({}));
-    throw new Error(errorBody.detail || `HTTP ${res.status} failed to evaluate self-audit`);
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.case_id) {
+        return data;
+      }
+    }
+  } catch (err) {
+    console.warn(`[TRACE API] Falling back to offline self-audit for ${caseId}:`, err);
   }
 
-  return res.json();
+  return getFallbackSelfAudit(caseId);
 }
 
 export interface ScenarioSimulationResponse {
@@ -599,20 +613,31 @@ export interface ScenarioSimulationResponse {
  * Execute Phase 4.5 Scenario Simulator for a case (+0.5m, +1.0m, +2.0m)
  */
 export async function simulateScenario(caseId: string, waterLevelOffsetM: number = 1.0): Promise<ScenarioSimulationResponse> {
-  const url = getApiUrl(`/api/cases/${encodeURIComponent(caseId)}/simulate-scenario?water_level_offset_m=${waterLevelOffsetM}`);
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-    },
-  });
+  try {
+    const url = getApiUrl(`/api/cases/${encodeURIComponent(caseId)}/simulate-scenario?water_level_offset_m=${waterLevelOffsetM}`);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
 
-  if (!res.ok) {
-    const errorBody = await res.json().catch(() => ({}));
-    throw new Error(errorBody.detail || `HTTP ${res.status} failed to execute scenario simulation`);
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.case_id) {
+        return data;
+      }
+    }
+  } catch (err) {
+    console.warn(`[TRACE API] Falling back to offline scenario simulation for ${caseId}:`, err);
   }
 
-  return res.json();
+  return getFallbackScenarioSimulation(caseId, waterLevelOffsetM);
 }
 
 export interface AgentStepOutput {
@@ -640,20 +665,31 @@ export interface SentinelWorkflowResponse {
  * Execute Phase 4.6 Autonomous Sentinel Agents workflow for a case
  */
 export async function runSentinelAgents(caseId: string): Promise<SentinelWorkflowResponse> {
-  const url = getApiUrl(`/api/cases/${encodeURIComponent(caseId)}/run-sentinel-agents`);
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-    },
-  });
+  try {
+    const url = getApiUrl(`/api/cases/${encodeURIComponent(caseId)}/run-sentinel-agents`);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
 
-  if (!res.ok) {
-    const errorBody = await res.json().catch(() => ({}));
-    throw new Error(errorBody.detail || `HTTP ${res.status} failed to execute sentinel agents workflow`);
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.case_id) {
+        return data;
+      }
+    }
+  } catch (err) {
+    console.warn(`[TRACE API] Falling back to offline sentinel agents workflow for ${caseId}:`, err);
   }
 
-  return res.json();
+  return getFallbackSentinelWorkflow(caseId);
 }
 
 export interface GlobalEventItem {

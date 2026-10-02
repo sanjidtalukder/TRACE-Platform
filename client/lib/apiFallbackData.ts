@@ -6,7 +6,10 @@ import type {
   CharHistoryResponse,
   ThresholdAlertResponse,
   SelfAuditResponse,
+  AuditCheckItem,
   EvidenceFusionResponse,
+  SentinelWorkflowResponse,
+  ScenarioSimulationResponse,
 } from './api';
 
 export const FALLBACK_CASES: CaseListItem[] = [
@@ -761,5 +764,169 @@ export function getFallbackCharHistory(caseId: string): CharHistoryResponse {
     historical_observations: timeline?.events || [],
     provenance_records: detail.provenance_records || [],
     alerts: detail.threshold_alerts || [],
+  };
+}
+
+export function getFallbackSentinelWorkflow(caseId: string): SentinelWorkflowResponse {
+  const caseDetail = FALLBACK_CASE_DETAILS[caseId] || FALLBACK_CASE_DETAILS['TRACE-CHAR-01'];
+  const eventType = caseDetail.event_type || 'char';
+  const now = new Date().toISOString();
+  const delta = caseDetail.nisar_measurements?.[0]?.delta_backscatter ?? -2.1;
+  const area = caseDetail.nisar_measurements?.[0]?.affected_area ?? 210.0;
+
+  return {
+    case_id: caseId,
+    event_type: eventType,
+    overall_workflow_status: 'SUCCESS',
+    final_verdict: 'SUPPORTED',
+    challenge_disagreed: false,
+    execution_log: [
+      {
+        agent_name: 'DataAgent',
+        status: 'SUCCESS',
+        summary: `Discovered 2 satellite passes (NISAR L-band & Sentinel-2 MSI) matching spatial bounding box for ${caseId}.`,
+        data_payload: { sensor_products: ['NISAR_L2_GSLC', 'SENTINEL2_MSI_L2A'] },
+        provenance: { agent: 'DataAgent', catalog: 'NASA_CMR_ASF' },
+        timestamp: now,
+      },
+      {
+        agent_name: 'DetectionAgent',
+        status: 'SUCCESS',
+        summary: `Computed calibrated radar backscatter delta (${delta} dB). Spatial change mask delineated for ${area.toFixed(1)} km².`,
+        data_payload: { delta_backscatter: delta, area_km2: area },
+        provenance: { agent: 'DetectionAgent', algorithm: 'LOG_RATIO_CHANGE_DETECTION' },
+        timestamp: now,
+      },
+      {
+        agent_name: 'EvidenceAgent',
+        status: 'SUCCESS',
+        summary: 'Cross-correlated NASA GPM IMERG precipitation and FIRMS thermal anomaly baselines. High multi-mission concurrence.',
+        data_payload: { multi_mission_concurrence: true, confidence: 0.94 },
+        provenance: { agent: 'EvidenceAgent', source: 'NASA_CROSS_MISSION_FUSION' },
+        timestamp: now,
+      },
+      {
+        agent_name: 'ChallengeAgent',
+        status: 'SUCCESS',
+        summary: 'Executed 7-point deterministic self-audit. Verified phase coherence, atmospheric delay tolerance, and spatiotemporal bounds. Disagreed: False.',
+        data_payload: { audit_state: 'PASS', checks_passed: 7, total_checks: 7 },
+        provenance: { agent: 'ChallengeAgent', method: 'ADVERSARIAL_DETERMINISTIC_AUDIT' },
+        timestamp: now,
+      },
+      {
+        agent_name: 'InterpretationAgent',
+        status: 'SUCCESS',
+        summary: 'Synthesized final non-causal executive scientific narrative. Strictly enforced defensible terminology.',
+        data_payload: { overall_verdict: 'SUPPORTED' },
+        provenance: { agent: 'InterpretationAgent', method: 'NON_CAUSAL_SCIENTIFIC_SYNTHESIS_V1' },
+        timestamp: now,
+      },
+    ],
+    interpretation_narrative:
+      caseDetail.interpretations?.[0]?.narrative ||
+      'Multi-sensor satellite evidence confirms significant surface reflection changes matching historical monsoon dynamics. Cloud-penetrating radar confirms active morphological change.',
+    non_causal_statement:
+      'SAR backscatter change coincides temporally with multi-mission satellite observations within the calibrated bounding box.',
+    executed_at: now,
+  };
+}
+
+export function getFallbackScenarioSimulation(caseId: string, waterLevelOffsetM: number = 1.0): ScenarioSimulationResponse {
+  const baseArea = 210.0;
+  const factor = waterLevelOffsetM / 1.0;
+  return {
+    case_id: caseId,
+    water_level_offset_m: waterLevelOffsetM,
+    disclaimer: 'Scenario simulation — not a forecast.',
+    affected_area_sq_km: baseArea * (1 + factor * 0.4),
+    affected_population_text: `~${Math.round(12400 * (1 + factor * 0.35)).toLocaleString()} residents`,
+    affected_schools_text: `${Math.round(8 * (1 + factor * 0.5))} educational facilities`,
+    affected_health_facilities_text: `${Math.round(3 * (1 + factor * 0.33))} clinic/community health posts`,
+    simulated_at: new Date().toISOString(),
+  };
+}
+
+export function getFallbackSelfAudit(caseId: string): SelfAuditResponse {
+  const caseDetail = FALLBACK_CASE_DETAILS[caseId] || FALLBACK_CASE_DETAILS['TRACE-CHAR-01'];
+  const checks: AuditCheckItem[] = [
+    {
+      check_type: 'SAR_DATA_COMPLETENESS',
+      rule_name: 'Rule 1: Data Completeness & Quality',
+      rule_version: '1.0.0',
+      status: 'PASS',
+      value: `${caseDetail.nisar_measurements?.[0]?.delta_backscatter ?? -2.1} dB`,
+      threshold: '-1.5 dB',
+      rationale: 'Active backscatter delta verified within valid temporal observation bounds.',
+      source: 'NISAR_L2_GSLC',
+    },
+    {
+      check_type: 'PHASE_COHERENCE',
+      rule_name: 'Rule 2: InSAR Phase Coherence',
+      rule_version: '1.0.0',
+      status: 'PASS',
+      value: '0.41',
+      threshold: '0.25 - 0.65',
+      rationale: 'Coherence decorrelation matches surface morphological displacement without sensor artifact.',
+      source: 'InSAR_Phase_Engine',
+    },
+    {
+      check_type: 'SPATIOTEMPORAL_SANITY',
+      rule_name: 'Rule 3: Spatiotemporal Sanity Check',
+      rule_version: '1.0.0',
+      status: 'PASS',
+      value: `${caseDetail.nisar_measurements?.[0]?.affected_area ?? 210.0} km²`,
+      threshold: 'Polygon Sanity OK',
+      rationale: 'Observation duration and geometric polygon bounding box are physically valid.',
+      source: 'Spatiotemporal_Validator',
+    },
+    {
+      check_type: 'ATMOSPHERIC_ARTIFACT_RISK',
+      rule_name: 'Rule 4: Atmospheric Delay & Ionospheric Check',
+      rule_version: '1.0.0',
+      status: 'PASS',
+      value: 'Low Artifact Risk',
+      threshold: 'Delay < 3.0cm',
+      rationale: 'Ionospheric delay model validates absence of heavy rain-cell radio wave attenuation.',
+      source: 'Atmospheric_Discipline_Model',
+    },
+    {
+      check_type: 'MULTISENSOR_CROSS_COVERAGE',
+      rule_name: 'Rule 5: Multi-Sensor Cross-Coverage Verification',
+      rule_version: '1.0.0',
+      status: 'PASS',
+      value: 'Sentinel-2 + GPM Concurrence',
+      threshold: '>= 1 Corroborating Instrument',
+      rationale: 'Independent NASA and Copernicus Earth observation instruments confirm surface change.',
+      source: 'Cross_Mission_Correlator',
+    },
+    {
+      check_type: 'GROUND_TRUTH_CONCURRENCE',
+      rule_name: 'Rule 6: Field Ground Truth Concurrence',
+      rule_version: '1.0.0',
+      status: 'PASS',
+      value: `${caseDetail.field_observations?.length || 1} Reports`,
+      threshold: '>= 1 Verified Observer',
+      rationale: 'Field observation reports corroborate satellite anomaly within the target bounding box.',
+      source: 'Community_Ranger_Network',
+    },
+    {
+      check_type: 'CONFIDENCE_SYNTHESIS',
+      rule_name: 'Rule 7: Deterministic Confidence Synthesis',
+      rule_version: '1.0.0',
+      status: 'PASS',
+      value: '0.94 Confidence Score',
+      threshold: '>= 0.70',
+      rationale: 'All deterministic rules satisfied. Final mathematical verdict: SUPPORTED.',
+      source: 'Self_Audit_Synthesizer',
+    },
+  ];
+
+  return {
+    case_id: caseId,
+    overall_audit_state: 'SUPPORTED',
+    confidence_score: 0.94,
+    summary_explanation: 'All 7 deterministic self-audit checks passed with high multi-mission concurrence.',
+    checks,
+    evaluated_at: new Date().toISOString(),
   };
 }

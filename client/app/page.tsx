@@ -99,6 +99,7 @@ export default function HomePage() {
           <div className="h-full w-full overflow-y-auto custom-scrollbar p-2 sm:p-3 pb-24">
             <CharGuardianView
               initialCaseId={currentCaseId}
+              onNavigateToFeel={() => setActiveTab('feel')}
               onNavigateToVerify={() => setActiveTab('verify')}
             />
           </div>

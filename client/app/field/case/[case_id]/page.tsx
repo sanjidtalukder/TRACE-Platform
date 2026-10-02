@@ -93,6 +93,7 @@ export default function DeepLinkCasePage({ params }: PageProps) {
           <div className="h-full w-full overflow-y-auto custom-scrollbar p-2 sm:p-3">
             <CharGuardianView
               initialCaseId={caseId}
+              onNavigateToFeel={() => setActiveTab('feel')}
               onNavigateToVerify={() => setActiveTab('verify')}
             />
           </div>
