@@ -200,8 +200,9 @@ export function formatCaseLabel(caseItem?: any): string {
   // 2. Location
   const location = getCaseLocation(caseItem);
 
-  // 3. Year / Date
-  const yearOrDate = getCaseYearOrDate(caseItem);
+  // 3. Year / Date (Omit '2026' per user requirement)
+  const rawYearOrDate = getCaseYearOrDate(caseItem);
+  const yearOrDate = (rawYearOrDate && rawYearOrDate.includes('2026')) ? null : rawYearOrDate;
 
   // 4. Construct Location / Date block
   let locationDateBlock = '';
@@ -213,10 +214,14 @@ export function formatCaseLabel(caseItem?: any): string {
     locationDateBlock = yearOrDate;
   }
 
-  // 5. Combine with em dash standard
+  // 5. Combine with em dash standard and sanitize any lingering '2026' text
+  let finalLabel = eventName;
   if (locationDateBlock) {
-    return `${eventName} — ${locationDateBlock}`;
+    finalLabel = `${eventName} — ${locationDateBlock}`;
   }
 
-  return eventName;
+  return finalLabel
+    .replace(/\s*\(2026\)/gi, '')
+    .replace(/\s*[—–-]\s*2026/gi, '')
+    .trim();
 }
