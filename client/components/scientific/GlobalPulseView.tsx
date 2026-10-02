@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Globe,
   Radar,
@@ -17,6 +17,7 @@ import {
   RefreshCw,
   Filter,
   RotateCcw,
+  Check,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -37,6 +38,106 @@ const PlanetaryRealMap = dynamic(
     ),
   }
 );
+
+const EVENT_TYPE_OPTIONS = [
+  { value: 'ALL', label: 'All Event Types' },
+  { value: 'WILDFIRE', label: 'Wildfire' },
+  { value: 'FLOOD', label: 'Flood' },
+  { value: 'EARTHQUAKE', label: 'Earthquake' },
+  { value: 'DEFORESTATION', label: 'Deforestation' },
+  { value: 'CHAR', label: 'Char River Change' },
+];
+
+const AUDIT_VERDICT_OPTIONS = [
+  { value: 'ALL', label: 'All Verdicts' },
+  { value: 'SUPPORTED', label: 'SUPPORTED' },
+  { value: 'INCONCLUSIVE', label: 'INCONCLUSIVE' },
+  { value: 'REJECTED', label: 'REJECTED' },
+];
+
+interface FilterSelectProps {
+  value: string;
+  onChange: (val: string) => void;
+  options: Array<{ value: string; label: string }>;
+}
+
+function FilterSelect({ value, onChange, options }: FilterSelectProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
+
+  const selectedOption = options.find((opt) => opt.value === value) || options[0];
+
+  return (
+    <div ref={containerRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="bg-[#080d1a] border border-amber-500/30 rounded-lg pl-3 pr-8 py-1.5 text-amber-200 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-amber-400 focus:border-amber-400 cursor-pointer shadow-inner hover:border-amber-400/60 transition-colors flex items-center justify-between gap-1.5 text-left"
+      >
+        <span className="truncate">{selectedOption.label}</span>
+        <ChevronDown
+          className={`w-3.5 h-3.5 text-amber-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-150 ${
+            isOpen ? 'rotate-180 text-amber-300' : ''
+          }`}
+        />
+      </button>
+
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-1.5 z-50 min-w-full w-max max-w-[240px] bg-[#0A0E18] border border-amber-500/40 rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.9),0_0_15px_rgba(245,158,11,0.15)] py-1 font-mono text-xs overflow-hidden animate-in fade-in-50 zoom-in-95 duration-100">
+          {options.map((opt) => {
+            const isSelected = opt.value === value;
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => {
+                  onChange(opt.value);
+                  setIsOpen(false);
+                }}
+                className={`w-full text-left px-3 py-1.5 cursor-pointer flex items-center justify-between gap-3 transition-colors ${
+                  isSelected
+                    ? 'bg-amber-500/25 text-amber-200 font-semibold border-l-2 border-amber-400'
+                    : 'text-slate-200 hover:bg-amber-500/15 hover:text-white'
+                }`}
+              >
+                <span>{opt.label}</span>
+                {isSelected && <Check className="w-3.5 h-3.5 text-amber-400 shrink-0" />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        tabIndex={-1}
+        aria-hidden="true"
+        className="sr-only pointer-events-none"
+      >
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
 
 interface GlobalPulseViewProps {
   onSelectCase?: (caseId: string) => void;
@@ -174,40 +275,22 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
               <Filter className="w-3 h-3 text-amber-400" />
               Event Type:
             </span>
-            <div className="relative">
-              <select
-                value={filterEventType}
-                onChange={(e) => setFilterEventType(e.target.value)}
-                className="bg-[#080d1a] border border-amber-500/30 rounded-lg pl-3 pr-8 py-1.5 text-amber-200 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-amber-400 focus:border-amber-400 appearance-none cursor-pointer shadow-inner hover:border-amber-400/60 transition-colors"
-              >
-                <option value="ALL">All Event Types</option>
-                <option value="WILDFIRE">Wildfire</option>
-                <option value="FLOOD">Flood</option>
-                <option value="EARTHQUAKE">Earthquake</option>
-                <option value="DEFORESTATION">Deforestation</option>
-                <option value="CHAR">Char River Change</option>
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-amber-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-            </div>
+            <FilterSelect
+              value={filterEventType}
+              onChange={setFilterEventType}
+              options={EVENT_TYPE_OPTIONS}
+            />
           </div>
 
           <div className="flex items-center gap-2">
             <span className="text-slate-400 font-mono font-medium text-[11px] uppercase tracking-wider">
               Audit Verdict:
             </span>
-            <div className="relative">
-              <select
-                value={filterAuditVerdict}
-                onChange={(e) => setFilterAuditVerdict(e.target.value)}
-                className="bg-[#080d1a] border border-amber-500/30 rounded-lg pl-3 pr-8 py-1.5 text-amber-200 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-amber-400 focus:border-amber-400 appearance-none cursor-pointer shadow-inner hover:border-amber-400/60 transition-colors"
-              >
-                <option value="ALL">All Verdicts</option>
-                <option value="SUPPORTED">SUPPORTED</option>
-                <option value="INCONCLUSIVE">INCONCLUSIVE</option>
-                <option value="REJECTED">REJECTED</option>
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-amber-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-            </div>
+            <FilterSelect
+              value={filterAuditVerdict}
+              onChange={setFilterAuditVerdict}
+              options={AUDIT_VERDICT_OPTIONS}
+            />
           </div>
 
           {isFiltered && (
@@ -328,7 +411,7 @@ export function GlobalPulseView({ onSelectCase }: GlobalPulseViewProps) {
                 onClick={() => onSelectCase(selectedEvent.case_id)}
                 className="w-full h-10 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-mono font-bold uppercase tracking-wider gap-2 shadow-lg shadow-amber-500/25"
               >
-                Open Mission Control Case ({selectedEvent.case_id})
+                Open Mission Control
                 <ChevronRight className="w-4 h-4" />
               </Button>
             )}

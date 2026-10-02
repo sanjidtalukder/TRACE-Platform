@@ -242,7 +242,7 @@ export function OverviewView({
             className="h-10 text-xs font-mono font-bold gap-2 border-amber-500/40 text-amber-300 hover:bg-amber-500/20 hover:text-white shadow-sm"
           >
             <Activity className="h-4 w-4 text-amber-400" />
-            FEEL Signal (Haptic/Audio)
+            FEEL Signal
           </Button>
         )}
 
