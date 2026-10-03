@@ -1,0 +1,61 @@
+{
+  "name": "TRACE",
+  "short_name": "TRACE",
+  "description": "Mobile-first field observation and satellite radar investigation system.",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#080C14",
+  "theme_color": "#080C14",
+  "orientation": "portrait-primary",
+  "categories": ["science", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Field Radar Scan",
+      "short_name": "Scan",
+      "description": "Start live field observation and radar sweep",
+      "url": "/?tab=scan",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Global Satellite Pulse",
+      "short_name": "Pulse",
+      "description": "View global satellite surveillance pulse",
+      "url": "/?tab=pulse",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

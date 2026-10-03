@@ -1,10 +1,21 @@
 import React from 'react';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { PwaManager } from '@/components/mobile/PwaManager';
 
 export const metadata: Metadata = {
-  title: 'TRACE FIELD — Temporal Radar Assessment & Cross-mission Evidence',
+  applicationName: 'TRACE',
+  title: 'TRACE',
   description: 'Mobile-first field observation and satellite investigation application.',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'TRACE',
+  },
+  formatDetection: {
+    telephone: false,
+  },
   icons: {
     icon: [
       { url: '/icon.svg', type: 'image/svg+xml' },
@@ -27,8 +38,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen flex flex-col bg-deep-space-container text-foreground antialiased selection:bg-amber-500/30 selection:text-amber-100">
+      <body className="min-h-screen flex flex-col bg-deep-space-container text-foreground antialiased selection:bg-amber-500/30 selection:text-amber-100 overscroll-y-none select-none">
         {children}
+        <PwaManager />
       </body>
     </html>
   );
