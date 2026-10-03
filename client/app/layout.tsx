@@ -5,6 +5,14 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'TRACE FIELD — Temporal Radar Assessment & Cross-mission Evidence',
   description: 'Mobile-first field observation and satellite investigation application.',
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    shortcut: '/icon.svg',
+    apple: '/apple-touch-icon.png',
+  },
 };
 
 export const viewport: Viewport = {
