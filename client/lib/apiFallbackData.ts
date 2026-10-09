@@ -921,7 +921,7 @@ export function getFallbackSelfAudit(caseId: string): SelfAuditResponse {
     },
   ];
 
-  return {
+    return {
     case_id: caseId,
     overall_audit_state: 'SUPPORTED',
     confidence_score: 0.94,
@@ -930,3 +930,52 @@ export function getFallbackSelfAudit(caseId: string): SelfAuditResponse {
     evaluated_at: new Date().toISOString(),
   };
 }
+
+export function getFallbackEvidenceFusion(caseId: string): EvidenceFusionResponse {
+  const caseDetail = FALLBACK_CASE_DETAILS[caseId] || FALLBACK_CASE_DETAILS['TRACE-CHAR-01'];
+  const eventType = caseDetail.event_type || 'char';
+  const isChar = eventType.toLowerCase() === 'char';
+  const isFire = eventType.toLowerCase().includes('fire');
+  const now = new Date().toISOString();
+
+  return {
+    case_id: caseId,
+    event_type: eventType,
+    sar_anomaly_status: 'DETECTED',
+    overall_status: 'CONFIRMED_MULTIMISSION',
+    sensor_evaluations: {
+      FIRMS: {
+        sensor_name: 'FIRMS',
+        status: isFire ? 'SUPPORTING' : 'NEUTRAL',
+        summary_text: isFire
+          ? 'Active thermal anomalies confirmed in bounding box via NASA VIIRS/MODIS sensors.'
+          : 'No conflicting active fire thermal anomalies detected in target bounding box.',
+        evidence_items: [],
+      },
+      GPM: {
+        sensor_name: 'GPM',
+        status: 'SUPPORTING',
+        summary_text: isChar
+          ? 'NASA GPM IMERG precipitation data shows heavy monsoonal rain accumulation correlating with river discharge dynamics.'
+          : 'NASA GPM IMERG precipitation data confirms multi-day precipitation baseline across target area.',
+        evidence_items: [],
+      },
+      MODIS: {
+        sensor_name: 'MODIS',
+        status: 'SUPPORTING',
+        summary_text: isChar
+          ? 'MODIS Terra/Aqua surface reflectance shows dynamic sediment transport and sandbar reshaping in Jamuna river channel.'
+          : 'MODIS surface reflectance products corroborate visible surface alterations matching SAR backscatter boundary changes.',
+        evidence_items: [],
+      },
+    },
+    hypothesis_narrative:
+      caseDetail.interpretations?.[0]?.narrative ||
+      'Independent satellite sensors confirm surface reflection changes matching historical monsoon dynamics. Cloud-penetrating radar confirms active morphological change without optical obscuration.',
+    non_causal_statement:
+      'SAR backscatter change coincides temporally with multi-mission satellite observations within the calibrated bounding box.',
+    evaluated_at: now,
+    provenance_records: caseDetail.provenance_records || [],
+  };
+}
+

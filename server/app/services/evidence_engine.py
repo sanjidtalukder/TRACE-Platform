@@ -325,13 +325,51 @@ class CrossMissionEvidenceEngine:
         start_iso = observation_start.isoformat()
         end_iso = observation_end.isoformat()
 
-        # 2. Query FIRMS
-        firms_summary = self.firms_service.get_firms_summary(
-            bbox=bbox,
-            start_date=start_iso,
-            end_date=end_iso,
-            event_center=event_center,
-        )
+        import concurrent.futures
+
+        # 2. Query independent satellite sensors (FIRMS, GPM, MODIS) concurrently
+        with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+            fut_firms = executor.submit(
+                self.firms_service.get_firms_summary,
+                bbox=bbox,
+                start_date=start_iso,
+                end_date=end_iso,
+                event_center=event_center,
+            )
+            fut_gpm = executor.submit(
+                self.gpm_service.discover_gpm_observations,
+                bbox=bbox,
+                start_date=start_iso,
+                end_date=end_iso,
+                page_size=10,
+            )
+            fut_modis = executor.submit(
+                self.modis_service.discover_modis_observations,
+                bbox=bbox,
+                start_date=start_iso,
+                end_date=end_iso,
+                page_size=10,
+            )
+
+            try:
+                firms_summary = fut_firms.result(timeout=3.0)
+            except Exception as e:
+                logger.warning(f"FIRMS query error: {e}")
+                firms_summary = FIRMSSummary(status="UNAVAILABLE")
+
+            try:
+                gpm_items = fut_gpm.result(timeout=3.0)
+            except Exception as e:
+                logger.warning(f"GPM query error: {e}")
+                gpm_items = []
+
+            try:
+                modis_items = fut_modis.result(timeout=3.0)
+            except Exception as e:
+                logger.warning(f"MODIS query error: {e}")
+                modis_items = []
+
+
 
         normalized_firms_items: List[NormalizedEvidence] = []
         firms_status = "UNAVAILABLE"
@@ -416,15 +454,7 @@ class CrossMissionEvidenceEngine:
             evidence_items=normalized_firms_items,
         )
 
-        # 3. Query GPM
-        gpm_items: List[NASAObservation] = []
-        try:
-            gpm_items = self.gpm_service.discover_gpm_observations(
-                bbox=bbox, start_date=start_iso, end_date=end_iso, page_size=10
-            )
-        except Exception as e:
-            logger.warning(f"GPM query error: {e}")
-
+        # 3. Process GPM Observations
         normalized_gpm_items: List[NormalizedEvidence] = []
         gpm_status = "UNAVAILABLE"
         gpm_summary_text = "NASA GPM IMERG precipitation observation service was unavailable."
@@ -473,15 +503,7 @@ class CrossMissionEvidenceEngine:
             evidence_items=normalized_gpm_items,
         )
 
-        # 4. Query MODIS
-        modis_items: List[NASAObservation] = []
-        try:
-            modis_items = self.modis_service.discover_modis_observations(
-                bbox=bbox, start_date=start_iso, end_date=end_iso, page_size=10
-            )
-        except Exception as e:
-            logger.warning(f"MODIS query error: {e}")
-
+        # 4. Process MODIS Observations
         normalized_modis_items: List[NormalizedEvidence] = []
         modis_status = "UNAVAILABLE"
         modis_summary_text = "NASA MODIS land surface observation service was unavailable."

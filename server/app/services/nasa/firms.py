@@ -141,7 +141,7 @@ class FirmsDiscoveryService:
         url = f"{self.base_url}/area/csv/{self.map_key}/{source_product}/{bbox}/{day_range}/{req_date}"
 
         try:
-            with httpx.Client(timeout=10.0) as client:
+            with httpx.Client(timeout=2.5) as client:
                 res = client.get(url)
                 if res.status_code != 200:
                     logger.warning(f"FIRMS API returned HTTP status {res.status_code}")

@@ -32,9 +32,18 @@ class CMRSearchService:
         if bbox:
             params["bounding_box"] = bbox
         if start_date or end_date:
-            s_str = start_date or ""
-            e_str = end_date or ""
+            def _clean_cmr_date(d_str: Optional[str]) -> str:
+                if not d_str:
+                    return ""
+                try:
+                    dt = datetime.fromisoformat(d_str.replace("Z", "+00:00"))
+                    return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+                except Exception:
+                    return d_str
+            s_str = _clean_cmr_date(start_date)
+            e_str = _clean_cmr_date(end_date)
             params["temporal"] = f"{s_str},{e_str}"
+
 
         data = self.client.get(self.cmr_url, params=params)
         

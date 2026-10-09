@@ -381,6 +381,72 @@ export function EvidenceConfidenceWall({ caseId, initialEvidence, initialAudit }
         </div>
       )}
 
+      {/* Sentinel Agents Autonomous Pipeline Results Banner */}
+      {sentinelData && (
+        <div className="glass-panel border-purple-500/30 p-4 sm:p-5 rounded-2xl relative overflow-hidden shadow-xl space-y-3 bg-[#0d091a]/85">
+          <div className="tech-corner-tl" />
+          <div className="tech-corner-tr" />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-purple-900/40 pb-2.5">
+            <div className="flex items-center gap-2.5">
+              <div className="p-2 rounded-xl bg-purple-500/15 border border-purple-400/30 text-purple-400 shrink-0">
+                <Bot className="w-5 h-5 text-purple-300 animate-pulse" aria-hidden="true" />
+              </div>
+              <div>
+                <span className="text-[10px] font-mono text-purple-400 uppercase tracking-widest block font-semibold">
+                  AUTONOMOUS MULTI-AGENT SENTINEL PIPELINE
+                </span>
+                <h3 className="text-sm sm:text-base font-mono font-bold text-white tracking-wide flex items-center gap-2">
+                  5-Agent Consensus Verdict: {sentinelData.final_verdict}
+                </h3>
+              </div>
+            </div>
+            {getStatusBadge(sentinelData.final_verdict)}
+          </div>
+
+          {/* 5 Agent Workflow Steps */}
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-2 pt-1 font-mono text-xs">
+            {sentinelData.execution_log.map((step, idx) => {
+              const isSuccess = step.status === 'SUCCESS';
+              const isDisagreed = step.status === 'DISAGREED';
+              return (
+                <div
+                  key={idx}
+                  className="p-2.5 rounded-xl bg-slate-950/80 border border-purple-500/20 hover:border-purple-400/40 transition-all flex flex-col justify-between space-y-1.5"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold text-amber-300">{step.agent_name}</span>
+                    <span
+                      className={`text-[9px] px-1.5 py-0.5 rounded font-bold ${
+                        isSuccess
+                          ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                          : isDisagreed
+                          ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+                          : 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
+                      }`}
+                    >
+                      {step.status}
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-slate-300 font-sans line-clamp-3 leading-snug">
+                    {step.summary}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Interpretation narrative */}
+          {sentinelData.interpretation_narrative && (
+            <div className="bg-slate-950/70 p-3 rounded-xl border border-purple-900/30 text-xs text-slate-300 leading-relaxed font-sans">
+              <span className="text-purple-300 font-mono font-semibold block text-[11px] mb-1">
+                Executive Synthesis:
+              </span>
+              {sentinelData.interpretation_narrative}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Classification Filters */}
       <div
         className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 scroll-smooth"

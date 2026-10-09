@@ -5,14 +5,18 @@
   "description": "TRACE - Temporal/Geospatial Earth Observation Platform Initial Foundation",
   "packageManager": "pnpm@12.5.1",
   "scripts": {
-    "dev": "turbo dev",
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,green\" \".venv\\Scripts\\python.exe -m uvicorn server.app.main:app --reload --port 8000\" \"turbo dev\"",
+    "dev:client": "turbo dev",
+    "dev:server": ".venv\\Scripts\\python.exe -m uvicorn server.app.main:app --reload --port 8000",
     "server": ".venv\\Scripts\\python.exe -m uvicorn server.app.main:app --reload --port 8000",
+    "client": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "clean": "turbo clean"
   },
   "devDependencies": {
+    "concurrently": "^10.0.6",
     "turbo": "^2.4.0",
     "typescript": "^5.7.3"
   },

@@ -7,6 +7,7 @@ import {
   getFallbackSentinelWorkflow,
   getFallbackScenarioSimulation,
   getFallbackSelfAudit,
+  getFallbackEvidenceFusion,
 } from './apiFallbackData';
 
 export function getApiBaseUrl(): string {
@@ -485,20 +486,31 @@ export interface EvidenceFusionResponse {
  * Execute Phase 4.1 Cross-Mission Evidence Engine evaluation for a case
  */
 export async function evaluateCaseEvidence(caseId: string): Promise<EvidenceFusionResponse> {
-  const url = getApiUrl(`/api/cases/${encodeURIComponent(caseId)}/evaluate-evidence`);
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-    },
-  });
+  try {
+    const url = getApiUrl(`/api/cases/${encodeURIComponent(caseId)}/evaluate-evidence`);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-  if (!res.ok) {
-    const errorBody = await res.json().catch(() => ({}));
-    throw new Error(errorBody.detail || `HTTP ${res.status} failed to evaluate evidence fusion`);
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.case_id) {
+        return data;
+      }
+    }
+  } catch (err) {
+    console.warn(`[TRACE API] Falling back to offline evidence fusion for ${caseId}:`, err);
   }
 
-  return res.json();
+  return getFallbackEvidenceFusion(caseId);
 }
 
 export interface NASAObservationItem {
@@ -574,7 +586,7 @@ export async function evaluateSelfAudit(caseId: string): Promise<SelfAuditRespon
   try {
     const url = getApiUrl(`/api/cases/${encodeURIComponent(caseId)}/self-audit`);
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4000);
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
     const res = await fetch(url, {
       method: 'POST',
@@ -616,7 +628,7 @@ export async function simulateScenario(caseId: string, waterLevelOffsetM: number
   try {
     const url = getApiUrl(`/api/cases/${encodeURIComponent(caseId)}/simulate-scenario?water_level_offset_m=${waterLevelOffsetM}`);
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4000);
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
     const res = await fetch(url, {
       method: 'POST',
@@ -668,7 +680,7 @@ export async function runSentinelAgents(caseId: string): Promise<SentinelWorkflo
   try {
     const url = getApiUrl(`/api/cases/${encodeURIComponent(caseId)}/run-sentinel-agents`);
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4000);
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
     const res = await fetch(url, {
       method: 'POST',

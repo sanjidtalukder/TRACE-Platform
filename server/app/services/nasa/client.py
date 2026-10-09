@@ -13,9 +13,10 @@ class NasaHttpClient:
     Handles connection timeouts, exponential retries, and server-side authentication.
     """
 
-    def __init__(self, timeout: float = 10.0, max_retries: int = 3):
+    def __init__(self, timeout: float = 2.5, max_retries: int = 1):
         self.timeout = timeout
         self.max_retries = max_retries
+
 
     def _get_headers(self) -> Dict[str, str]:
         headers = {
