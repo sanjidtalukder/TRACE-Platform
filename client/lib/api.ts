@@ -21,6 +21,13 @@ export function getApiBaseUrl(): string {
       }
       return 'http://localhost:8000';
     }
+    // On Vercel / Production deployment, client and server share the same domain!
+    // Using an empty base URL makes API calls use relative paths (e.g. /api/...)
+    return '';
+  }
+  // Server-side (SSR / Node.js) in Vercel: use the bound internal service URL if available
+  if (process.env.INTERNAL_SERVER_URL) {
+    return process.env.INTERNAL_SERVER_URL;
   }
   return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 }

@@ -63,7 +63,7 @@ class Settings(BaseSettings):
     FIRMS_BASE_URL: str = "https://firms.modaps.eosdis.nasa.gov/api"
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=(".env", "../.env"),
         env_file_encoding="utf-8",
         extra="ignore",
     )
